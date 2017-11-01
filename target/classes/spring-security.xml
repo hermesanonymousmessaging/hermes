@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:security="http://www.springframework.org/schema/security"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/security 
+   http://www.springframework.org/schema/security/spring-security.xsd">
+  
+ <!-- This is where we configure Spring-Security  -->
+ <security:http auto-config="true" use-expressions="true">
+ <security:csrf disabled="true"/> <!-- KALDIRMAYI DENE -->
+ 
+  <security:intercept-url pattern="/*" access="permitAll"/>
+  <!-- <security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/> -->
+
+  <security:form-login 
+  		login-page="/auth/login"
+  		default-target-url="/admin" 
+  		login-processing-url="/j_spring_security_check" 
+  		authentication-failure-url="/auth/login" 
+  		username-parameter="username" 
+  		password-parameter="password"/>
+
+  <security:logout
+    invalidate-session="true"
+    logout-success-url="/"
+    logout-url="/auth/logout"/>
+  
+ </security:http>
+  
+    <!-- We can insert auth manager below -->
+    
+  	<security:authentication-manager>
+    <security:authentication-provider>
+      <security:user-service>
+        <security:user name="jimi" password="jimispassword" authorities="ROLE_USER, ROLE_ADMIN" />
+        <security:user name="bob" password="bobspassword" authorities="ROLE_USER" />
+      </security:user-service>
+    </security:authentication-provider>
+  </security:authentication-manager>
+  
+</beans>
+
