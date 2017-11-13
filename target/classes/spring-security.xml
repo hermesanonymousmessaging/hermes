@@ -11,21 +11,21 @@
  <security:http auto-config="true" use-expressions="true">
  <security:csrf disabled="true"/> <!-- KALDIRMAYI DENE -->
  
-  <security:intercept-url pattern="/*" access="permitAll"/>
+  <security:intercept-url pattern="/test/*" access="isAuthenticated()"/>
   <!-- <security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/> -->
 
   <security:form-login 
-  		login-page="/auth/login"
-  		default-target-url="/admin" 
+  		login-page="/login"
+  		default-target-url="/helloworld" 
   		login-processing-url="/j_spring_security_check" 
-  		authentication-failure-url="/auth/login" 
+  		authentication-failure-url="/login" 
   		username-parameter="username" 
   		password-parameter="password"/>
 
   <security:logout
     invalidate-session="true"
     logout-success-url="/"
-    logout-url="/auth/logout"/>
+    logout-url="/logout"/>
   
  </security:http>
   
@@ -36,6 +36,7 @@
       <security:user-service>
         <security:user name="jimi" password="jimispassword" authorities="ROLE_USER, ROLE_ADMIN" />
         <security:user name="bob" password="bobspassword" authorities="ROLE_USER" />
+        <security:user name="hermes" password="123456" authorities="ROLE_USER" />
       </security:user-service>
     </security:authentication-provider>
   </security:authentication-manager>
