@@ -16,7 +16,7 @@
 
   <security:form-login 
   		login-page="/login"
-  		default-target-url="/helloworld" 
+  		default-target-url="/home" 
   		login-processing-url="/j_spring_security_check" 
   		authentication-failure-url="/login" 
   		username-parameter="username" 
