@@ -198,22 +198,37 @@ desired effect
 				<!-- /.search form -->
 
 				<!-- Sidebar Menu -->
-				<ul class="sidebar-menu" data-widget="tree">
-					<li class="header">HEADER</li>
-					<!-- Optionally, you can add icons to the links -->
-					<li class="active"><a href="#"><i class="fa fa-link"></i>
-							<span>Link</span></a></li>
-					<li><a href="#"><i class="fa fa-link"></i> <span>Another
-								Link</span></a></li>
-					<li class="treeview"><a href="#"><i class="fa fa-link"></i>
-							<span>Multilevel</span> <span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
-						</span> </a>
-						<ul class="treeview-menu">
-							<li><a href="#">Link in level 2</a></li>
-							<li><a href="#">Link in level 2</a></li>
-						</ul></li>
-				</ul>
+			      <ul class="sidebar-menu" data-widget="tree">
+			        <li class="header">Navigation</li>
+			        <!-- Optionally, you can add icons to the links -->
+			        <li class="active"><a href="#"><i class="fa fa-circle"></i> <span>Home</span></a></li>
+			        <li class="active"><a href="#"><i class="fa fa-calendar"></i> <span>Schedule</span></a></li>
+			        <li class="active"><a href="#"><i class="fa fa-hourglass-half"></i> <span>Timeline</span></a></li>   
+			        <li class="treeview">
+			          <a href="#"><i class="fa fa-envelope-o"></i> <span>Channels</span>
+			            <span class="pull-right-container">
+			                <i class="fa fa-angle-left pull-right"></i>
+			              </span>
+			          </a>
+			          <ul class="treeview-menu">
+			          	<li class="treeview">
+			          		<a href="#"><span>Sms</span>
+			            			<span class="pull-right-container">
+			                			<i class="fa fa-angle-left pull-right"></i>
+			              		</span>
+			          		</a>
+			          		<ul class="treeview-menu">
+			            			<li><a href="#">Sms Channel 1</a></li>
+			            			<li><a href="#">Sms Channel 2</a></li>
+			          		</ul>
+			        		</li>
+			            <li><a href="#">E-Mail</a></li>
+			            <li><a href="#">Internet Messaging</a></li>
+			            <li><button type="button" onclick="#" class="btn btn-info btn-flat"><div class="col-md-3 col-sm-4"><i class="fa fa-fw fa-plus-square"></i> Add New Channel</div></button></li>
+			          </ul>
+			        </li>
+			        <li class="active"><a href="#"><i class="fa fa-info"></i> <span>About</span></a></li>     
+			      </ul>
 				<!-- /.sidebar-menu -->
 			</section>
 			<!-- /.sidebar -->
