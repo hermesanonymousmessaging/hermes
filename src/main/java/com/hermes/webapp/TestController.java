@@ -20,6 +20,11 @@ public class TestController {
 		
 		return "home";
 	}
+	@RequestMapping(value = "/test/profile", method = RequestMethod.GET)
+	public String testProfile(Locale locale, Model model) {
+		
+		return "profile";
+	}
 	@RequestMapping(value = "/test/chat", method = RequestMethod.GET)
 	public String testChat(Locale locale, Model model) {
 		
