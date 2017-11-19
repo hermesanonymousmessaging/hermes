@@ -34,6 +34,13 @@ public class TestController {
 	public String testRegister(Locale locale, Model model) {
 		
 		return "register";
+		
+	}
+	@RequestMapping(value = "/test/calendar", method = RequestMethod.GET)
+	public String testCalendar(Locale locale, Model model) {
+		
+		return "calendar";
+		
 	}
 	@RequestMapping(value = "/test/login", method = RequestMethod.GET)
 	public String testLogin(Locale locale, Model model) {
