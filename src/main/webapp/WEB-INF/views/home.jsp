@@ -71,10 +71,10 @@ desired effect
 
 			<!-- Header Navbar -->
 			<nav class="navbar navbar-static-top" role="navigation">
-<!-- 				Sidebar toggle button -->
-<!-- 				<a href="#" class="sidebar-toggle" data-toggle="push-menu" -->
-<!-- 					role="button"> <span class="sr-only">Toggle navigation</span> -->
-<!-- 				</a> -->
+				<!-- 				Sidebar toggle button -->
+				<!-- 				<a href="#" class="sidebar-toggle" data-toggle="push-menu" -->
+				<!-- 					role="button"> <span class="sr-only">Toggle navigation</span> -->
+				<!-- 				</a> -->
 
 				<button type="button" class="btn btn-info" data-toggle="modal"
 					data-target="#modal-login" data-backdrop="false"
@@ -97,10 +97,10 @@ desired effect
 								<form class="form-horizontal">
 									<div class="box-body">
 										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+											<label for="email" class="col-sm-2 control-label">Email</label>
 
 											<div class="col-sm-10">
-												<input type="email" class="form-control" id="inputEmail3"
+												<input type="email" class="form-control" id="email"
 													placeholder="Email">
 											</div>
 										</div>
@@ -123,7 +123,8 @@ desired effect
 									</div>
 									<!-- /.box-body -->
 									<div class="box-footer">
-										<button type="submit" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+										<button type="submit" class="btn btn-default"
+											data-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-info pull-right">Sign
 											in</button>
 									</div>
@@ -131,111 +132,134 @@ desired effect
 								</form>
 							</div>
 						</div>
-<!-- 						<div class="modal-footer"> -->
-<!-- 							<button type="button" class="btn btn-default pull-left" -->
-<!-- 								data-dismiss="modal">Close</button> -->
-<!-- 							<button type="button" class="btn btn-primary">Save -->
-<!-- 								changes</button> -->
-<!-- 						</div> -->
+						<!-- 						<div class="modal-footer"> -->
+						<!-- 							<button type="button" class="btn btn-default pull-left" -->
+						<!-- 								data-dismiss="modal">Close</button> -->
+						<!-- 							<button type="button" class="btn btn-primary">Save -->
+						<!-- 								changes</button> -->
+						<!-- 						</div> -->
 					</div>
 					<!-- /.modal-content -->
 				</div>
 				<!-- /.modal-dialog -->
-	<!-- /.modal -->
+				<!-- /.modal -->
 
-	<div class="modal modal-info fade" id="modal-register">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">Register</h4>
+				<div class="modal modal-info fade" id="modal-register">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">Register</h4>
+							</div>
+							<div class="modal-body">
+								<form method="POST" action="/test/createUser" modelAttribute="user" class="form-horizontal">
+									<div class="box-body">
+										<div class="form-group">
+											<label for="firstName" class="col-sm-2 control-label">First Name</label>
+
+											<div class="col-sm-10">
+												<input type="firstName" class="form-control" id="firstName"
+													placeholder="First Name" name="firstName">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="lastName" class="col-sm-2 control-label">Last Name</label>
+
+											<div class="col-sm-10">
+												<input type="lastName" class="form-control" id="lastName"
+													placeholder="Last Name" name="lastName">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="email" class="col-sm-2 control-label">Email</label>
+
+											<div class="col-sm-10">
+												<input type="email" class="form-control" id="email"
+													placeholder="Email" name="email">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="username" class="col-sm-2 control-label">Username</label>
+
+											<div class="col-sm-10">
+												<input type="username" class="form-control"
+													id="username" placeholder="Username" name="username">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="password" class="col-sm-2 control-label">Password</label>
+											<div class="col-sm-10">
+												<input type="password" class="form-control"
+													id="password" placeholder="Re-Password" name="password">
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<div class="checkbox">
+													<label> <input type="checkbox"> Remember me
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- /.box-body -->
+									<div class="box-footer">
+										<button type="submit" class="btn btn-default"
+											data-dismiss="modal">Cancel</button>
+										<button type="submit" class="btn btn-info pull-right">Sign
+											in</button>
+									</div>
+									<!-- /.box-footer -->
+								</form>
+							</div>
+						</div>
+					</div>
+					<!-- /.modal-content -->
 				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+				<!-- /.modal-dialog -->
+				<!-- /.modal -->
 
-                  <div class="col-sm-10">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
-
-                  <div class="col-sm-10">
-                    <input type="username" class="form-control" id="inputUsername3" placeholder="Username">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                  <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Re-Password">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox"> Remember me
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /.box-body -->
-              <div class="box-footer">
-                <button type="submit" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-info pull-right">Sign in</button>
-              </div>
-              <!-- /.box-footer -->
-            </form>
-          </div>	
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	<!-- /.modal -->
-	
-	</nav>
+			</nav>
 
 
-	</header>
-	
-	<aside class="main-sidebar">
+		</header>
+
+		<aside class="main-sidebar">
 
 			<!-- sidebar: style can be found in sidebar.less -->
 			<section class="sidebar">
-			
-			<!-- Sidebar Menu -->
-			      <ul class="sidebar-menu" data-widget="tree">
-			        <li class="header">Navigation</li>
-			        <!-- Optionally, you can add icons to the links -->
-			          
-			        <li class="active"><a href="#"><i class="fa fa-info"></i> <span>About</span></a></li>
-			        <li class="active"><a href="#"><i class="fa fa-briefcase"></i> <span>Career</span></a></li>
-			        <li class="active"><a href="#"><i class="fa fa-heartbeat"></i> <span>Support</span></a></li>   
-			      </ul>
+
+				<!-- Sidebar Menu -->
+				<ul class="sidebar-menu" data-widget="tree">
+					<li class="header">Navigation</li>
+					<!-- Optionally, you can add icons to the links -->
+
+					<li class="active"><a href="#"><i class="fa fa-info"></i>
+							<span>About</span></a></li>
+					<li class="active"><a href="#"><i class="fa fa-briefcase"></i>
+							<span>Career</span></a></li>
+					<li class="active"><a href="#"><i class="fa fa-heartbeat"></i>
+							<span>Support</span></a></li>
+				</ul>
 				<!-- /.sidebar-menu -->
 			</section>
 			<!-- /.sidebar -->
 		</aside>
 
-	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<!-- Content Header (Page header) -->
-		<section class="content-header">
-			<h1>Anonymous Transient Shared Communication Channels</h1>
-		</section>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>Anonymous Transient Shared Communication Channels</h1>
+			</section>
 
-		<!-- Main content -->
-		<section class="content container-fluid">
+			<!-- Main content -->
+			<section class="content container-fluid">
 
-			<!--------------------------
+				<!--------------------------
         | Your Page Content Here |
         -------------------------->
 
@@ -245,17 +269,17 @@ desired effect
 
 
 
-		</section>
-		<!-- /.content -->
-	</div>
-	<!-- /.content-wrapper -->
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
 
-	<!-- Main Footer -->
-	<footer class="main-footer">
-		<!-- Default to the left -->
-		<strong>Copyright &copy; 2016 <a href="#">Hermes</a>.
-		</strong> All rights reserved.
-	</footer>
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<!-- Default to the left -->
+			<strong>Copyright &copy; 2016 <a href="#">Hermes</a>.
+			</strong> All rights reserved.
+		</footer>
 
 
 	</div>

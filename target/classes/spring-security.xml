@@ -11,7 +11,7 @@
  <security:http auto-config="true" use-expressions="true">
  <security:csrf disabled="true"/> <!-- KALDIRMAYI DENE -->
  
-  <security:intercept-url pattern="/test/*" access="isAuthenticated()"/>
+  <security:intercept-url pattern="/test/*" access="permitAll"/>
   <!-- <security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/> -->
 
   <security:form-login 

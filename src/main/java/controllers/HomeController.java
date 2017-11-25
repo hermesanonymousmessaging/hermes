@@ -1,4 +1,4 @@
-package com.hermes.webapp;
+package controllers;
 
 import java.text.DateFormat;
 import java.util.Date;
