@@ -164,14 +164,14 @@ desired effect
 							<h4 class="modal-title">Login</h4>
 						</div>
 						<div class="modal-body">
-							<form class="form-horizontal">
+							<form method="POST" action="/test/login" class="form-horizontal">
 								<div class="box-body">
 									<div class="form-group">
-										<label for="email" class="col-sm-2 control-label">Email</label>
+										<label for="email" class="col-sm-2 control-label">Username</label>
 
 										<div class="col-sm-10">
-											<input type="email" class="form-control" id="email"
-												placeholder="Email">
+											<input type="username" class="form-control" id="username"
+												placeholder="Username" name = "username">
 										</div>
 									</div>
 									<div class="form-group">
@@ -179,7 +179,7 @@ desired effect
 
 										<div class="col-sm-10">
 											<input type="password" class="form-control"
-												id="inputPassword3" placeholder="Password">
+												id="password" placeholder="Password" name="password">
 										</div>
 									</div>
 									<div class="form-group">
@@ -282,8 +282,7 @@ desired effect
 								<div class="box-footer">
 									<button type="submit" class="btn btn-default"
 										data-dismiss="modal">Cancel</button>
-									<button type="submit" class="btn btn-info pull-right">Sign
-										in</button>
+									<button type="submit" class="btn btn-info pull-right">Register</button>
 								</div>
 								<!-- /.box-footer -->
 							</form>

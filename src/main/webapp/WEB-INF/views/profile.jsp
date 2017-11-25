@@ -91,7 +91,8 @@ desired effect
 										<li>
 											<!-- start message --> <a href="#">
 												<h4>
-													Channel X <small><i class="fa fa-clock-o"></i> 5 mins</small>
+													Channel X <small><i class="fa fa-clock-o"></i> 5
+														mins</small>
 												</h4>
 												<p>Alperen Ozkan: Hey, starting soon?</p>
 										</a>
@@ -123,7 +124,7 @@ desired effect
 							class="dropdown-toggle" data-toggle="dropdown"> <img
 								src="../resources/adminlte/dist/img/userbeko-160x160.jpg"
 								class="user-image" alt="User Image"> <span
-								class="hidden-xs">Berkay Giriş</span>
+								class="hidden-xs">${profile.getFirstName()} ${profile.getLastName()}</span>
 						</a>
 							<ul class="dropdown-menu">
 								<!-- User image -->
@@ -132,7 +133,7 @@ desired effect
 									class="img-circle" alt="User Image">
 
 									<p>
-										Berkay Giriş <small>Professional T-Rex Hunter</small>
+										${profile.getFirstName()} ${profile.getLastName()} <small>Professional T-Rex Hunter</small>
 									</p></li>
 								<!-- Menu Body -->
 								<li class="user-body">
@@ -175,7 +176,7 @@ desired effect
 							class="img-circle" alt="User Image">
 					</div>
 					<div class="pull-left info">
-						<p>Berkay Giriş</p>
+						<p>${profile.getFirstName()} ${profile.getLastName()}</p>
 						<!-- Status -->
 						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
 					</div>
@@ -252,12 +253,14 @@ desired effect
 						<!-- Profile Image -->
 						<div class="box box-primary">
 							<div class="box-body box-profile">
-								<img class="profile-user-img img-responsive img-circle" src="../resources/adminlte/dist/img/userbeko-160x160.jpg" alt="User profile picture">
+								<img class="profile-user-img img-responsive img-circle"
+									src="../resources/adminlte/dist/img/userbeko-160x160.jpg"
+									alt="User profile picture">
 
-								<h3 class="profile-username text-center">Berkay Giriş</h3>
+								<h3 class="profile-username text-center">${profile.getFirstName()} ${profile.getLastName()}</h3>
 
 								<p class="text-muted text-center">Software Engineer</p>
-								
+
 								<a href="#" class="btn btn-primary btn-block"><b>Contact</b></a>
 							</div>
 							<!-- /.box-body -->
@@ -318,27 +321,37 @@ desired effect
 								</div>
 								<!-- /.tab-pane -->
 								<div class="tab-pane" id="channels">
-								
+
 									<div class="box-body">
-										
-										<h4><i class="fa fa-caret-right" aria-hidden="true"></i> Channel X</h4>
+
+										<h4>
+											<i class="fa fa-caret-right" aria-hidden="true"></i> Channel
+											X
+										</h4>
 										<p>General discussion about ChannelX project</p>
 										<br>
 
-										<h4><i class="fa fa-caret-right" aria-hidden="true"></i> 2F2A</h4>
+										<h4>
+											<i class="fa fa-caret-right" aria-hidden="true"></i> 2F2A
+										</h4>
 										<p>General discussion about 2Fast2Autonomous project</p>
 										<br>
 
-										<h4><i class="fa fa-caret-right" aria-hidden="true"></i> COMCOM</h4>
-										<p>General discussion related to BLG433E Computer Communications class</p>
+										<h4>
+											<i class="fa fa-caret-right" aria-hidden="true"></i> COMCOM
+										</h4>
+										<p>General discussion related to BLG433E Computer
+											Communications class</p>
 										<br>
 
-										<h4><i class="fa fa-caret-right" aria-hidden="true"></i> ITU ACM</h4>
+										<h4>
+											<i class="fa fa-caret-right" aria-hidden="true"></i> ITU ACM
+										</h4>
 										<p>Announcements related to ITU ACM organization</p>
 										<br>
-										
+
 									</div>
-									
+
 								</div>
 								<!-- /.tab-pane -->
 								<div class="tab-pane" id="schedule">

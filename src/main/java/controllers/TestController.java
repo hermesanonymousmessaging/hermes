@@ -34,9 +34,36 @@ public class TestController {
 	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user")User user, ModelMap model) {
+		User newuser = userRepository.findByUsername(user.getUsername());
+		if(newuser != null) {
+			//username is taken
+			return "redirect:/test/home";
+		}
+		newuser = userRepository.findByEmail(user.getEmail());
+		if(newuser != null) {
+			//email is taken
+			return "redirect:/test/home";
+		}
 		
-		User newuser = userService.saveOrUpdate(user);
+		newuser = userService.saveOrUpdate(user);
         
+        model.put("login",newuser);
+        return "redirect:/test/profile";
+    }
+	@RequestMapping(value = "/test/login", method = RequestMethod.POST)
+    public String login(@RequestParam (value="username") String username,
+			    		@RequestParam (value="password") String password
+						, Locale locale, ModelMap model) {
+		System.out.println(username);
+		User newuser = userRepository.findByUsername(username);
+		if(newuser == null)
+			return "redirect:/test/home";
+		//username check
+        
+		if(!newuser.getPassword().equals(password))
+			return "redirect:/test/home";
+		//password check
+		
         model.put("login",newuser);
         return "redirect:/test/profile";
     }	
@@ -51,6 +78,12 @@ public class TestController {
 		if(model.get("login") == null) {
 			return "redirect:/test/home";
 		}
+		User current = userService.getById(((User) model.get("login")).getId());
+		if(current == null) {
+			//SESSION - DB CONFLICT
+			return "redirect:/test/home";
+		}
+		model.addAttribute("profile", current);
 		return "profile";
 	}
 	@RequestMapping(value = "/test/chat", method = RequestMethod.GET)
@@ -70,11 +103,7 @@ public class TestController {
 		return "calendar";
 		
 	}
-	@RequestMapping(value = "/test/login", method = RequestMethod.GET)
-	public String testLogin(Locale locale, ModelMap model) {
-		
-		return "login";
-	}
+
 	@RequestMapping(value = "/test/about", method = RequestMethod.GET)
 	public String testAbout(Locale locale, ModelMap model) {
 		
