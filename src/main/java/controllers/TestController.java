@@ -33,12 +33,12 @@ public class TestController {
 	private UserRepository userRepository;
 	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
-    public String addAdvert(@ModelAttribute("user")User user, ModelMap model) {
+    public String createUser(@ModelAttribute("user")User user, ModelMap model) {
+		
 		User newuser = userService.saveOrUpdate(user);
-        System.out.println(newuser.getId());
         
         model.put("login",newuser);
-        return "redirect:/test/home";
+        return "redirect:/test/profile";
     }	
 	
 	@RequestMapping(value = "/test/home", method = RequestMethod.GET)
@@ -48,6 +48,9 @@ public class TestController {
 	
 	@RequestMapping(value = "/test/profile", method = RequestMethod.GET)
 	public String testProfile(Locale locale, ModelMap model) {
+		if(model.get("login") == null) {
+			return "redirect:/test/home";
+		}
 		return "profile";
 	}
 	@RequestMapping(value = "/test/chat", method = RequestMethod.GET)
