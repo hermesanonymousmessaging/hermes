@@ -35,6 +35,68 @@
 <!-- Google Font -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<style>
+body {
+	font: 20px Montserrat, sans-serif;
+	line-height: 1.8;
+	color: #f5f6f7;
+}
+
+p {
+	font-size: 16px;
+}
+
+.margin {
+	margin-bottom: 45px;
+}
+
+.bg-1 {
+	background-color: #496761; /* Green */
+	color: #ffffff;
+}
+
+.bg-2 {
+	background-color: #474e5d; /* Dark Blue */
+	color: #ffffff;
+}
+
+.bg-3 {
+	background-color: #ffffff; /* White */
+	color: #555555;
+}
+
+.bg-4 {
+	background-color: #2f2f2f; /* Black Gray */
+	color: #fff;
+}
+
+.container-fluid {
+	padding-top: 70px;
+	padding-bottom: 70px;
+}
+
+.navbar {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	border: 0;
+	border-radius: 0;
+	margin-bottom: 0;
+	font-size: 14px;
+	letter-spacing: 5px;
+	background-color: #3c8dbc;
+	font-color: #3c8dbc;
+}
+.navbar-brand {
+    color: #ffffff !important;
+}
+.navbar-nav  li a {
+	color: #ffffff !important;
+}
+.navbar-nav  li a:hover {
+	color: #1abc9c !important;
+}
+</style>
+
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -57,233 +119,194 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-blue sidebar-mini">
-
-	<div class="wrapper">
-
-		<!-- Main Header -->
-		<header class="main-header">
-
-			<!-- Logo -->
-			<a href="index2.html" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
-				<span class="logo-mini"><b>H</b>S</span> <!-- logo for regular state and mobile devices -->
-				<span class="logo-lg"><b>Hermes</b></span>
-			</a>
-
-			<!-- Header Navbar -->
-			<nav class="navbar navbar-static-top" role="navigation">
-				<!-- 				Sidebar toggle button -->
-				<!-- 				<a href="#" class="sidebar-toggle" data-toggle="push-menu" -->
-				<!-- 					role="button"> <span class="sr-only">Toggle navigation</span> -->
-				<!-- 				</a> -->
-
-				<button type="button" class="btn btn-info" data-toggle="modal"
-					data-target="#modal-login" data-backdrop="false"
-					style="float: right;">Login</button>
-				<button type="button" class="btn btn-info" data-toggle="modal"
-					data-target="#modal-register" data-backdrop="false"
-					style="float: right;">Register</button>
-
-				<div class="modal modal-info fade" id="modal-login">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-								<h4 class="modal-title">Login</h4>
-							</div>
-							<div class="modal-body">
-								<form class="form-horizontal">
-									<div class="box-body">
-										<div class="form-group">
-											<label for="email" class="col-sm-2 control-label">Email</label>
-
-											<div class="col-sm-10">
-												<input type="email" class="form-control" id="email"
-													placeholder="Email">
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-
-											<div class="col-sm-10">
-												<input type="password" class="form-control"
-													id="inputPassword3" placeholder="Password">
-											</div>
-										</div>
-										<div class="form-group">
-											<div class="col-sm-offset-2 col-sm-10">
-												<div class="checkbox">
-													<label> <input type="checkbox"> Remember me
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- /.box-body -->
-									<div class="box-footer">
-										<button type="submit" class="btn btn-default"
-											data-dismiss="modal">Cancel</button>
-										<button type="submit" class="btn btn-info pull-right">Sign
-											in</button>
-									</div>
-									<!-- /.box-footer -->
-								</form>
-							</div>
-						</div>
-						<!-- 						<div class="modal-footer"> -->
-						<!-- 							<button type="button" class="btn btn-default pull-left" -->
-						<!-- 								data-dismiss="modal">Close</button> -->
-						<!-- 							<button type="button" class="btn btn-primary">Save -->
-						<!-- 								changes</button> -->
-						<!-- 						</div> -->
-					</div>
-					<!-- /.modal-content -->
-				</div>
-				<!-- /.modal-dialog -->
-				<!-- /.modal -->
-
-				<div class="modal modal-info fade" id="modal-register">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-								<h4 class="modal-title">Register</h4>
-							</div>
-							<div class="modal-body">
-								<form method="POST" action="/test/createUser" modelAttribute="user" class="form-horizontal">
-									<div class="box-body">
-										<div class="form-group">
-											<label for="firstName" class="col-sm-2 control-label">First Name</label>
-
-											<div class="col-sm-10">
-												<input type="firstName" class="form-control" id="firstName"
-													placeholder="First Name" name="firstName">
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="lastName" class="col-sm-2 control-label">Last Name</label>
-
-											<div class="col-sm-10">
-												<input type="lastName" class="form-control" id="lastName"
-													placeholder="Last Name" name="lastName">
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="email" class="col-sm-2 control-label">Email</label>
-
-											<div class="col-sm-10">
-												<input type="email" class="form-control" id="email"
-													placeholder="Email" name="email">
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="username" class="col-sm-2 control-label">Username</label>
-
-											<div class="col-sm-10">
-												<input type="username" class="form-control"
-													id="username" placeholder="Username" name="username">
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="password" class="col-sm-2 control-label">Password</label>
-											<div class="col-sm-10">
-												<input type="password" class="form-control"
-													id="password" placeholder="Re-Password" name="password">
-											</div>
-										</div>
-										<div class="form-group">
-											<div class="col-sm-offset-2 col-sm-10">
-												<div class="checkbox">
-													<label> <input type="checkbox"> Remember me
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- /.box-body -->
-									<div class="box-footer">
-										<button type="submit" class="btn btn-default"
-											data-dismiss="modal">Cancel</button>
-										<button type="submit" class="btn btn-info pull-right">Sign
-											in</button>
-									</div>
-									<!-- /.box-footer -->
-								</form>
-							</div>
-						</div>
-					</div>
-					<!-- /.modal-content -->
-				</div>
-				<!-- /.modal-dialog -->
-				<!-- /.modal -->
-
-			</nav>
-
-
-		</header>
-
-		<aside class="main-sidebar">
-
-			<!-- sidebar: style can be found in sidebar.less -->
-			<section class="sidebar">
-
-				<!-- Sidebar Menu -->
-				<ul class="sidebar-menu" data-widget="tree">
-					<li class="header">Navigation</li>
-					<!-- Optionally, you can add icons to the links -->
-
-					<li class="active"><a href="#"><i class="fa fa-info"></i>
-							<span>About</span></a></li>
-					<li class="active"><a href="#"><i class="fa fa-briefcase"></i>
-							<span>Career</span></a></li>
-					<li class="active"><a href="#"><i class="fa fa-heartbeat"></i>
-							<span>Support</span></a></li>
+	<!-- Navbar -->
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Hermes</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">ABOUT</a></li>
+					<li><a href="#">CONTACT</a></li>
+					<li><a href="#">DEV</a></li>
 				</ul>
-				<!-- /.sidebar-menu -->
-			</section>
-			<!-- /.sidebar -->
-		</aside>
-
-		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<section class="content-header">
-				<h1>Anonymous Transient Shared Communication Channels</h1>
-			</section>
-
-			<!-- Main content -->
-			<section class="content container-fluid">
-
-				<!--------------------------
-        | Your Page Content Here |
-        -------------------------->
-
-
-
-
-
-
-
-			</section>
-			<!-- /.content -->
+			</div>
 		</div>
-		<!-- /.content-wrapper -->
+	</nav>
 
-		<!-- Main Footer -->
-		<footer class="main-footer">
-			<!-- Default to the left -->
+	<!-- First Container -->
+	<div class="container-fluid bg-1 text-center">
+		<h3 class="margin">HERMES</h3>
+		<img src="LOGO.jpg" class="img-responsive img-circle margin"
+			style="display: inline" alt="LOGO" width="350" height="350">
+		<div class="row">
+			<button type="button" class="btn btn-info" data-toggle="modal"
+				data-target="#modal-login" data-backdrop="false"
+				style="float: center;">Login</button>
+			<button type="button" class="btn btn-info" data-toggle="modal"
+				data-target="#modal-register" data-backdrop="false"
+				style="float: center;">Register</button>
+
+			<div class="modal modal-info fade" id="modal-login">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title">Login</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal">
+								<div class="box-body">
+									<div class="form-group">
+										<label for="email" class="col-sm-2 control-label">Email</label>
+
+										<div class="col-sm-10">
+											<input type="email" class="form-control" id="email"
+												placeholder="Email">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+
+										<div class="col-sm-10">
+											<input type="password" class="form-control"
+												id="inputPassword3" placeholder="Password">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<div class="checkbox">
+												<label> <input type="checkbox"> Remember me
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.box-body -->
+								<div class="box-footer">
+									<button type="submit" class="btn btn-default"
+										data-dismiss="modal">Cancel</button>
+									<button type="submit" class="btn btn-info pull-right">Sign
+										in</button>
+								</div>
+								<!-- /.box-footer -->
+							</form>
+						</div>
+					</div>
+					<!-- 						<div class="modal-footer"> -->
+					<!-- 							<button type="button" class="btn btn-default pull-left" -->
+					<!-- 								data-dismiss="modal">Close</button> -->
+					<!-- 							<button type="button" class="btn btn-primary">Save -->
+					<!-- 								changes</button> -->
+					<!-- 						</div> -->
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+			<!-- /.modal -->
+
+			<div class="modal modal-info fade" id="modal-register">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title">Register</h4>
+						</div>
+						<div class="modal-body">
+							<form method="POST" action="/test/createUser"
+								modelAttribute="user" class="form-horizontal">
+								<div class="box-body">
+									<div class="form-group">
+										<label for="firstName" class="col-sm-2 control-label">First
+											Name</label>
+
+										<div class="col-sm-10">
+											<input type="firstName" class="form-control" id="firstName"
+												placeholder="First Name" name="firstName">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="lastName" class="col-sm-2 control-label">Last
+											Name</label>
+
+										<div class="col-sm-10">
+											<input type="lastName" class="form-control" id="lastName"
+												placeholder="Last Name" name="lastName">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="email" class="col-sm-2 control-label">Email</label>
+
+										<div class="col-sm-10">
+											<input type="email" class="form-control" id="email"
+												placeholder="Email" name="email">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="username" class="col-sm-2 control-label">Username</label>
+
+										<div class="col-sm-10">
+											<input type="username" class="form-control" id="username"
+												placeholder="Username" name="username">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="password" class="col-sm-2 control-label">Password</label>
+										<div class="col-sm-10">
+											<input type="password" class="form-control" id="password"
+												placeholder="Re-Password" name="password">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<div class="checkbox">
+												<label> <input type="checkbox"> Remember me
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.box-body -->
+								<div class="box-footer">
+									<button type="submit" class="btn btn-default"
+										data-dismiss="modal">Cancel</button>
+									<button type="submit" class="btn btn-info pull-right">Sign
+										in</button>
+								</div>
+								<!-- /.box-footer -->
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+			<!-- /.modal -->
+		</div>
+	</div>
+
+
+	<!-- Footer -->
+	<footer class="container-fluid bg-4 text-center">
+		<p>
 			<strong>Copyright &copy; 2016 <a href="#">Hermes</a>.
 			</strong> All rights reserved.
-		</footer>
+		</p>
+	</footer>
 
 
-	</div>
-	<!-- ./wrapper -->
 
 	<!-- jQuery 3 -->
 	<script
