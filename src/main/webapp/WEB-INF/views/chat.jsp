@@ -754,51 +754,7 @@ desired effect
 								</div>
 							</c:forEach>
 							
-							<div class="row message-body">
-								<div class="col-sm-12 message-main-receiver">
-									<div class="receiver">
-										<div class="message-text">This chat is awesome</div>
-										<span class="message-time pull-right"> 18:15 </span>
-									</div>
-								</div>
-							</div>
 							
-							<div class="row message-body">
-								<div class="col-sm-12 message-main-receiver">
-									<div class="receiver">
-										<div class="message-text">Hello sir</div>
-										<span class="message-time pull-right"> 18:19 </span>
-									</div>
-								</div>
-							</div>
-							
-
-							<div class="row message-body">
-								<div class="col-sm-12 message-main-sender">
-									<div class="sender">
-										<div class="message-text">Hi what is up?</div>
-										<span class="message-time pull-right"> 18:20 </span>
-									</div>
-								</div>
-							</div>
-							
-							<div class="row message-body">
-								<div class="col-sm-12 message-main-sender">
-									<div class="sender">
-										<div class="message-text">You can contact me from here</div>
-										<span class="message-time pull-right"> 18:20 </span>
-									</div>
-								</div>
-							</div>
-							
-							<div class="row message-body">
-								<div class="col-sm-12 message-main-sender">
-									<div class="sender">
-										<div class="message-text">Okay?</div>
-										<span class="message-time pull-right"> 18:20 </span>
-									</div>
-								</div>
-							</div>
 						</div>
 						<!-- Message Box End -->
 
