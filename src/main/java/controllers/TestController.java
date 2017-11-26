@@ -2,6 +2,7 @@ package controllers;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -20,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Message;
 import domain.User;
+import repositories.MessageRepository;
 import repositories.UserRepository;
+import services.MessageService;
 import services.UserService;
 
 @Controller
@@ -31,6 +35,10 @@ public class TestController {
 	private UserService userService;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private MessageService messageService;
+	@Autowired
+	private MessageRepository messageRepository;
 	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user")User user, ModelMap model) {
@@ -66,6 +74,18 @@ public class TestController {
 		
         model.put("login",newuser);
         return "redirect:/test/profile";
+    }
+	
+	@RequestMapping(value = "/test/send", method = RequestMethod.POST)
+    public String send( @RequestParam (value="usermsg") String text,
+    					@RequestParam (value="channelId") String channelId
+						, Locale locale, ModelMap model) {
+
+		String senderId = ((User)model.get("login")).getId();
+		Message newmsg = new Message(1,text,senderId,channelId);
+
+		messageService.saveOrUpdate(newmsg);
+        return "redirect:/test/chat";
     }	
 	
 	@RequestMapping(value = "/test/home", method = RequestMethod.GET)
@@ -88,7 +108,17 @@ public class TestController {
 	}
 	@RequestMapping(value = "/test/chat", method = RequestMethod.GET)
 	public String testChat(Locale locale, ModelMap model) {
+		if(model.get("login") == null) {
+			//GIVE LOGIN ERR
+			return "redirect:/test/home";
+		}
+		List<Message> messageList;
 		
+		messageList = (ArrayList<Message>) (messageRepository.findByChannelId("CHANGETHIS"));
+		
+		Collections.sort(messageList, Message.COMPARE_BY_TIMESTAMP);
+		
+		model.addAttribute("messageList", messageList);
 		return "chat";
 	}
 	@RequestMapping(value = "/test/register", method = RequestMethod.GET)

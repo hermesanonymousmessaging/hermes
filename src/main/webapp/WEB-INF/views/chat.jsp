@@ -737,7 +737,23 @@ desired effect
 										Show Previous Messages </a>
 								</div>
 							</div>
-
+							<c:forEach items="${messageList}" var="message">
+								<div class="row message-body">
+								<c:if test = "${message.getSenderId() == login.getId()}" >
+									<div class="col-sm-12 message-main-sender">
+										<div class="sender">
+								</c:if>
+								<c:if test = "${message.getSenderId() != login.getId()}" >
+									<div class="col-sm-12 message-main-receiver">
+										<div class="receiver">
+								</c:if>
+											<div class="message-text">${message.getText()}</div>
+											<span class="message-time pull-right"> ${message.getTimestamp()} </span>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+							
 							<div class="row message-body">
 								<div class="col-sm-12 message-main-receiver">
 									<div class="receiver">
@@ -787,20 +803,25 @@ desired effect
 						<!-- Message Box End -->
 
 						<!-- Reply Box -->
-						<div class="row reply">
-							<div class="col-sm-1 col-xs-1 reply-emojis">
-								<i class="fa fa-smile-o fa-2x"></i>
+						<form method="POST" name="message" action="/test/send">
+							<input type="hidden" name="channelId" value="CHANGETHIS">
+							<div class="row reply">
+								<div class="col-sm-1 col-xs-1 reply-emojis">
+									<i class="fa fa-smile-o fa-2x"></i>
+								</div>
+								<div class="col-sm-9 col-xs-9 reply-main">
+									
+									<textarea name="usermsg" autocomplete="off" id="usermsg" class="form-control" rows="1"></textarea>
+									
+								</div>
+								<div class="col-sm-1 col-xs-1 reply-recording">
+									
+								</div>
+								<div class="col-sm-1 col-xs-1 reply-send">
+									<i class="fa fa-send fa-2x" aria-hidden="true"></i>
+								</div>
 							</div>
-							<div class="col-sm-9 col-xs-9 reply-main">
-								<textarea class="form-control" rows="1" id="comment"></textarea>
-							</div>
-							<div class="col-sm-1 col-xs-1 reply-recording">
-								
-							</div>
-							<div class="col-sm-1 col-xs-1 reply-send">
-								<i class="fa fa-send fa-2x" aria-hidden="true"></i>
-							</div>
-						</div>
+						</form>
 						<!-- Reply Box End -->
 					</div>
 					<!-- Conversation End -->
@@ -825,7 +846,9 @@ desired effect
 
 	</div>
 	<!-- ./wrapper -->
-
+	
+	
+	
 	<!-- jQuery 3 -->
 	<script
 		src="../resources/adminlte/bower_components/jquery/dist/jquery.min.js"></script>
@@ -878,5 +901,15 @@ desired effect
 	<script src="../resources/adminlte/dist/js/pages/dashboard.js"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="../resources/adminlte/dist/js/demo.js"></script>
+	
+	<script>
+	$("#usermsg").keypress(function (e) {
+	    if(e.which == 13 && !e.shiftKey) {        
+	        $(this).closest("form").submit();
+	        e.preventDefault();
+	        return false;
+	    }
+	});
+	</script>
 </body>
 </html>
