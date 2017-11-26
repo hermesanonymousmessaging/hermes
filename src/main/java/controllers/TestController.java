@@ -75,6 +75,16 @@ public class TestController {
         model.put("login",newuser);
         return "redirect:/test/profile";
     }
+	@RequestMapping(value = "/test/logout", method = RequestMethod.GET)
+	public String logout(Locale locale, ModelMap model) {
+		if(model.get("login") == null) {
+			return "redirect:/test/home";
+		}
+		else {
+			model.remove("login");
+		}
+		return "redirect:/test/home";
+	}
 	
 	@RequestMapping(value = "/test/send", method = RequestMethod.POST)
     public String send( @RequestParam (value="usermsg") String text,
