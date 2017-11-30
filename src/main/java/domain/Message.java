@@ -15,6 +15,7 @@ public class Message {
 	private String senderId;
 	private String channelId;
 	
+	//This allows sorting Messages by time stamps
 	public static Comparator<Message> COMPARE_BY_TIMESTAMP = new Comparator<Message>() {
         public int compare(Message one, Message other) {
             return one.getTimestamp().compareTo(other.getTimestamp());
