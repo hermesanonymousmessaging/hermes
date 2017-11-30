@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Channel;
 import domain.Message;
 import domain.User;
 import repositories.MessageRepository;
@@ -39,6 +40,11 @@ public class TestController {
 	private MessageService messageService;
 	@Autowired
 	private MessageRepository messageRepository;
+	
+	@RequestMapping(value = "/test/createChannel", method = RequestMethod.GET)
+	public ModelAndView createChannel() {
+        return new ModelAndView("createChannel", "channel", new Channel());
+    }
 	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user")User user, ModelMap model) {
