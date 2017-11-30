@@ -235,12 +235,13 @@
 							</div>
 							<!-- /.box-header -->
 							<!-- form start -->
-							<form role="form">
+							<form role="form" method="POST" action="/test/createChannel"
+								modelAttribute="user">
 								<div class="box-body">
 									<div class="form-group">
 										<label for="channelName">Channel Name</label> <input
-											type="text" class="form-control" id="channelName"
-											placeholder="name">
+											type="text" class="form-control" id="name"
+											placeholder="name" name="name">
 									</div>
 									<div class="row">
 										<div class="col-md-3">
@@ -248,17 +249,17 @@
 												<div class="form-group">
 													<div class="radio">
 														<label> <input type="radio" name="type" id="type1"
-															value="option1" checked=""> Internet Messaging
+															value="internet" checked=""> Internet Messaging
 														</label>
 													</div>
 													<div class="radio">
 														<label> <input type="radio" name="type" id="type2"
-															value="option2" disabled=""> e-Mail
+															value="email" disabled=""> e-Mail
 														</label>
 													</div>
 													<div class="radio">
 														<label> <input type="radio" name="type" id="type3"
-															value="option3" disabled=""> SMS
+															value="sms" disabled=""> SMS
 														</label>
 													</div>
 												</div>
@@ -269,21 +270,21 @@
 												<div class="form-group">
 													<div class="radio">
 														<label> <input type="radio" name="public"
-															id="public1" value="option1" checked=""> <i class="fa fa-fw fa-unlock"></i> Public 
+															id="public1" value="public" checked=""> <i class="fa fa-fw fa-unlock"></i> Public 
 															<p class="text-muted">Channel will show up on search,
 																everyone can join</p>
 														</label>
 													</div>
 													<div class="radio">
 														<label> <input type="radio" name="public"
-															id="public2" value="option2"> <i class="fa fa-fw fa-lock"></i> Private 
+															id="public2" value="private"> <i class="fa fa-fw fa-lock"></i> Private 
 															<p class="text-muted">Channel will show up on search,
 																users must apply or get invited to join</p>
 														</label>
 													</div>
 													<div class="radio">
 														<label> <input type="radio" name="public"
-															id="public3" value="option3"> <i class="fa fa-fw fa-eye-slash"></i> Hidden 
+															id="public3" value="hidden"> <i class="fa fa-fw fa-eye-slash"></i> Hidden 
 															<p class="text-muted">Channel will not show up on
 																search, users need invite to join</p>
 														</label>
@@ -296,13 +297,13 @@
 												<div class="form-group">
 													<div class="radio">
 														<label> <input type="radio" name="group"
-															id="group2" value="option1" checked=""> <i class="fa fa-fw fa-user"></i> Direct 
+															id="group2" value="direct" checked=""> <i class="fa fa-fw fa-user"></i> Direct 
 															<p class="text-muted">Every member will contact with the owner seperately</p>
 														</label>
 													</div>
 													<div class="radio">
 														<label> <input type="radio" name="group"
-															id="group2" value="option2"> <i class="fa fa-fw fa-users"></i> Group 
+															id="group2" value="group"> <i class="fa fa-fw fa-users"></i> Group 
 															<p class="text-muted">Messages will be sent to all members</p>
 														</label>
 													</div>

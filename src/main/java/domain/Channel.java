@@ -12,11 +12,12 @@ public class Channel {
 	private String type;
 	private String name;
 	private String ownerId;
-	private String userCount;
+	private Integer userCount;
 	private HashMap<String, Boolean> members;
 	
 	public Channel() {
 		members = new HashMap<String, Boolean>();
+		userCount = 0;
 	}
 	public String getId() {
 		return id;
@@ -36,10 +37,10 @@ public class Channel {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUserCount() {
+	public Integer getUserCount() {
 		return userCount;
 	}
-	public void setUserCount(String userCount) {
+	public void setUserCount(Integer userCount) {
 		this.userCount = userCount;
 	}
 	public String getOwnerId() {
@@ -65,6 +66,7 @@ public class Channel {
 	}
 	public void addMember(String userId) {
 		members.put(userId,true);
+		userCount++;
 	}
 	public void removeMember(String userId) {
 		members.remove(userId);

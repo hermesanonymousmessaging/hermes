@@ -24,8 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Channel;
 import domain.Message;
 import domain.User;
+import repositories.ChannelRepository;
 import repositories.MessageRepository;
 import repositories.UserRepository;
+import services.ChannelService;
 import services.MessageService;
 import services.UserService;
 
@@ -37,13 +39,30 @@ public class TestController {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
+	private ChannelService channelService;
+	@Autowired
+	private ChannelRepository channelRepository;
+	@Autowired
 	private MessageService messageService;
 	@Autowired
 	private MessageRepository messageRepository;
 	
 	@RequestMapping(value = "/test/createChannel", method = RequestMethod.GET)
-	public ModelAndView createChannel() {
+	public ModelAndView createChannelGet(Locale locale, ModelMap model) {
+		
         return new ModelAndView("createChannel", "channel", new Channel());
+    }
+	
+	@RequestMapping(value = "/test/createChannel", method = RequestMethod.POST)
+	public String createChannelPost(@RequestParam (value="public") String publictype,
+									@RequestParam (value="group") String group,
+									@ModelAttribute("channel")Channel channel, ModelMap model) {
+		String userid = ((User)(model.get("login"))).getId();
+		channel.setOwnerId(userid);
+		channelService.saveOrUpdate(channel);
+		//CREATE CHANNEL OPERATIONS
+		
+        return "redirect:/test/profile";
     }
 	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
