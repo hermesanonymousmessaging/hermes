@@ -144,9 +144,15 @@ public class TestController {
 	@RequestMapping(value = "/test/chat", method = RequestMethod.GET)
 	public String testChat(Locale locale, ModelMap model) {
 		if(model.get("login") == null) {
-			//GIVE LOGIN ERR
 			return "redirect:/test/home";
 		}
+		User current = userService.getById(((User) model.get("login")).getId());
+		if(current == null) {
+			//SESSION - DB CONFLICT
+			return "redirect:/test/home";
+		}
+		model.addAttribute("profile", current);
+		
 		List<Message> messageList;
 		
 		messageList = (ArrayList<Message>) (messageRepository.findByChannelId("CHANGETHIS"));

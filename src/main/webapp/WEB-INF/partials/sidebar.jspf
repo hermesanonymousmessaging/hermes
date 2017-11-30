@@ -1,0 +1,71 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<aside class="main-sidebar">
+
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar">
+
+				<!-- Sidebar user panel (optional) -->
+				<div class="user-panel">
+					<div class="pull-left image">
+						<img src="../resources/adminlte/dist/img/userbeko-160x160.jpg"
+							class="img-circle" alt="User Image">
+					</div>
+					<div class="pull-left info">
+						<p>${profile.getFirstName()} ${profile.getLastName()}</p>
+						<!-- Status -->
+						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+					</div>
+				</div>
+
+				<!-- search form (Optional) -->
+				<form action="#" method="get" class="sidebar-form">
+					<div class="input-group">
+						<input type="text" name="q" class="form-control"
+							placeholder="Search..."> <span class="input-group-btn">
+							<button type="submit" name="search" id="search-btn"
+								class="btn btn-flat">
+								<i class="fa fa-search"></i>
+							</button>
+						</span>
+					</div>
+				</form>
+				<!-- /.search form -->
+
+				<!-- Sidebar Menu -->
+			      <ul class="sidebar-menu" data-widget="tree">
+			        <li class="header">Navigation</li>
+			        <!-- Optionally, you can add icons to the links -->
+			        <li class="active"><a href="#"><i class="fa fa-circle"></i> <span>Home</span></a></li>
+			        <li class="active"><a href="#"><i class="fa fa-calendar"></i> <span>Schedule</span></a></li>
+			        <li class="active"><a href="#"><i class="fa fa-hourglass-half"></i> <span>Timeline</span></a></li>   
+			        <li class="treeview">
+			          <a href="#"><i class="fa fa-envelope-o"></i> <span>Channels</span>
+			            <span class="pull-right-container">
+			                <i class="fa fa-angle-left pull-right"></i>
+			              </span>
+			          </a>
+			          <ul class="treeview-menu">
+			          	<li class="treeview">
+			          		<a href="#"><span>Sms</span>
+			            			<span class="pull-right-container">
+			                			<i class="fa fa-angle-left pull-right"></i>
+			              		</span>
+			          		</a>
+			          		<ul class="treeview-menu">
+			            			<li><a href="#">Sms Channel 1</a></li>
+			            			<li><a href="#">Sms Channel 2</a></li>
+			          		</ul>
+			        		</li>
+			            <li><a href="#">E-Mail</a></li>
+			            <li><a href="#">Internet Messaging</a></li>
+			            <li><button type="button" onclick="#" class="btn btn-info btn-flat"><div class="col-md-3 col-sm-4"><i class="fa fa-fw fa-plus-square"></i> Add New Channel</div></button></li>
+			          </ul>
+			        </li>
+			        <li class="active"><a href="#"><i class="fa fa-info"></i> <span>About</span></a></li>     
+			      </ul>
+				<!-- /.sidebar-menu -->
+			</section>
+			<!-- /.sidebar -->
+		</aside>
