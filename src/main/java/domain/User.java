@@ -1,5 +1,10 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.data.annotation.Id;
 
 
@@ -13,12 +18,16 @@ public class User {
     private String lastName;
     private String password; //CHANGE THIS 
     private String email;
+    private Set<String> channels;
 
-    public User() {}
+    public User() {
+    	channels = new HashSet<String>();
+    }
 
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        channels = new HashSet<String>();
     }
   
     public User(String firstName, String lastName, String email, String password, String username) {
@@ -27,6 +36,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.username = username;
+        channels = new HashSet<String>();
     }
 
     @Override
@@ -82,6 +92,23 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Set<String> getChannels() {
+		return channels;
+	}
+	
+	public List<String> getChannelsList() {
+		List<String> myList = new ArrayList<String>();
+		myList.addAll(this.channels);
+		return myList;
+	}
+	
+	public void addChannel(String channelId) {
+		channels.add(channelId);
+	}
+	public void removeChannel(String channelId) {
+		channels.remove(channelId);
 	}
 	
 	

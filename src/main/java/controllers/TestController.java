@@ -74,8 +74,13 @@ public class TestController {
 		session.setActive();
 		session = sessionService.saveOrUpdate(session);
 		newChannel.addSession(session.getId());
-		channelService.saveOrUpdate(newChannel);
+		newChannel = channelService.saveOrUpdate(newChannel);
 		
+		User current = userService.getById(userid);
+		current.addChannel(newChannel.getId());
+		current = userService.saveOrUpdate(current);
+		
+		model.put("login", current);
         return "redirect:/test/channel/" + newChannel.getId();
     }
 	

@@ -3,7 +3,9 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 
@@ -15,12 +17,12 @@ public class Channel {
 	private String name;
 	private String ownerId;
 	private Integer userCount;
-	private HashMap<String, Boolean> members;
-	private List<String> sessions;
+	private Set<String> members;
+	private Set<String> sessions;
 	
 	public Channel() {
-		members = new HashMap<String, Boolean>();
-		sessions = new ArrayList<String>();
+		members = new HashSet<String>();
+		sessions = new HashSet<String>();
 		userCount = 0;
 	}
 	public String getId() {
@@ -54,14 +56,22 @@ public class Channel {
 		this.ownerId = ownerId;
 		addMember(ownerId);
 	}
-	public HashMap<String, Boolean> getMembers() {
+	public Set<String> getMembers() {
 		return members;
 	}
-	public List<String> getSessions() {
+	public List<String> getMembersList(){
+		List<String> myList = new ArrayList<String>();
+		myList.addAll(this.members);
+		return myList;
+	}
+	public Set<String> getSessions() {
 		return sessions;
 	}
-	public void setSessions(List<String> sessions) {
-		this.sessions = sessions;
+	
+	public List<String> getSessionsList() {
+		List<String> myList = new ArrayList<String>();
+		myList.addAll(this.sessions);
+		return myList;
 	}
 	
 	public Boolean isOwner(String id) {
@@ -71,10 +81,10 @@ public class Channel {
 			return false;
 	}
 	public Boolean isMember(String userId) {
-		return members.containsKey(userId);
+		return members.contains(userId);
 	}
 	public void addMember(String userId) {
-		members.put(userId,true);
+		members.add(userId);
 		userCount++;
 	}
 	public void removeMember(String userId) {
@@ -82,6 +92,9 @@ public class Channel {
 	}
 	public void addSession(String sessionId) {
 		sessions.add(sessionId);
+	}
+	public void removeSession(String sessionId) {
+		sessions.remove(sessionId);
 	}
 	
 	
