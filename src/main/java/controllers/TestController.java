@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import domain.Channel;
+import domain.Email;
 import domain.Message;
 import domain.Session;
 import domain.User;
@@ -155,6 +156,10 @@ public class TestController {
 		Sms sms2 = new Sms();
 		sms1.SendSms("+905058652462","+15752147992",text);
 		sms2.SendSms("+905378877769","+15752147992",text);*/
+		
+		Email newemail = new Email();
+		newemail.SendEmail("birkandenizer@gmail.com",text);
+		
 		messageService.saveOrUpdate(newmsg);
         return "redirect:/test/chat";
     }	
