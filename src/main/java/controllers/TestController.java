@@ -108,7 +108,8 @@ public class TestController {
 	
 	@RequestMapping(value = "/test/channel/{channelId}", method = RequestMethod.POST)
 	public String addUserToChannel(@RequestParam (value="channelId") String channelId, 
-									@RequestParam (value="name") String username) {
+									@RequestParam (value="name") String username,
+									ModelMap model) {
 		
 		User newuser = userRepository.findByUsername(username);
 		if(newuser != null) {
@@ -118,9 +119,12 @@ public class TestController {
 			
 			if(!channel.isMember(username)) {
 				channel.addMember(username);
+				newuser.addChannel(channel.getId());
 			}
 			
 			channelService.saveOrUpdate(channel);
+			userService.saveOrUpdate(newuser);
+			model.put("login", newuser);
 			
 	        return "redirect:/test/channel/" + channelId;
 		}
