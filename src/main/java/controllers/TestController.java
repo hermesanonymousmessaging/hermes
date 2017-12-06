@@ -19,13 +19,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import domain.Channel;
 import domain.Message;
+import domain.Session;
 import domain.User;
 import domain.Sms;
 import repositories.ChannelRepository;
 import repositories.MessageRepository;
+import repositories.SessionRepository;
 import repositories.UserRepository;
 import services.ChannelService;
 import services.MessageService;
+import services.SessionService;
 import services.UserService;
 
 @Controller
@@ -43,6 +46,10 @@ public class TestController {
 	private MessageService messageService;
 	@Autowired
 	private MessageRepository messageRepository;
+	@Autowired
+	private SessionRepository sessionRepository;
+	@Autowired
+	private SessionService sessionService;
 	
 	@RequestMapping(value = "/test/createChannel", method = RequestMethod.GET)
 	public ModelAndView createChannelGet(Locale locale, ModelMap model) {
@@ -56,8 +63,14 @@ public class TestController {
 									@ModelAttribute("channel")Channel channel, ModelMap model) {
 		String userid = ((User)(model.get("login"))).getId();
 		channel.setOwnerId(userid);
-		channelService.saveOrUpdate(channel);
+		Channel newChannel = channelService.saveOrUpdate(channel);
 		//CREATE CHANNEL OPERATIONS
+		
+		//TRY CREATING A SESSION
+		Session session = new Session(newChannel.getId(),"start","end");
+		session = sessionService.saveOrUpdate(session);
+		newChannel.addSession(session.getId());
+		channelService.saveOrUpdate(newChannel);
 		
         return "redirect:/test/profile";
     }
