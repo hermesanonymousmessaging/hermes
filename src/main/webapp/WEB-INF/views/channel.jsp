@@ -38,6 +38,28 @@
 						<p>START: ${session.getStartDate()}</p>
 						<p>END: ${session.getEndDate()}</p>
 					</div>
+					
+					<div class="box-body">
+					<!-- form start -->
+							<form role="form" method="POST" action="/test/channel/{channelId}"
+								modelAttribute="user">
+								<input type="hidden" name="channelId" value="${channel.getId()}">
+								
+								<div class="box-body">
+									<div class="form-group">
+										<label for="userName">Add User by username</label> <input
+											type="text" class="form-control" id="name"
+											placeholder="name" name="name">
+									</div>
+								</div>
+								<!-- /.box-body -->
+
+								<div class="box-footer">
+									<button type="submit" class="btn btn-primary">Add</button>
+								</div>
+							</form>			
+            			</div>
+            			
 				</div>
 				<!-- /.row -->
 

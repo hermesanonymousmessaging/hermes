@@ -106,6 +106,27 @@ public class TestController {
 	    return "channel";
 	}
 	
+	@RequestMapping(value = "/test/channel/{channelId}", method = RequestMethod.POST)
+	public String addUserToChannel(@RequestParam (value="channelId") String channelId, 
+									@RequestParam (value="name") String username) {
+		
+		User newuser = userRepository.findByUsername(username);
+		if(newuser != null) {
+			//username is in database
+			
+			Channel channel = channelService.getById(channelId);
+			
+			if(!channel.isMember(username)) {
+				channel.addMember(username);
+			}
+			
+			channelService.saveOrUpdate(channel);
+			
+	        return "redirect:/test/channel/" + channelId;
+		}
+        return "redirect:/test/home";
+    }
+	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user")User user, ModelMap model) {
 		User newuser = userRepository.findByUsername(user.getUsername());
