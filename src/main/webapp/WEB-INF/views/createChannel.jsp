@@ -37,6 +37,7 @@
 <!-- Google Font -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+	<link rel="stylesheet" type="text/css" href="../resources/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css"/>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -311,7 +312,18 @@
 											</div>
 										</div>
 									</div>
-
+									<div class="box box-body">
+										<div class="form-group">
+											<label>Date and time range:</label>
+											<div class="input-group">
+												<div class="input-group-addon">
+													<i class="fa fa-clock-o"></i>
+												</div>
+												<input type="text" class"form-control pull-right" id="daterange" name="daterange">
+											</div>
+										</div>
+									
+									</div>
 								</div>
 								<!-- /.box-body -->
 
@@ -353,5 +365,19 @@
 	<script src="../resources/adminlte/dist/js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="../resources/adminlte/dist/js/demo.js"></script>
+	<script src="../resources/adminlte/bower_components/moment/min/moment.min.js"></script>
+	<script src="../resources/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+	
+	<script type="text/javascript">
+		$(function() {
+		    $('#daterange').daterangepicker({
+		        timePicker: true,
+		        timePickerIncrement: 30,
+		        locale: {
+		            format: 'MM/DD/YYYY h:mm A'
+		        }
+		    });
+		});
+</script>
 </body>
 </html>

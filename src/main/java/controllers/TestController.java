@@ -1,5 +1,6 @@
 package controllers;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,14 +62,15 @@ public class TestController {
 	@RequestMapping(value = "/test/createChannel", method = RequestMethod.POST)
 	public String createChannelPost(@RequestParam (value="public") String publictype,
 									@RequestParam (value="group") String group,
-									@ModelAttribute("channel")Channel channel, ModelMap model) {
+									@ModelAttribute("channel")Channel channel, ModelMap model,
+									@RequestParam (value="daterange") String date) throws ParseException {
 		String userid = ((User)(model.get("login"))).getId();
 		channel.setOwnerId(userid);
 		Channel newChannel = channelService.saveOrUpdate(channel);
 		//CREATE CHANNEL OPERATIONS
 		
 		//TRY CREATING A SESSION
-		Session session = new Session(newChannel.getId(),"start","end");
+		Session session = new Session(newChannel.getId(),date);
 		session.setActive();
 		session = sessionService.saveOrUpdate(session);
 		newChannel.addSession(session.getId());

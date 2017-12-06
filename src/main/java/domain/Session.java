@@ -1,24 +1,30 @@
 package domain;
 
 import org.springframework.data.annotation.Id;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Session {
 	@Id
 	private String id;
 
-	private String startDate;
-	private String endDate;
+	private Date startDate;
+	private Date endDate;
 	private String channelId;
 	private Boolean active;
 	
 	public Session() {
 		this.active = false;
 	}
-	public Session(String channelId, String startDate, String endDate) {
+	public Session(String channelId, String dateRange) throws ParseException {
 		this.channelId = channelId;
-		this.startDate = startDate;
-		this.endDate = endDate;
 		this.active = false;
+		String[] dates = dateRange.split(" - ");
+		DateFormat f1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		this.startDate = f1.parse(dates[0]); 
+		this.endDate = f1.parse(dates[1]);
 	}
 	
 	public String getId() {
@@ -27,16 +33,16 @@ public class Session {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 	public String getChannelId() {
