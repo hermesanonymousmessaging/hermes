@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.springframework</groupId>
+    <artifactId>gs-hermes-webapp</artifactId>
+    <version>0.1.0</version>
+	
+	<packaging>war</packaging>
+	
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.1.RELEASE</version>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+	
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    	<!-- tag::spring[] -->
+    	<!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpmime</artifactId>
+		    <version>4.0.1</version>
+		</dependency>
+    	<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-web</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-security</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework.security</groupId>
+	        <artifactId>spring-security-test</artifactId>
+	        <scope>test</scope>
+	    </dependency>
+	      
+	         <dependency>
+		        <groupId>org.apache.tomcat.embed</groupId>
+		        <artifactId>tomcat-embed-jasper</artifactId>
+		        <scope>provided</scope>
+		    </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>bootstrap</artifactId>
+		    <version>3.3.7</version>
+		</dependency>
+        
+        <!--  JSON  -->
+			<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			</dependency>
+        
+        <dependency>
+			  <groupId>jstl</groupId>
+			  <artifactId>jstl</artifactId>
+			  <version>1.2</version>
+			  <scope>compile</scope>
+			</dependency>
+			<dependency>
+			  <groupId>taglibs</groupId>
+			  <artifactId>standard</artifactId>
+			  <version>1.1.2</version>
+			  <scope>compile</scope>
+			</dependency>
+			
+			<!-- MONGODB -->
+			<dependency>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+	        </dependency>
+	        <!-- SMS API -->
+	        <dependency>
+      			<groupId>com.twilio.sdk</groupId>
+     			 <artifactId>twilio</artifactId>
+      			 <version>7.12.0</version>
+      			 <scope>compile</scope>
+   			</dependency>
+    </dependencies>
+    <!-- end::security[] -->
+	
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
