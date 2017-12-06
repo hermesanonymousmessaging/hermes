@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
 
 
 import domain.Channel;
@@ -68,12 +68,35 @@ public class TestController {
 		
 		//TRY CREATING A SESSION
 		Session session = new Session(newChannel.getId(),"start","end");
+		session.setActive();
 		session = sessionService.saveOrUpdate(session);
 		newChannel.addSession(session.getId());
 		channelService.saveOrUpdate(newChannel);
 		
-        return "redirect:/test/profile";
+        return "redirect:/test/channel/" + newChannel.getId();
     }
+	
+	@RequestMapping(value = "/test/channel/{channelId}", method = RequestMethod.GET )
+	public String channel(@PathVariable("channelId") String channelId, ModelMap model){
+		
+		Channel channel = channelService.getById(channelId);
+		if( channel == null) {
+			return "redirect:/test/profile";
+		}
+		
+		//add security
+		
+		model.addAttribute("channel",channel);
+		Session session = new Session();
+		for(String sessionId : channel.getSessions()) {
+			session = sessionService.getById(sessionId);
+			if(session.isActive())
+				break;
+		}
+		model.addAttribute("session",session);
+	    
+	    return "channel";
+	}
 	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user")User user, ModelMap model) {
