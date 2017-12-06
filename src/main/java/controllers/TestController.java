@@ -1,19 +1,13 @@
 package controllers;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+
+
 import domain.Channel;
 import domain.Message;
 import domain.User;
+import domain.Sms;
 import repositories.ChannelRepository;
 import repositories.MessageRepository;
 import repositories.UserRepository;
@@ -118,7 +115,10 @@ public class TestController {
 
 		String senderId = ((User)model.get("login")).getId();
 		Message newmsg = new Message(1,text,senderId,channelId);
-
+		/*Sms sms1 = new Sms();             //SMS
+		Sms sms2 = new Sms();
+		sms1.SendSms("+905058652462","+15752147992",text);
+		sms2.SendSms("+905378877769","+15752147992",text);*/
 		messageService.saveOrUpdate(newmsg);
         return "redirect:/test/chat";
     }	
