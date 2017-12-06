@@ -14,6 +14,7 @@ public class Message {
 	private String text;
 	private String senderId;
 	private String channelId;
+	private String sessionId;
 	
 	//This allows sorting Messages by time stamps
 	public static Comparator<Message> COMPARE_BY_TIMESTAMP = new Comparator<Message>() {
@@ -31,12 +32,13 @@ public class Message {
 		this.text = text;
 	}
 	
-	public Message(Integer type, String text, String senderId, String channelId) {
+	public Message(Integer type, String text, String senderId, String channelId, String sessionId) {
 		this.timestamp = new Date();
 		this.type = type;
 		this.text = text;
 		this.senderId = senderId;
 		this.channelId = channelId;
+		this.sessionId = sessionId;
 	}
 
 	public String getId() {
@@ -86,6 +88,16 @@ public class Message {
 	public void setChannelId(String channelId) {
 		this.channelId = channelId;
 	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+	
+	
 	
 	
 }

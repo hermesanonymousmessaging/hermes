@@ -154,20 +154,24 @@ public class TestController {
 	
 	@RequestMapping(value = "/test/send", method = RequestMethod.POST)
     public String send( @RequestParam (value="usermsg") String text,
+    					@RequestParam (value="sessionId") String sessionId,
     					@RequestParam (value="channelId") String channelId
 						, Locale locale, ModelMap model) {
-
+		Session session = sessionService.getById(sessionId);
 		String senderId = ((User)model.get("login")).getId();
-		Message newmsg = new Message(1,text,senderId,channelId);
+		Message newmsg = new Message(1,text,senderId,channelId, sessionId);
 		/*Sms sms1 = new Sms();             //SMS
 		Sms sms2 = new Sms();
 		sms1.SendSms("+905058652462","+15752147992",text);
 		sms2.SendSms("+905378877769","+15752147992",text);*/
 		
+		/*
 		Email newemail = new Email();
 		newemail.SendEmail("birkandenizer@gmail.com",text);
+		*/
 		
-		messageService.saveOrUpdate(newmsg);
+		newmsg = messageService.saveOrUpdate(newmsg);
+		session.addMessage(newmsg.getId());
         return "redirect:/test/chat";
     }	
 	
@@ -200,13 +204,27 @@ public class TestController {
 			return "redirect:/test/home";
 		}
 		model.addAttribute("profile", current);
-		
+
 		List<Message> messageList;
+		List<String> channels = current.getChannelsList();
 		
-		messageList = (ArrayList<Message>) (messageRepository.findByChannelId("CHANGETHIS"));
+		
+		if(channels == null) {
+	        return "redirect:/test/profile";
+		}
+		
+		//TRY WITH FIRST CHANNEL
+		Channel channel = channelService.getById(channels.get(0));
+		
+		//TRY WITH FIRST SESSION
+		String sessionid = channel.getSessionsList().get(0);
+		Session session = sessionService.getById(sessionid);
+		
+		messageList = messageRepository.findBySessionId(session.getId());
 		
 		Collections.sort(messageList, Message.COMPARE_BY_TIMESTAMP);
-		
+		model.addAttribute("sessionId",sessionid);
+		model.addAttribute("channelId",session.getChannelId());
 		model.addAttribute("messageList", messageList);
 		return "chat";
 	}

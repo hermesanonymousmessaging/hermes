@@ -1,7 +1,10 @@
 package domain;
 
 import org.springframework.data.annotation.Id;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,9 +17,11 @@ public class Session {
 	private Date endDate;
 	private String channelId;
 	private Boolean active;
+	private List<String> messages;
 	
 	public Session() {
 		this.active = false;
+		messages = new ArrayList<String>();
 	}
 	public Session(String channelId, String dateRange) throws ParseException {
 		this.channelId = channelId;
@@ -25,6 +30,7 @@ public class Session {
 		DateFormat f1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		this.startDate = f1.parse(dates[0]); 
 		this.endDate = f1.parse(dates[1]);
+		messages = new ArrayList<String>();
 	}
 	
 	public String getId() {
@@ -62,6 +68,12 @@ public class Session {
 	}
 	public void disable() {
 		this.active = false;
+	}
+	public List<String> getMessages() {
+		return messages;
+	}
+	public void addMessage(String messageId) {
+		messages.add(messageId);
 	}
 	
 }

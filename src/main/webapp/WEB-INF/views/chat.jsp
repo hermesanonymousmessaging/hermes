@@ -548,7 +548,8 @@
 
 					<!-- Reply Box -->
 					<form method="POST" name="message" action="/test/send">
-						<input type="hidden" name="channelId" value="CHANGETHIS">
+						<input type="hidden" name="channelId" value="${channelId}">
+						<input type="hidden" name="sessionId" value="${sessionId}">
 						<div class="row reply">
 							<div class="col-sm-1 col-xs-1 reply-emojis">
 								<i class="fa fa-smile-o fa-2x"></i>
