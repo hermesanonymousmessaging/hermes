@@ -24,42 +24,71 @@
 
 			<!-- Main content -->
 			<section class="content">
-
 				<div class="row">
-					<div class="box box-primary">
-						<p>Channel attributes</p>
-						<p>ID: ${channel.getId()}</p>
-						<p>NAME: ${channel.getName()}</p>
-					</div>
-					<div class="box box-primary">
-						<p>Session attributes</p>
-						<p>ID: ${session.getId()}</p>
-						<p>CH_ID: ${session.getChannelId()}</p>
-						<p>START: ${session.getStartDate()}</p>
-						<p>END: ${session.getEndDate()}</p>
-					</div>
-					
-					<div class="box-body">
-					<!-- form start -->
-							<form role="form" method="POST" action="/test/channel/{channelId}"
-								modelAttribute="user">
-								<input type="hidden" name="channelId" value="${channel.getId()}">
-								
-								<div class="box-body">
-									<div class="form-group">
-										<label for="userName">Add User by username</label> <input
-											type="text" class="form-control" id="name"
-											placeholder="name" name="name">
-									</div>
-								</div>
-								<!-- /.box-body -->
+					<div class="col-md-12">
+						<!-- DIRECT CHAT PRIMARY -->
+						<div class="box box-primary direct-chat direct-chat-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Direct Chat</h3>
 
-								<div class="box-footer">
-									<button type="submit" class="btn btn-primary">Add</button>
+								<div class="box-tools pull-right">
+									<button type="button" class="btn btn-box-tool"
+										data-toggle="tooltip" title="" data-widget="chat-pane-toggle"
+										data-original-title="Channel Info">
+										<i class="fa fa-info-circle"></i>
+									</button>
 								</div>
-							</form>			
-            			</div>
-            			
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<!-- Conversations are loaded here -->
+								<div class="direct-chat-messages">
+									<%@ include file="/WEB-INF/partials/channel-messages.jspf"%>
+								</div>
+								<!--/.direct-chat-messages-->
+
+								<%@ include file="/WEB-INF/partials/channel-info.jspf"%>
+								<!-- /.direct-chat-pane -->
+							</div>
+							<!-- /.box-body -->
+							<div class="box-footer">
+								<form action="#" method="post">
+									<div class="input-group">
+										<input type="text" name="message"
+											placeholder="Type Message ..." class="form-control">
+										<span class="input-group-btn">
+											<button type="submit" class="btn btn-primary btn-flat">Send</button>
+										</span>
+									</div>
+								</form>
+							</div>
+							<!-- /.box-footer-->
+						</div>
+						<!--/.direct-chat -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="box-body">
+						<!-- form start -->
+						<form role="form" method="POST" action="/test/channel/{channelId}"
+							modelAttribute="user">
+							<input type="hidden" name="channelId" value="${channel.getId()}">
+
+							<div class="box-body">
+								<div class="form-group">
+									<label for="userName">Add User by username</label> <input
+										type="text" class="form-control" id="name" placeholder="name"
+										name="name">
+								</div>
+							</div>
+							<!-- /.box-body -->
+
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary">Add</button>
+							</div>
+						</form>
+					</div>
+
 				</div>
 				<!-- /.row -->
 

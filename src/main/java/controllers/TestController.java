@@ -93,8 +93,13 @@ public class TestController {
 		}
 		
 		//add security
-		
-		model.addAttribute("channel",channel);
+		List<User> members = new ArrayList<User>();
+		for(String memberId : channel.getMembersList()) {
+			User member = userService.getById(memberId);
+			members.add(member);
+		}
+		model.addAttribute("members", members);
+		model.addAttribute("channel", channel);
 		Session session = new Session();
 		for(String sessionId : channel.getSessions()) {
 			session = sessionService.getById(sessionId);
@@ -118,7 +123,7 @@ public class TestController {
 			Channel channel = channelService.getById(channelId);
 			
 			if(!channel.isMember(username)) {
-				channel.addMember(username);
+				channel.addMember(newuser.getId());
 				newuser.addChannel(channel.getId());
 			}
 			
