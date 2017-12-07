@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -222,7 +221,8 @@ public class TestController {
 		
 		newmsg = messageService.saveOrUpdate(newmsg);
 		session.addMessage(newmsg.getId());
-        return "redirect:/test/chat";
+		sessionService.saveOrUpdate(session);
+        return "redirect:/test/channel/"+session.getChannelId();
     }
 	
 	@RequestMapping(value = "/test/search/{query}", method = RequestMethod.POST)
@@ -347,12 +347,6 @@ public class TestController {
 		
 		return "calendar";
 		
-	}
-	
-	@RequestMapping(value = "/sessioncalendar", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Session> leave() {
-	    return sessionService.listAll();
 	}
 
 	@RequestMapping(value = "/test/about", method = RequestMethod.GET)

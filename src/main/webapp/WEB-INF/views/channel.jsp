@@ -52,9 +52,11 @@
 							</div>
 							<!-- /.box-body -->
 							<div class="box-footer">
-								<form action="#" method="post">
+								<form method="POST" name="message" action="/test/send">
+									<input type="hidden" name="channelId" value="${channel.getId()}">
+									<input type="hidden" name="sessionId" value="${session.getId()}">
 									<div class="input-group">
-										<input type="text" name="message"
+										<input type="text" name="usermsg" id="usermsg"
 											placeholder="Type Message ..." class="form-control">
 										<span class="input-group-btn">
 											<button type="submit" class="btn btn-primary btn-flat">Send</button>
