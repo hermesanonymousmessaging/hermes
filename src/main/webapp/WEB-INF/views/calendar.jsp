@@ -214,9 +214,6 @@
     var d    = date.getDate(),
         m    = date.getMonth(),
         y    = date.getFullYear()
-    ${sessionList.get}
-        
-        
     $('#calendar').fullCalendar({
       header    : {
         left  : 'prev,next today',
@@ -230,53 +227,42 @@
         day  : 'day'
       },
       //Random default events
-      events    : function(start, end, timezone, callback) {
-    	    $.ajax({
-    	        url: '${pageContext.request.contextPath}/sessioncalendar',
-    	        //data: {
-    	            // data if you are passing
-    	        //},
-    	        success: function(data) {
-    	            var events = [];
-    	            $.each(data, function(index) {
-    	                events.push({
-    	                    title: data[index].srNo,
-    	                    start: data[index].callDate,
-    	                    //end:   data.end
-    	                });
-    	            });
-    	            callback(events);
-    	        }
-    	    });
-    	},
-      editable  : false,
+      events    : [],
+      editable  : true,
       droppable : true, // this allows things to be dropped onto the calendar !!!
       drop      : function (date, allDay) { // this function is called when something is dropped
-
         // retrieve the dropped element's stored Event Object
         var originalEventObject = $(this).data('eventObject')
-
         // we need to copy it, so that multiple events don't have a reference to the same object
         var copiedEventObject = $.extend({}, originalEventObject)
-
         // assign it the date that was reported
         copiedEventObject.start           = date
         copiedEventObject.allDay          = allDay
         copiedEventObject.backgroundColor = $(this).css('background-color')
         copiedEventObject.borderColor     = $(this).css('border-color')
-
         // render the event on the calendar
         // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
         $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
-
         // is the "remove after drop" checkbox checked?
         if ($('#drop-remove').is(':checked')) {
           // if so, remove the element from the "Draggable Events" list
           $(this).remove()
         }
-
       }
     })
+    
+		var events=new Array();
+		var numberofevents = ${sessionList.size()};
+		console.log(${sessionList.size()});
+		for (var i=0;i<numberofevents;i++){
+		    event = new Object();       
+		    event.start = date; // this should be date object // this should be date object
+		    event.color = "blue";
+		    event.allDay = false;
+		    events.push(event);
+		    }
+		$('#calendar').fullCalendar('addEventSource',events);
+
 
     /* ADDING EVENTS */
     var currColor = '#3c8dbc' //Red by default

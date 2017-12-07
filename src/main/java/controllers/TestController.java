@@ -428,6 +428,11 @@ public class TestController {
 	@RequestMapping(value = "/test/calendar", method = RequestMethod.GET)
 	public String testCalendar(Locale locale, ModelMap model) {
 		
+		
+		List<Session> session = new ArrayList<Session>();
+		session = sessionService.listAll();
+		
+		model.addAttribute("sessionList",session);
 		return "calendar";
 		
 	}
