@@ -39,13 +39,65 @@ public class Session {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
+		String hour,min,day,month;
+		if(startDate.getDate() < 10) {
+			day = "0"+Integer.toString(startDate.getDate());
+		}else {
+			day = Integer.toString(startDate.getDate());
+		}
+		if(startDate.getHours() < 10) {
+			hour = "0"+Integer.toString(startDate.getHours());
+		}else {
+			hour = Integer.toString(startDate.getHours());
+		}
+		if(startDate.getMinutes() < 10) {
+			min = "0"+Integer.toString(startDate.getMinutes());
+		}else {
+			min = Integer.toString(startDate.getMinutes());
+		}
+		if(startDate.getMonth() < 10) {
+			month = "0"+Integer.toString(startDate.getMonth());
+		}else {
+			month = Integer.toString(startDate.getMonth());
+		}
+		String year = Integer.toString(startDate.getYear()+1900);
+		String date = hour + ":" + min + "  " + day + "/" + month + "/" + year;
+		return date;
+	}
+	public Date getStartDateD() {
 		return startDate;
 	}
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public String getEndDate() {
+		String hour,min,day,month;
+		if(endDate.getDate() < 10) {
+			day = "0"+Integer.toString(endDate.getDate());
+		}else {
+			day = Integer.toString(endDate.getDate());
+		}
+		if(endDate.getHours() < 10) {
+			hour = "0"+Integer.toString(endDate.getHours());
+		}else {
+			hour = Integer.toString(endDate.getHours());
+		}
+		if(endDate.getMinutes() < 10) {
+			min = "0"+Integer.toString(endDate.getMinutes());
+		}else {
+			min = Integer.toString(endDate.getMinutes());
+		}
+		if(endDate.getMonth() < 10) {
+			month = "0"+Integer.toString(endDate.getMonth());
+		}else {
+			month = Integer.toString(endDate.getMonth());
+		}
+		String year = Integer.toString(endDate.getYear()+1900);
+		String date = hour + ":" + min + "  " + day + "/" + month + "/" + year;
+		return date;
+	}
+	public Date getEndDateD() {
 		return endDate;
 	}
 	public void setEndDate(Date endDate) {
