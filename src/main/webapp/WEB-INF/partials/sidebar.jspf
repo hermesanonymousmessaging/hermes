@@ -20,9 +20,9 @@
 				</div>
 
 				<!-- search form (Optional) -->
-				<form action="#" method="get" class="sidebar-form">
+				<form action="/test/search/{query}" method="POST" class="sidebar-form">
 					<div class="input-group">
-						<input type="text" name="q" class="form-control"
+						<input type="text" name="query" class="form-control"
 							placeholder="Search..."> <span class="input-group-btn">
 							<button type="submit" name="search" id="search-btn"
 								class="btn btn-flat">

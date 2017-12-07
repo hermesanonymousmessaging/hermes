@@ -203,7 +203,48 @@ public class TestController {
 		newmsg = messageService.saveOrUpdate(newmsg);
 		session.addMessage(newmsg.getId());
         return "redirect:/test/chat";
-    }	
+    }
+	
+	@RequestMapping(value = "/test/search/{query}", method = RequestMethod.POST)
+	public String query(@RequestParam (value="query") String query) {
+		
+		return "redirect:/test/search/" + query;
+    }
+	
+	@RequestMapping(value = "/test/search/{query}", method = RequestMethod.GET)
+	public String search(@PathVariable("query") String query, ModelMap model){
+		
+		User otherProfile = userRepository.findByUsername(query);
+		if( otherProfile != null) {
+			model.addAttribute("otherProfileUser",otherProfile);
+		}
+		
+		List<User> otherProfilesFirst = userRepository.findByFirstName(query);
+		if( otherProfilesFirst != null) {
+			model.addAttribute("otherProfilesFirst",otherProfilesFirst);
+		}
+		
+		List<User> otherProfilesLast = userRepository.findByLastName(query);
+		if( otherProfilesLast != null) {
+			model.addAttribute("otherProfilesLast",otherProfilesLast);
+		}
+		
+		return "search";
+	}
+	
+	@RequestMapping(value = "/test/profile/{query}", method = RequestMethod.GET)
+	public String otherProfile(@PathVariable("query") String query, ModelMap model){
+		
+		User otherProfile = userRepository.findByUsername(query);
+		
+		if( otherProfile == null) {
+			return "redirect:/test/home";
+		}
+		
+		model.addAttribute("otherProfile",otherProfile);
+		
+	    return "otherProfile";
+	}
 	
 	@RequestMapping(value = "/test/home", method = RequestMethod.GET)
 	public ModelAndView testHome() {
