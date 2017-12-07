@@ -220,9 +220,26 @@ public class TestController {
 			//SESSION - DB CONFLICT
 			return "redirect:/test/home";
 		}
+		
+		List<String> myChannelNames = new ArrayList<String>();
+		List<String> joinedChannelNames = new ArrayList<String>();
+		Channel channel;
+		
+		for(String channelId : current.getChannelsList()) {
+			
+			channel = channelService.getById(channelId);
+			if(channel.getOwnerId().equals(current.getId()))
+				myChannelNames.add(channel.getName());
+			else
+				joinedChannelNames.add(channel.getName());
+		}
+		
+		model.addAttribute("channelNames",myChannelNames);
+		model.addAttribute("joinedChannelNames",joinedChannelNames);
 		model.addAttribute("profile", current);
 		return "profile";
 	}
+
 	@RequestMapping(value = "/test/chat", method = RequestMethod.GET)
 	public String testChat(Locale locale, ModelMap model) {
 		if(model.get("login") == null) {

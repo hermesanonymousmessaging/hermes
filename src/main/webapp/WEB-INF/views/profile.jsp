@@ -101,33 +101,62 @@
 								<!-- /.tab-pane -->
 								<div class="tab-pane" id="channels">
 
-									<div class="box-body">
 
-										<h4>
-											<i class="fa fa-caret-right" aria-hidden="true"></i> Channel
-											X
-										</h4>
-										<p>General discussion about ChannelX project</p>
-										<br>
 
-										<h4>
-											<i class="fa fa-caret-right" aria-hidden="true"></i> 2F2A
-										</h4>
-										<p>General discussion about 2Fast2Autonomous project</p>
-										<br>
+									
 
-										<h4>
-											<i class="fa fa-caret-right" aria-hidden="true"></i> COMCOM
-										</h4>
-										<p>General discussion related to BLG433E Computer
-											Communications class</p>
-										<br>
 
-										<h4>
-											<i class="fa fa-caret-right" aria-hidden="true"></i> ITU ACM
-										</h4>
-										<p>Announcements related to ITU ACM organization</p>
-										<br>
+
+								<div class="box-body">
+
+									<div class="col-md-3">
+										<div class="box box-default box-solid collapsed-box" >
+											<div class="box-header with-border" style="background-color:#00c0ef">
+												<h3 class="box-title" style="font-size:100%;color:white">My Channels</h3>
+
+												<div class="box-tools pull-right">
+													<button type="button" class="btn btn-box-tool"
+														data-widget="collapse">
+														<i class="fa fa-plus"></i>
+													</button>
+												</div>
+												<!-- /.box-tools -->
+											</div>
+											<!-- /.box-header -->
+											<div class="box-body" style="display: none;">
+																<c:forEach items="${channelNames}" var="item">
+																	<c:out value="${item}" />
+																</c:forEach>
+															</div>
+											<!-- /.box-body -->
+										</div>
+										<!-- /.box -->
+									</div>
+									<div class="col-md-3">
+										<div class="box box-default box-solid collapsed-box">
+											<div class="box-header with-border" style="background-color:#3c8dbc">
+												<h3 class="box-title" style="font-size:100%;color:white">Joined Channels</h3>
+
+												<div class="box-tools pull-right">
+													<button type="button" class="btn btn-box-tool"
+														data-widget="collapse">
+														<i class="fa fa-plus"></i>
+													</button>
+												</div>
+												<!-- /.box-tools -->
+											</div>
+											<!-- /.box-header -->
+													
+															<div class="box-body" style="display: none;">
+																<c:forEach items="${joinedChannelNames}" var="item">
+																	<c:out value="${item}" />
+																</c:forEach>
+															</div>
+
+											<!-- /.box-body -->
+										</div>
+										<!-- /.box -->
+									</div>
 
 									</div>
 
