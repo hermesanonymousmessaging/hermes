@@ -3,6 +3,7 @@ package controllers;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -93,13 +94,19 @@ public class TestController {
 		}
 		
 		//add security
+		
+		//adding channel members
 		List<User> members = new ArrayList<User>();
 		for(String memberId : channel.getMembersList()) {
 			User member = userService.getById(memberId);
 			members.add(member);
 		}
+		
+		
 		model.addAttribute("members", members);
 		model.addAttribute("channel", channel);
+		
+		//adding session
 		Session session = new Session();
 		for(String sessionId : channel.getSessions()) {
 			session = sessionService.getById(sessionId);
@@ -108,6 +115,18 @@ public class TestController {
 		}
 		model.addAttribute("session",session);
 	    
+		//adding channel messages
+		List<Message> messages = new ArrayList<Message>();
+		HashMap<String,String> senders = new HashMap<String,String>();
+		for(String messageId : session.getMessages()) {
+			Message message = messageService.getById(messageId);
+			messages.add(message);
+			User sender = userService.getById(message.getSenderId());
+			senders.put(message.getSenderId(), sender.getUsername());
+		}
+		model.addAttribute("messages", messages);
+		model.addAttribute("senders", senders);
+		
 	    return "channel";
 	}
 	

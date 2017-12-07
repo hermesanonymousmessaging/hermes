@@ -2,33 +2,21 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!-- Message. Default to the left -->
-<div class="direct-chat-msg">
-	<div class="direct-chat-info clearfix">
-		<span class="direct-chat-name pull-left">Alexander Pierce</span> <span
-			class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
+<c:forEach items="${messages}" var="msg">
+	<div
+		class="direct-chat-msg 
+	<c:if test="${msg.getSenderId() != login.getId()}"> right</c:if>
+	">
+		<div class="direct-chat-info clearfix">
+			<span
+				class="direct-chat-name <c:if test="${msg.getSenderId() != login.getId()}">pull-left</c:if><c:if test="${msg.getSenderId() == login.getId()}">pull-right</c:if>">
+				<a href="/test/profile/${senders.get(msg.getSenderId())}">${senders.get(msg.getSenderId())}</a>
+			</span> <span
+				class="direct-chat-timestamp <c:if test="${msg.getSenderId() != login.getId()}">pull-right</c:if><c:if test="${msg.getSenderId() == login.getId()}">pull-left</c:if>">${msg.getTimestamp()}
+			</span>
+		</div>
+		<!-- /.direct-chat-info -->
+		<div class="direct-chat-text">${msg.getText()}</div>
+		<!-- /.direct-chat-text -->
 	</div>
-	<!-- /.direct-chat-info -->
-	<img class="direct-chat-img" src="../dist/img/user1-128x128.jpg"
-		alt="Message User Image">
-	<!-- /.direct-chat-img -->
-	<div class="direct-chat-text">Is this template really for free?
-		That's unbelievable!</div>
-	<!-- /.direct-chat-text -->
-</div>
-<!-- /.direct-chat-msg -->
-
-<!-- Message to the right -->
-<div class="direct-chat-msg right">
-	<div class="direct-chat-info clearfix">
-		<span class="direct-chat-name pull-right">Sarah Bullock</span> <span
-			class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-	</div>
-	<!-- /.direct-chat-info -->
-	<img class="direct-chat-img" src="../dist/img/user3-128x128.jpg"
-		alt="Message User Image">
-	<!-- /.direct-chat-img -->
-	<div class="direct-chat-text">You better believe it!</div>
-	<!-- /.direct-chat-text -->
-</div>
-<!-- /.direct-chat-msg -->
+</c:forEach>
