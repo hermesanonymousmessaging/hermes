@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: gs-hermes-webapp
 Implementation-Version: 0.1.0
-Built-By: jarvis
+Built-By: kagan
 Implementation-Vendor-Id: org.springframework
-Build-Jdk: 1.8.0_152
+Build-Jdk: 1.8.0_151
 Implementation-URL: http://projects.spring.io/spring-boot/gs-hermes-we
  bapp/
 Created-By: Maven Integration for Eclipse
