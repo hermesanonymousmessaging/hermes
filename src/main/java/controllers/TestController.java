@@ -4,12 +4,15 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,18 +85,41 @@ public class TestController {
 	public String createChannelPost(@RequestParam (value="public") String publictype,
 									@RequestParam (value="group") String group,
 									@ModelAttribute("channel")Channel channel, ModelMap model,
-									@RequestParam (value="daterange") String date) throws ParseException {
+									@RequestParam (value="daterange0") String date0,
+									@RequestParam (value="daterange1", required = false) String date1,
+									@RequestParam (value="daterange2", required = false) String date2,
+									@RequestParam (value="daterange3", required = false) String date3,
+									@RequestParam (value="daterange4", required = false) String date4,
+									@RequestParam (value="dateCount") Integer dateCount) throws ParseException {
+		
+		List<String> dateList = new ArrayList<String>();
+		dateList.add(date1);
+		dateList.add(date2);
+		dateList.add(date3);
+		dateList.add(date4);
+		
+		System.out.println(dateList.size());
+		
 		String userid = ((User)(model.get("login"))).getId();
 		channel.setOwnerId(userid);
 		Channel newChannel = channelService.saveOrUpdate(channel);
 		//CREATE CHANNEL OPERATIONS
 		
 		//TRY CREATING A SESSION
-		Session session = new Session(newChannel.getId(),date);
-		session.setActive();
+		Session session = new Session(newChannel.getId(),date0);
+		session.setActive(); //FIRST SESSION IS ACTIVE,,,, CHANGE THIS LATER
 		session = sessionService.saveOrUpdate(session);
 		newChannel.addSession(session.getId());
 		newChannel = channelService.saveOrUpdate(newChannel);
+		
+		for(String date : dateList) {
+			if(date == null)
+				break;
+			session = new Session(newChannel.getId(),date);
+			session = sessionService.saveOrUpdate(session);
+			newChannel.addSession(session.getId());
+			newChannel = channelService.saveOrUpdate(newChannel);
+		}
 		
 		User current = userService.getById(userid);
 		current.addChannel(newChannel.getId());
@@ -186,7 +212,6 @@ public class TestController {
 			
 			channelService.saveOrUpdate(channel);
 			userService.saveOrUpdate(newuser);
-			model.put("login", newuser);
 			Log newlog = new Log("Added a new user with ID: " + newuser.getId() + " to channel with ID: " + channelId);
 			logService.saveOrUpdate(newlog);
 			

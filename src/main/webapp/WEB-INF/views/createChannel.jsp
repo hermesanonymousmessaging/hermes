@@ -64,6 +64,7 @@
 							<!-- form start -->
 							<form role="form" method="POST" action="/test/createChannel"
 								modelAttribute="user">
+								<div id="addDateCount"><input type="hidden" name="dateCount" value="1"></div>
 								<div class="box-body">
 									<div class="form-group">
 										<label for="channelName">Channel Name</label> <input
@@ -141,14 +142,25 @@
 									<div class="box box-body">
 										<div class="form-group">
 											<label>Date and time range:</label>
-											<div class="input-group">
-												<div class="input-group-addon">
-													<i class="fa fa-clock-o"></i>
+											<div class="row">
+												<div class="input-group col-md-8">
+													<div class="input-group-addon">
+														<i class="fa fa-clock-o"></i>
+													</div>
+													<input type="text" class="form-control pull-right daterange" id="daterange0" name="daterange0" style="width:100%;">
 												</div>
-												<input type="text" class"form-control pull-right" id="daterange" name="daterange">
+												<div id="addDatePicker"></div>
 											</div>
 										</div>
-									
+										<div class="input-group">
+											
+											<div class="input-group-btn">
+												<button onclick="createDate()" id="add-new-event" type="button"
+													class="btn btn-primary btn-flat">Add</button>
+											</div>
+											<!-- /btn-group -->
+										</div>
+										<div id="error" class="row"></div>
 									</div>
 								</div>
 								<!-- /.box-body -->
@@ -190,17 +202,43 @@
 	<script src="../resources/adminlte/dist/js/demo.js"></script>
 	<script src="../resources/adminlte/bower_components/moment/min/moment.min.js"></script>
 	<script src="../resources/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-	
+
 	<script type="text/javascript">
 		$(function() {
-		    $('#daterange').daterangepicker({
-		        timePicker: true,
-		        timePickerIncrement: 30,
-		        locale: {
-		            format: 'MM/DD/YYYY h:mm A'
-		        }
-		    });
+			$('.daterange').daterangepicker({
+				timePicker : true,
+				timePickerIncrement : 30,
+				locale : {
+					format : 'MM/DD/YYYY h:mm A'
+				}
+			});
 		});
-</script>
+	</script>
+	<script>
+	var div = '';
+	var cnt = 1;
+		function createDate(){
+			if(cnt<5){
+				div = div + '<div class="input-group col-md-8"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div><input type="text" class="form-control pull-right daterange" id="daterange'+cnt+'" name="daterange'+cnt+'" style="width:100%;"></div>';
+				document.getElementById("addDatePicker").innerHTML = div;
+					$('.daterange').daterangepicker({
+						timePicker : true,
+						timePickerIncrement : 30,
+						locale : {
+							format : 'MM/DD/YYYY h:mm A'
+						}
+					});
+					cnt++;
+				var count = '<input type="hidden" name="dateCount" value="'+cnt+'">'
+				document.getElementById("addDateCount").innerHTML = count;
+			}
+			else{
+				var err = '<p class="text-red"><i class="fa fa-fw fa-exclamation"></i> You cant add more than 5 sessions for a channel</p>'
+				document.getElementById("error").innerHTML = err;
+			}
+			
+		}
+	</script>
+
 </body>
 </html>
