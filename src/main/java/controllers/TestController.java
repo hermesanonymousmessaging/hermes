@@ -89,12 +89,16 @@ public class TestController {
 	public String createChannelPost(@RequestParam (value="public") String publictype,
 									@RequestParam (value="group") String group,
 									@ModelAttribute("channel")Channel channel, ModelMap model,
+									@RequestParam (value="sms", required = false) String sms,
+									@RequestParam (value="email", required = false) String email,
 									@RequestParam (value="daterange0") String date0,
 									@RequestParam (value="daterange1", required = false) String date1,
 									@RequestParam (value="daterange2", required = false) String date2,
 									@RequestParam (value="daterange3", required = false) String date3,
 									@RequestParam (value="daterange4", required = false) String date4,
 									@RequestParam (value="dateCount") Integer dateCount) throws ParseException {
+		
+		//sms, email  on/null
 		
 		List<String> dateList = new ArrayList<String>();
 		dateList.add(date1);
@@ -104,6 +108,10 @@ public class TestController {
 		
 		String userid = ((User)(model.get("login"))).getId();
 		channel.setOwnerId(userid);
+		if(sms != null)
+			channel.setSms(true);
+		if(email != null)
+			channel.setEmail(true);
 		Channel newChannel = channelService.saveOrUpdate(channel);
 		//CREATE CHANNEL OPERATIONS
 		

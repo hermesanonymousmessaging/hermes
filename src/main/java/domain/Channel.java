@@ -13,7 +13,8 @@ public class Channel {
 	@Id
     public String id;
     
-	private String type;
+	private Boolean sms;
+	private Boolean email;
 	private String name;
 	private String ownerId;
 	private Integer userCount;
@@ -21,21 +22,34 @@ public class Channel {
 	private Set<String> sessions;
 	
 	public Channel() {
+		sms = false;
+		email = false;
 		members = new HashSet<String>();
 		sessions = new HashSet<String>();
 		userCount = 0;
 	}
+	
+	public Boolean getSms() {
+		return sms;
+	}
+
+	public void setSms(Boolean sms) {
+		this.sms = sms;
+	}
+
+	public Boolean getEmail() {
+		return email;
+	}
+
+	public void setEmail(Boolean email) {
+		this.email = email;
+	}
+
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
 	}
 	public String getName() {
 		return name;

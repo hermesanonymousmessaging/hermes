@@ -75,19 +75,19 @@
 										<div class="col-md-3">
 											<div class="box box-body">
 												<div class="form-group">
-													<div class="radio">
-														<label> <input type="radio" name="type" id="type1"
-															value="internet" checked=""> Internet Messaging
+													<div class="checkbox">
+														<label> <input type="checkbox" name="email"
+															id="email"> <i class="fa fa-fw fa-envelope"></i>
+															e-Mail
+															<p class="text-muted">Messages sent to this channel
+																will also be sent as an e-Mail to the members.</p>
 														</label>
 													</div>
-													<div class="radio">
-														<label> <input type="radio" name="type" id="type2"
-															value="email" disabled=""> e-Mail
-														</label>
-													</div>
-													<div class="radio">
-														<label> <input type="radio" name="type" id="type3"
-															value="sms" disabled=""> SMS
+													<div class="checkbox">
+														<label> <input type="checkbox" name="sms" id="sms">
+															<i class="fa fa-fw fa-mobile-phone"></i> SMS
+															<p class="text-muted">Messages sent to this channel
+																will also be sent as an SMS to the members.</p>
 														</label>
 													</div>
 												</div>
