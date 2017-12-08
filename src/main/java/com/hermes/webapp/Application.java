@@ -6,12 +6,15 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication
+@EnableAsync
 @EnableMongoRepositories("repositories")
 @EntityScan("domain")
-@ComponentScan({"services", "controllers"})
+@ComponentScan({"services", "controllers","configuration"})
 @ImportResource("/spring-security.xml") // We can edit our security protocol here
 public class Application {
 	

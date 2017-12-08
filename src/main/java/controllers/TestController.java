@@ -35,6 +35,7 @@ import repositories.ChannelRepository;
 import repositories.MessageRepository;
 import repositories.SessionRepository;
 import repositories.UserRepository;
+import services.AsyncMail;
 import services.ChannelService;
 import services.LogService;
 import services.MessageService;
@@ -64,6 +65,9 @@ public class TestController {
 	private SessionRepository sessionRepository;
 	@Autowired
 	private SessionService sessionService;
+	
+	@Autowired
+	private AsyncMail asyncMail;
 	
 	@RequestMapping(value = "/test/createChannel", method = RequestMethod.GET)
 	public ModelAndView createChannelGet(Locale locale, ModelMap model) {
@@ -321,13 +325,13 @@ public class TestController {
 
 		for(String memberid : channel.getMembersList()) {
 			if(!(memberid.equals(senderId))) {
-				//FORMAT SENT MESSAGES
-				//FORMAT SENT MESSAGES
-				//FORMAT SENT MESSAGES
 				User receiver = userService.getById(memberid);
 				if(channel.getEmail()) {
-					Email newemail = new Email();
-					newemail.SendEmail(receiver.getEmail(),text);
+					try {
+						asyncMail.sendMail(receiver.getEmail(),text);
+					}catch( Exception e ){
+						// catch error
+					}
 					Log newlog = new Log("User ID: " + senderId + "Sent an e-Mail to user ID: " + receiver.getId() + "through channel ID: " + channelId + " with session ID: " + sessionId);
 					logService.saveOrUpdate(newlog);
 				}
