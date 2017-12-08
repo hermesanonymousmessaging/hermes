@@ -32,7 +32,7 @@
 						<div class="box box-primary">
 							<div class="box-body box-profile">
 								<img class="profile-user-img img-responsive img-circle"
-									src="../../resources/adminlte/dist/img/userbeko-160x160.jpg"
+									src="${otherProfile.getProfilePicture()}"
 									alt="User profile picture">
 
 								<h3 class="profile-username text-center">${otherProfile.getFirstName()}

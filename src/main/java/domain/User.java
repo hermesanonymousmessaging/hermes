@@ -18,6 +18,8 @@ public class User {
     private String lastName;
     private String password; //CHANGE THIS 
     private String email;
+    private String phoneNumber;
+    private String profilePicture;
     private Set<String> channels;
 
     public User() {
@@ -30,12 +32,14 @@ public class User {
         channels = new HashSet<String>();
     }
   
-    public User(String firstName, String lastName, String email, String password, String username) {
+    public User(String firstName, String lastName, String email, String password, String username, String phoneNumber, String profilePicture) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.username = username;
+        this.phoneNumber = phoneNumber;
+        this.profilePicture = profilePicture;
         channels = new HashSet<String>();
     }
 
@@ -84,6 +88,22 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 
 	public String getUsername() {
