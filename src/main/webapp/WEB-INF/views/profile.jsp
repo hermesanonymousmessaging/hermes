@@ -101,12 +101,6 @@
 								<!-- /.tab-pane -->
 								<div class="tab-pane" id="channels">
 
-
-
-									
-
-
-
 								<div class="box-body">
 
 									<div class="col-md-3">
@@ -124,10 +118,10 @@
 											</div>
 											<!-- /.box-header -->
 											<div class="box-body" style="display: none;">
-																<c:forEach items="${mychannels}" var="item">
-																	<a href="/test/channel/<c:out value="${item.getId()}" />" class="btn btn-primary"><c:out value="${item.getName()}" /></a>
-																</c:forEach>
-															</div>
+												<c:forEach items="${mychannels}" var="item">
+													<a href="/test/channel/<c:out value="${item.getId()}" />" class="btn btn-primary"><c:out value="${item.getName()}" /></a>
+												</c:forEach>					
+											</div>
 											<!-- /.box-body -->
 										</div>
 										<!-- /.box -->
@@ -146,13 +140,11 @@
 												<!-- /.box-tools -->
 											</div>
 											<!-- /.box-header -->
-													
-															<div class="box-body" style="display: none;">
-																<c:forEach items="${joinedChannelNames}" var="item">
-																	<c:out value="${item}" />
-																</c:forEach>
-															</div>
-
+												<div class="box-body" style="display: none;">
+												<c:forEach items="${joinedChannels}" var="item">
+													<a href="/test/channel/<c:out value="${item.getId()}" />" class="btn btn-primary"><c:out value="${item.getName()}" /></a>
+												</c:forEach>					
+												</div>
 											<!-- /.box-body -->
 										</div>
 										<!-- /.box -->

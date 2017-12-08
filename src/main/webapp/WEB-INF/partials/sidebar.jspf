@@ -56,6 +56,19 @@
           				</ul>
        				</li>
        				<li class="active"><a href="/test/createChannel"><i class="fa fa-plus"></i> <span>Create New Channel</span></a></li>
+       				<li class="active treeview menu-open">
+          				<a href="#">
+            			<i class="fa fa-laptop"></i> <span>Joined Channels</span>
+            			<span class="pull-right-container">
+              				<i class="fa fa-angle-left pull-right"></i>
+            			</span>
+          				</a>
+          				<ul class="treeview-menu" style="">
+          					<c:forEach items="${joinedChannels}" var="item">
+            					<li><a href="/test/channel/<c:out value="${item.getId()}"/>"><i class="fa fa-circle-o"></i><c:out value="${item.getName()}" /></a></li>
+            				</c:forEach>
+          				</ul>
+       				</li>
 			      </ul>
 				<!-- /.sidebar-menu -->
 			</section>

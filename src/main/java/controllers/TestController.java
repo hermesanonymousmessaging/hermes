@@ -70,16 +70,18 @@ public class TestController {
 		logService.saveOrUpdate(newlog);
 		User current = userService.getById(((User) model.get("login")).getId());
 		List<Channel> myChannels = new ArrayList<Channel>();
+		List<Channel> joinedChannels = new ArrayList<Channel>();
 		Channel channel1;
 		for(String channel1Id : current.getChannelsList()) {
 			channel1 = channelService.getById(channel1Id);
 			if(channel1.getOwnerId().equals(current.getId())) {
 				myChannels.add(channel1);
-			}	
+			}else
+				joinedChannels.add(channel1);
 					
 		}
 		model.addAttribute("mychannels",myChannels);
-		
+		model.addAttribute("joinedChannels",joinedChannels);
         return new ModelAndView("createChannel", "channel", new Channel());
     }
 	
@@ -153,17 +155,18 @@ public class TestController {
 		}
 		User current = userService.getById(((User) model.get("login")).getId());
 		List<Channel> myChannels = new ArrayList<Channel>();
+		List<Channel> joinedChannels = new ArrayList<Channel>();
 		Channel channel1;
 		for(String channel1Id : current.getChannelsList()) {
 			channel1 = channelService.getById(channel1Id);
 			if(channel1.getOwnerId().equals(current.getId())) {
 				myChannels.add(channel1);
-			}	
+			}else
+				joinedChannels.add(channel);
 					
 		}
 		model.addAttribute("mychannels",myChannels);
-		
-		
+		model.addAttribute("joinedChannels",joinedChannels);
 		model.addAttribute("members", members);
 		model.addAttribute("channel", channel);
 		
@@ -348,15 +351,18 @@ public class TestController {
 		
 		User current = userService.getById(((User) model.get("login")).getId());
 		List<Channel> myChannels = new ArrayList<Channel>();
+		List<Channel> joinedChannels = new ArrayList<Channel>();
 		Channel channel1;
 		for(String channel1Id : current.getChannelsList()) {
 			channel1 = channelService.getById(channel1Id);
 			if(channel1.getOwnerId().equals(current.getId())) {
 				myChannels.add(channel1);
-			}	
+			}else
+				joinedChannels.add(channel1);	
 					
 		}
 		model.addAttribute("mychannels",myChannels);
+		model.addAttribute("joinedChannels",joinedChannels);
 		Log newlog = new Log("User made a search with query: " + query + " from GET method");
 		logService.saveOrUpdate(newlog);
 		
@@ -376,16 +382,18 @@ public class TestController {
 		}
 		User current = userService.getById(((User) model.get("login")).getId());
 		List<Channel> myChannels = new ArrayList<Channel>();
+		List<Channel> joinedChannels = new ArrayList<Channel>();
 		Channel channel1;
 		for(String channel1Id : current.getChannelsList()) {
 			channel1 = channelService.getById(channel1Id);
 			if(channel1.getOwnerId().equals(current.getId())) {
 				myChannels.add(channel1);
-			}	
+			}else
+				joinedChannels.add(channel1);
 					
 		}
 		model.addAttribute("mychannels",myChannels);
-		
+		model.addAttribute("joinedChannels",joinedChannels);
 		model.addAttribute("otherProfile",otherProfile);
 		Log newlog = new Log("Found a user with username: " + query + "from search query");
 		logService.saveOrUpdate(newlog);
@@ -415,7 +423,7 @@ public class TestController {
 			
 			return "redirect:/test/home";
 		}
-		List<String> joinedChannelNames = new ArrayList<String>();
+		List<Channel> joinedChannels = new ArrayList<Channel>();
 		List<Channel> myChannels = new ArrayList<Channel>();
 		Channel channel;
 		for(String channel1Id : current.getChannelsList()) {
@@ -423,13 +431,10 @@ public class TestController {
 			if(channel.getOwnerId().equals(current.getId())) {
 				myChannels.add(channel);
 			}else
-				joinedChannelNames.add(channel.getName());
-					
+				joinedChannels.add(channel);
 		}
 		model.addAttribute("mychannels",myChannels);
-		
-		
-		model.addAttribute("joinedChannelNames",joinedChannelNames);
+		model.addAttribute("joinedChannels",joinedChannels);
 		model.addAttribute("profile", current);
 		
 		Log newlog = new Log("Accessed to profile of user with ID: " + current.id);
@@ -497,15 +502,18 @@ public class TestController {
 		
 		User current = userService.getById(((User) model.get("login")).getId());
 		List<Channel> myChannels = new ArrayList<Channel>();
+		List<Channel> joinedChannels = new ArrayList<Channel>();
 		Channel channel1;
 		for(String channel1Id : current.getChannelsList()) {
 			channel1 = channelService.getById(channel1Id);
 			if(channel1.getOwnerId().equals(current.getId())) {
 				myChannels.add(channel1);
-			}	
+			}else
+				joinedChannels.add(channel1);	
 					
 		}
 		model.addAttribute("mychannels",myChannels);
+		model.addAttribute("joinedChannels",joinedChannels);
 		List<Session> session = new ArrayList<Session>();
 		session = sessionService.listAll();
 		
