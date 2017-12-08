@@ -18,8 +18,8 @@
 			<c:forEach items="${members}" var="member">
 				<li>
 					<div class="contacts-list-info">
-						<span class="contacts-list-name"> ${member.getFirstName()} ${member.getLastName()}
-						</span>
+						<a href="/test/profile/${member.getUsername()}"><span class="contacts-list-name"> ${member.getUsername()}
+						</span></a>
 					</div>
 				</li>
 			</c:forEach>
