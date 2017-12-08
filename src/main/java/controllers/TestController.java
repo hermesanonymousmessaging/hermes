@@ -36,6 +36,7 @@ import repositories.MessageRepository;
 import repositories.SessionRepository;
 import repositories.UserRepository;
 import services.AsyncMail;
+import services.AsyncSms;
 import services.ChannelService;
 import services.LogService;
 import services.MessageService;
@@ -68,6 +69,8 @@ public class TestController {
 	
 	@Autowired
 	private AsyncMail asyncMail;
+	@Autowired
+	private AsyncSms asyncSms;
 	
 	@RequestMapping(value = "/test/createChannel", method = RequestMethod.GET)
 	public ModelAndView createChannelGet(Locale locale, ModelMap model) {
@@ -336,8 +339,11 @@ public class TestController {
 					logService.saveOrUpdate(newlog);
 				}
 				if(channel.getSms()) {
-					Sms newsms = new Sms();
-					newsms.SendSms(receiver.getPhoneNumber(), SMS_SENDER,text);
+					try {
+						asyncSms.sendSms(receiver.getPhoneNumber(),SMS_SENDER,text);
+					}catch( Exception e ){
+						// catch error
+					}
 					Log newlog = new Log("User ID: " + senderId + "Sent an SMS to user ID: " + receiver.getId() + "through channel ID: " + channelId + " with session ID: " + sessionId);
 					logService.saveOrUpdate(newlog);
 				}
