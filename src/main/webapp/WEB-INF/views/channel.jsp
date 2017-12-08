@@ -91,6 +91,29 @@
 					</div>
 
 				</div>
+				<div class="row">
+					<div class="box-body">
+						<!-- form start -->
+						<form role="form" method="POST" action="/test/channel/{channelId}/{banName}"
+							modelAttribute="user">
+							<input type="hidden" name="channelId" value="${channel.getId()}">
+
+							<div class="box-body">
+								<div class="form-group">
+									<label for="banName">Ban User by username</label> <input
+										type="text" class="form-control" id="banName" placeholder="banName"
+										name="banName">
+								</div>
+							</div>
+							<!-- /.box-body -->
+
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary">Ban</button>
+							</div>
+						</form>
+					</div>
+
+				</div>
 				<!-- /.row -->
 
 			</section>

@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import domain.Ban;
 import domain.Channel;
 import domain.Email;
 import domain.Log;
@@ -37,6 +38,7 @@ import repositories.SessionRepository;
 import repositories.UserRepository;
 import services.AsyncMail;
 import services.AsyncSms;
+import services.BanService;
 import services.ChannelService;
 import services.LogService;
 import services.MessageService;
@@ -71,6 +73,8 @@ public class TestController {
 	private AsyncMail asyncMail;
 	@Autowired
 	private AsyncSms asyncSms;
+	@Autowired
+	private BanService banService;
 	
 	@RequestMapping(value = "/test/createChannel", method = RequestMethod.GET)
 	public ModelAndView createChannelGet(Locale locale, ModelMap model) {
@@ -238,6 +242,42 @@ public class TestController {
 	        return "redirect:/test/channel/" + channelId;
 		}
 		Log newlog = new Log("Could not add user with username: " + username + "as it was not found in the database");
+		logService.saveOrUpdate(newlog);
+		
+        return "redirect:/test/home";
+    }
+	
+	@RequestMapping(value = "/test/channel/{channelId}/{banName}", method = RequestMethod.POST)
+	public String banUserFromChannel(@RequestParam (value="channelId") String channelId, 
+									@RequestParam (value="banName") String banName,
+									ModelMap model) {
+		
+		User newuser = userRepository.findByUsername(banName);
+		if(newuser != null) {
+			//username is in database
+			
+			Channel channel = channelService.getById(channelId);
+			
+			if(channel.isMember(banName)) {
+				channel.removeMember(newuser.getId());
+				newuser.removeChannel(channel.getId());
+				
+				Ban newBan = new Ban(newuser.getId(),channel.getId());
+				banService.saveOrUpdate(newBan);
+				
+				Log newlog = new Log("Test ban");
+				logService.saveOrUpdate(newlog);
+				
+			}
+			
+			channelService.saveOrUpdate(channel);
+			userService.saveOrUpdate(newuser);
+			Log newlog = new Log("Banned a user with ID: " + newuser.getId() + " from channel with ID: " + channelId);
+			logService.saveOrUpdate(newlog);
+			
+	        return "redirect:/test/channel/" + channelId;
+		}
+		Log newlog = new Log("Could not ban user with username: " + banName + "as it was not found in the database");
 		logService.saveOrUpdate(newlog);
 		
         return "redirect:/test/home";
