@@ -8,5 +8,6 @@ import domain.Channel;
 
 public interface ChannelRepository extends MongoRepository<Channel, String> {
 	public List<Channel> findById(String channelId);
+	public List<Channel> findByName(String name);
 	public List<Channel> findByOwnerId(String ownerId);
 }

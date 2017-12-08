@@ -375,6 +375,11 @@ public class TestController {
 		if( otherProfilesLast != null) {
 			model.addAttribute("otherProfilesLast",otherProfilesLast);
 		}
+		List<Channel> channels = channelRepository.findByName(query);
+		if(channels != null) {
+			model.addAttribute("searchChannels", channels);
+		
+		}
 		
 		User current = userService.getById(((User) model.get("login")).getId());
 		List<Channel> myChannels = new ArrayList<Channel>();

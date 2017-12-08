@@ -32,6 +32,7 @@ public class ChannelServiceImpl implements ChannelService{
 	public Channel getById(String id) {
 		return channelRepository.findOne(id);
 	}
+	
 
 	@Override
 	public Channel saveOrUpdate(Channel channel) {
