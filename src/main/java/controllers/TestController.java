@@ -44,6 +44,8 @@ import services.UserService;
 @Controller
 @SessionAttributes({"login"})
 public class TestController {
+	private static final String SMS_SENDER = "+15752147992";
+	
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -312,17 +314,34 @@ public class TestController {
     					@RequestParam (value="channelId") String channelId
 						, Locale locale, ModelMap model) {
 		Session session = sessionService.getById(sessionId);
+		Channel channel = channelService.getById(channelId);
 		String senderId = ((User)model.get("login")).getId();
 		Message newmsg = new Message(1,text,senderId,channelId, sessionId);
-		/*Sms sms1 = new Sms();             //SMS
-		Sms sms2 = new Sms();
-		sms1.SendSms("+905058652462","+15752147992",text);
-		sms2.SendSms("+905378877769","+15752147992",text);*/
+
+
+		for(String memberid : channel.getMembersList()) {
+			if(!(memberid.equals(senderId))) {
+				//FORMAT SENT MESSAGES
+				//FORMAT SENT MESSAGES
+				//FORMAT SENT MESSAGES
+				User receiver = userService.getById(memberid);
+				if(channel.getEmail()) {
+					Email newemail = new Email();
+					newemail.SendEmail(receiver.getEmail(),text);
+					Log newlog = new Log("User ID: " + senderId + "Sent an e-Mail to user ID: " + receiver.getId() + "through channel ID: " + channelId + " with session ID: " + sessionId);
+					logService.saveOrUpdate(newlog);
+				}
+				if(channel.getSms()) {
+					Sms newsms = new Sms();
+					newsms.SendSms(receiver.getPhoneNumber(), SMS_SENDER,text);
+					Log newlog = new Log("User ID: " + senderId + "Sent an SMS to user ID: " + receiver.getId() + "through channel ID: " + channelId + " with session ID: " + sessionId);
+					logService.saveOrUpdate(newlog);
+				}
+			}
+		}
 		
-		/*
-		Email newemail = new Email();
-		newemail.SendEmail("birkandenizer@gmail.com",text);
-		*/
+		
+		
 		
 		newmsg = messageService.saveOrUpdate(newmsg);
 		session.addMessage(newmsg.getId());
