@@ -52,7 +52,7 @@
 									${otherProfilesLast[1].getLastName()}</a></h3>
 								</c:if>
 								<c:if test="${!empty searchChannels}">
-								<h3 class="profile-username text-center">${searchChannels.get(0).getName()}</h3>
+								<h3 class="profile-username text-center"><a href="/test/channelView/${searchChannels.get(0).getId()}">${searchChannels.get(0).getName()}</a></h3>
 								</c:if>
 							</div>
 							<!-- /.box-body -->

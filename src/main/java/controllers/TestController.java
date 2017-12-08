@@ -579,7 +579,45 @@ public class TestController {
 		return "calendar";
 		
 	}
-
+	
+	@RequestMapping(value = "/test/channelView/{name}", method = RequestMethod.POST)
+	public String channelView() {
+		
+		return "channelView";
+    }
+	
+	@RequestMapping(value = "/test/channelView/{id}", method = RequestMethod.GET)
+	public String channelView(@PathVariable("id") String id,ModelMap model){
+		Channel channel;
+		channel = channelService.getById(id);
+		User owner = userService.getById(channel.getOwnerId());
+		List<Session> sessionList = new ArrayList<Session>();
+		for(int i=0;i<channel.getSessionsList().size();i++) {
+			sessionList.add(sessionService.getById(channel.getSessionsList().get(i)));
+		}
+		User current = userService.getById(((User) model.get("login")).getId());
+		List<Channel> myChannels = new ArrayList<Channel>();
+		List<Channel> joinedChannels = new ArrayList<Channel>();
+		Channel channel1;
+		for(String channel1Id : current.getChannelsList()) {
+			channel1 = channelService.getById(channel1Id);
+			if(channel1.getOwnerId().equals(current.getId())) {
+				myChannels.add(channel1);
+			}else
+				joinedChannels.add(channel1);
+					
+		}
+		int memberNo = channel.getMembersList().size();
+		
+		model.addAttribute("mychannels",myChannels);
+		model.addAttribute("joinedChannels",joinedChannels);
+		model.addAttribute("memberNo", memberNo);
+		model.addAttribute("owner", owner);
+		model.addAttribute("channel",channel);
+		model.addAttribute("sessionList",sessionList);
+		return "channelView";
+	}
+	
 	@RequestMapping(value = "/test/about", method = RequestMethod.GET)
 	public String testAbout(Locale locale, ModelMap model) {
 		
