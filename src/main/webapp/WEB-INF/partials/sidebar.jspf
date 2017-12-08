@@ -40,7 +40,22 @@
 			        <li class="active"><a href="../../test/home"><i class="fa fa-circle"></i> <span>Home</span></a></li>
 			        <li class="active"><a href="../../test/profile"><i class="fa fa-user-o"></i> <span>Profile</span></a></li>
 			        <li class="active"><a href="../../test/calendar"><i class="fa fa-calendar"></i> <span>Schedule</span></a></li>
-			        <li class="active"><a href="../../test/about"><i class="fa fa-info"></i> <span>About</span></a></li>     
+			        <li class="active"><a href="../../test/about"><i class="fa fa-info"></i> <span>About</span></a></li>
+			        <li class="header">Channels</li>
+			        <li class="active treeview menu-open">
+          				<a href="#">
+            			<i class="fa fa-laptop"></i> <span>My Channels</span>
+            			<span class="pull-right-container">
+              				<i class="fa fa-angle-left pull-right"></i>
+            			</span>
+          				</a>
+          				<ul class="treeview-menu" style="">
+          					<c:forEach items="${mychannels}" var="item">
+            					<li><a href="/test/channel/<c:out value="${item.getId()}"/>"><i class="fa fa-circle-o"></i><c:out value="${item.getName()}" /></a></li>
+            				</c:forEach>
+          				</ul>
+       				</li>
+       				<li class="active"><a href="/test/createChannel"><i class="fa fa-plus"></i> <span>Create New Channel</span></a></li>
 			      </ul>
 				<!-- /.sidebar-menu -->
 			</section>

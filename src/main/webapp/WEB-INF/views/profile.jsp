@@ -124,8 +124,8 @@
 											</div>
 											<!-- /.box-header -->
 											<div class="box-body" style="display: none;">
-																<c:forEach items="${channelNames}" var="item">
-																	<c:out value="${item}" />
+																<c:forEach items="${mychannels}" var="item">
+																	<a href="/test/channel/<c:out value="${item.getId()}" />" class="btn btn-primary"><c:out value="${item.getName()}" /></a>
 																</c:forEach>
 															</div>
 											<!-- /.box-body -->
@@ -156,6 +156,9 @@
 											<!-- /.box-body -->
 										</div>
 										<!-- /.box -->
+									</div>
+									<div class="col-md-3">
+										<a href="/test/createChannel" class="btn btn-block btn-success btn-flat">Create New Channel</a>
 									</div>
 
 									</div>
