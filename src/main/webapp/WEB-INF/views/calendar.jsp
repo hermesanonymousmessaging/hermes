@@ -7,12 +7,7 @@
 	<head>
 		<title>HERMES | Calendar</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-		<link rel="stylesheet" href="../resources/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
-		 <link rel="stylesheet" href="../resources/adminlte/bower_components/font-awesome/css/font-awesome.min.css">
-		 <link rel="stylesheet" href="../resources/adminlte/bower_components/Ionicons/css/ionicons.min.css">
-		 <link rel="stylesheet" href="../resources/adminlte/dist/css/AdminLTE.min.css">
-		 <link rel="stylesheet" href="../resources/adminlte/dist/css/skins/_all-skins.min.css">
-		 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+		<%@ include file="/WEB-INF/partials/headerStyle.jspf"%>
 		<link href='../resources/adminlte/bower_components/fullcalendar/dist/fullcalendar.min.css' rel='stylesheet' />
 		<link href='../resources/adminlte/bower_components/fullcalendar/dist/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 		<script>
@@ -65,56 +60,6 @@
 	});
 
 </script>
-<style>
-
-	body {
-		text-align: center;
-		font-size: 14px;
-		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-	}
-		
-	#wrap {
-		width: 1100px;
-		margin: 0 auto;
-	}
-		
-	#external-events {
-		float: left;
-		width: auto;
-		padding: 0 10px;
-		border: 1px solid #ccc;
-		background: #eee;
-		text-align: left;
-	}
-		
-	#external-events h4 {
-		font-size: 16px;
-		margin-top: 0;
-		padding-top: 1em;
-	}
-		
-	#external-events .fc-event {
-		margin: 10px 0;
-		cursor: pointer;
-	}
-		
-	#external-events p {
-		margin: 1.5em 0;
-		font-size: 11px;
-		color: #666;
-	}
-		
-	#external-events p input {
-		margin: 0;
-		vertical-align: middle;
-	}
-
-	#calendar {
-		float: right;
-		width: auto;
-	}
-
-</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
