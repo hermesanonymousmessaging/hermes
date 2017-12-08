@@ -65,8 +65,9 @@ public class Session {
 		String date = hour + ":" + min + "  " + day + "/" + month + "/" + year;
 		return date;
 	}
-	public Date getStartDateD() {
-		return startDate;
+	public String getStartDateD() {
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-dd-MM hh:mm:ss");
+		return format1.format(startDate);
 	}
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -97,8 +98,9 @@ public class Session {
 		String date = hour + ":" + min + "  " + day + "/" + month + "/" + year;
 		return date;
 	}
-	public Date getEndDateD() {
-		return endDate;
+	public String getEndDateD() {
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-dd-MM hh:mm:ss");
+		return format1.format(endDate);
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;

@@ -254,14 +254,23 @@
 		var events=new Array();
 		var numberofevents = ${sessionList.size()};
 		console.log(${sessionList.size()});
-		for (var i=0;i<numberofevents;i++){
-		    event = new Object();       
-		    event.start = date; // this should be date object // this should be date object
-		    event.color = "blue";
-		    event.allDay = false;
-		    events.push(event);
-		    }
-		$('#calendar').fullCalendar('addEventSource',events);
+		
+		
+		var bekoList = eval(${bekoSessions});
+		  $.each(bekoList, function (indexa, all) {
+		     console.log(all);
+		     event = new Object();
+		     console.log(all.startDateD);
+			    date = new Date(all.startDateD);
+			    console.log(date);
+			    event.start = date; // this should be date object // this should be date object
+			    date = new Date(all.endDateD);
+			    event.end = date;
+			    event.color = "blue";
+			    event.allDay = false;
+			    events.push(event);
+		 });
+			$('#calendar').fullCalendar('addEventSource',events);
 
 
     /* ADDING EVENTS */

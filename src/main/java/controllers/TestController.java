@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domain.Channel;
 import domain.Email;
@@ -97,8 +99,6 @@ public class TestController {
 		dateList.add(date2);
 		dateList.add(date3);
 		dateList.add(date4);
-		
-		System.out.println(dateList.size());
 		
 		String userid = ((User)(model.get("login"))).getId();
 		channel.setOwnerId(userid);
@@ -255,7 +255,6 @@ public class TestController {
     public String login(@RequestParam (value="username") String username,
 			    		@RequestParam (value="password") String password
 						, Locale locale, ModelMap model) {
-		System.out.println(username);
 		User newuser = userRepository.findByUsername(username);
 		//username check
 		if(newuser == null) {
@@ -494,7 +493,7 @@ public class TestController {
 		
 	}
 	@RequestMapping(value = "/test/calendar", method = RequestMethod.GET)
-	public String testCalendar(Locale locale, ModelMap model) {
+	public String testCalendar(Locale locale, ModelMap model) throws JsonProcessingException {
 		
 		User current = userService.getById(((User) model.get("login")).getId());
 		List<Channel> myChannels = new ArrayList<Channel>();
@@ -511,6 +510,22 @@ public class TestController {
 		session = sessionService.listAll();
 		
 		model.addAttribute("sessionList",session);
+		
+		
+		//BEKOSHOW
+
+		session = new ArrayList<Session>();
+		myChannels = new ArrayList<Channel>();
+		for(String channelid : current.getChannelsList()) {
+			channel1 = channelService.getById(channelid);
+			for(String sesid : channel1.getSessionsList()) {
+				session.add(sessionService.getById(sesid));
+			}
+		}
+		ObjectMapper objectMapper = new ObjectMapper();
+		model.addAttribute("bekoSessions",objectMapper.writeValueAsString(session));
+		//BEKOSHOW
+		
 		return "calendar";
 		
 	}
