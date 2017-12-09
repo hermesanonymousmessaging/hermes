@@ -160,6 +160,7 @@
         m    = date.getMonth(),
         y    = date.getFullYear()
     $('#calendar').fullCalendar({
+    	displayEventTime: false,
       header    : {
         left  : 'prev,next today',
         center: 'title',
@@ -197,20 +198,19 @@
     })
     
 		var events=new Array();
-		var numberofevents = ${sessionList.size()};
-		console.log(${sessionList.size()});
-		
-		
+
 		var bekoList = eval(${bekoSessions});
+		var channelNames = eval(${bekoChannelNames});
 		  $.each(bekoList, function (indexa, all) {
 		     event = new Object();
-		     console.log(all.startDateD);
 			    date = new Date(all.startDateD);
 			    event.start = date; // this should be date object // this should be date object
 			    date = new Date(all.endDateD);
 			    event.end = date;
 			    event.color = "blue";
 			    event.allDay = false;
+			    var aloalo = all.id;
+			    event.title = channelNames[aloalo];
 			    events.push(event);
 		 });
 			$('#calendar').fullCalendar('addEventSource',events);

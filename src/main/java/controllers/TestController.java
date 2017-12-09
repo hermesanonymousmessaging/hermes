@@ -594,17 +594,19 @@ public class TestController {
 		
 		
 		//BEKOSHOW
-
+		HashMap<String,String> channelNames = new HashMap<String,String>();
 		session = new ArrayList<Session>();
 		myChannels = new ArrayList<Channel>();
 		for(String channelid : current.getChannelsList()) {
 			channel1 = channelService.getById(channelid);
 			for(String sesid : channel1.getSessionsList()) {
 				session.add(sessionService.getById(sesid));
+				channelNames.put(sesid, channel1.getName());
 			}
 		}
 		ObjectMapper objectMapper = new ObjectMapper();
 		model.addAttribute("bekoSessions",objectMapper.writeValueAsString(session));
+		model.addAttribute("bekoChannelNames",objectMapper.writeValueAsString(channelNames));
 		//BEKOSHOW
 		
 		return "calendar";
