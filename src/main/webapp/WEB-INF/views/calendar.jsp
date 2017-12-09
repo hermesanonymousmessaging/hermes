@@ -203,11 +203,9 @@
 		
 		var bekoList = eval(${bekoSessions});
 		  $.each(bekoList, function (indexa, all) {
-		     console.log(all);
 		     event = new Object();
 		     console.log(all.startDateD);
 			    date = new Date(all.startDateD);
-			    console.log(date);
 			    event.start = date; // this should be date object // this should be date object
 			    date = new Date(all.endDateD);
 			    event.end = date;
