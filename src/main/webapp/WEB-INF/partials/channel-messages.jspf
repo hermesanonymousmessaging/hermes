@@ -5,7 +5,7 @@
 <c:forEach items="${messages}" var="msg">
 	<div
 		class="direct-chat-msg 
-	<c:if test="${msg.getSenderId() != login.getId()}"> right</c:if>
+	<c:if test="${msg.getSenderId() == login.getId()}"> right</c:if>
 	">
 		<div class="direct-chat-info clearfix">
 			<span
@@ -16,6 +16,7 @@
 			</span>
 		</div>
 		<!-- /.direct-chat-info -->
+		<img class="direct-chat-img" src="${senderPics.get(msg.getSenderId())}" alt="Message User Image"><!-- /.direct-chat-img -->
 		<div class="direct-chat-text">${msg.getText()}</div>
 		<!-- /.direct-chat-text -->
 	</div>

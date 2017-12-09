@@ -206,14 +206,17 @@ public class TestController {
 		//adding channel messages
 		List<Message> messages = new ArrayList<Message>();
 		HashMap<String,String> senders = new HashMap<String,String>();
+		HashMap<String,String> senderPics = new HashMap<String,String>();
 		for(String messageId : session.getMessages()) {
 			Message message = messageService.getById(messageId);
 			messages.add(message);
 			User sender = userService.getById(message.getSenderId());
 			senders.put(message.getSenderId(), sender.getUsername());
+			senderPics.put(message.getSenderId(), sender.getProfilePicture());
 		}
 		model.addAttribute("messages", messages);
 		model.addAttribute("senders", senders);
+		model.addAttribute("senderPics", senderPics);
 		
 		Log newlog = new Log("Viewing channel with ID: " + channelId);
 		logService.saveOrUpdate(newlog);
