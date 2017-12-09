@@ -96,7 +96,10 @@ public class SendController {
 				User receiver = userService.getById(memberid);
 				if(channel.getEmail()) {
 					try {
-						asyncMail.sendMail(receiver.getEmail(),text);
+						
+						String mailText = "Hello there, "+userService.getById(senderId).getUsername()+" from channel "+channel.getName()+" sent in "+newmsg.getTimestamp()+"\n\n"+text;
+						
+						asyncMail.sendMail(receiver.getEmail(),mailText);
 					}catch( Exception e ){
 						// catch error
 					}
@@ -105,7 +108,10 @@ public class SendController {
 				}
 				if(channel.getSms()) {
 					try {
-						asyncSms.sendSms(receiver.getPhoneNumber(),SMS_SENDER,text);
+						
+						String smsText = userService.getById(senderId).getUsername()+" from channel "+channel.getName()+" sent in "+newmsg.getTimestamp()+" : "+text;
+						
+						asyncSms.sendSms(receiver.getPhoneNumber(),SMS_SENDER,smsText);
 					}catch( Exception e ){
 						// catch error
 					}

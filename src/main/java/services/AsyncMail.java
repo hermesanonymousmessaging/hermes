@@ -17,7 +17,8 @@ public class AsyncMail {
 		//FORMAT SENT MESSAGES
 		//FORMAT SENT MESSAGES
         Email newemail = new Email();
-		newemail.SendEmail(address,text);
+		
+        newemail.SendEmail(address,text);
         
 		System.out.println("Email Sent!");
 	}

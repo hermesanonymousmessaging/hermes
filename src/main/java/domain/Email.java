@@ -12,7 +12,8 @@ import javax.mail.internet.MimeMessage;
 
 
 public class Email {
-	   public void SendEmail(String recipientEmail, String text){
+	
+	   public void SendEmail(String recipientEmail, String msg){
 	      // Recipient's email ID needs to be mentioned.
 	      String to = recipientEmail;//change accordingly
 
@@ -53,7 +54,8 @@ public class Email {
 	         message.setSubject("Hermes User Activity Notification");
 
 	         // Now set the actual message
-	         message.setText("Hello there, a user in a channel you joined send a new message! \n\n" + text);
+	         
+	         message.setText(msg);
 
 	         // Send message
 	         Transport.send(message);

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import domain.Sms;
 
+
 @Service
 public class AsyncSms {
 	
@@ -17,6 +18,7 @@ public class AsyncSms {
 		//FORMAT SENT MESSAGES
 		//FORMAT SENT MESSAGES
         Sms newsms = new Sms();
+        
 		newsms.SendSms(receiver, sender, text);
         
 		System.out.println("SMS Sent!");
