@@ -257,6 +257,40 @@ public class TestController {
         return "redirect:/test/home";
     }
 	
+	@RequestMapping(value = "/test/channel/{channelId}/deleteuser/{deleteName}", method = RequestMethod.POST)
+	public String deleteUserFromChannel(@RequestParam (value="channelId") String channelId, 
+									@RequestParam (value="deleteName") String deleteName,
+									ModelMap model) {
+		
+		User current = userService.getById(((User) model.get("login")).getId());
+		Channel channel = channelService.getById(channelId);
+		
+		if(channel.getOwnerId().equals(current.getId())) {	
+			User deleteUser = userRepository.findByUsername(deleteName);
+			if(deleteUser != null) {
+				//username is in database
+				
+				if(channel.isMember(deleteUser.getId())) {
+					channel.removeMember(deleteUser.getId());
+					deleteUser.removeChannel(channel.getId());
+				}
+				
+				channelService.saveOrUpdate(channel);
+				userService.saveOrUpdate(deleteUser);
+				
+				channelService.saveOrUpdate(channel);
+				userService.saveOrUpdate(deleteUser);
+				
+				Log newlog = new Log("Delete user with ID: " + deleteUser.getId() + " from channel with ID: " + channelId);
+				logService.saveOrUpdate(newlog);
+				
+				
+			}
+		}
+		
+		return "redirect:/test/channel/" + channelId;
+	}
+	
 	@RequestMapping(value = "/test/channel/{channelId}/{banName}", method = RequestMethod.POST)
 	public String banUserFromChannel(@RequestParam (value="channelId") String channelId, 
 									@RequestParam (value="banName") String banName,

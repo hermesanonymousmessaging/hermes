@@ -6,16 +6,13 @@
 <head>
 
 <style type="text/css">
-
-
 .ButtonClicked {
-    color:Red;
+	color: Red;
 }
+
 .ButtonUnClicked {
-    color:White;
+	color: White;
 }
-
-
 </style>
 
 
@@ -36,19 +33,24 @@
 			<section class="content-header">
 				<h1>${channel.getName()}</h1>
 				<div class="box-footer">
-				<form role="form" method="POST" action="/test/addFavourites" style="display:inline">
-							<input type="hidden" name="favChannelId" value="${channel.getId()}">
-								<button type="submit" class="btn btn-primary" style="float: right;">Add to Favourites</button>
-								
+					<form role="form" method="POST" action="/test/addFavourites"
+						style="display: inline">
+						<input type="hidden" name="favChannelId"
+							value="${channel.getId()}">
+						<button type="submit" class="btn btn-primary"
+							style="float: right;">Add to Favourites</button>
 
-						</form>
-				<form role="form" method="POST" action="/test/dropFavourites" >
-							<input type="hidden" name="favChannelId" value="${channel.getId()}">
-								<button type="submit" class="btn btn-primary" style="float: right;">Remove from Favourites</button>
-							
-						</form>
+
+					</form>
+					<form role="form" method="POST" action="/test/dropFavourites">
+						<input type="hidden" name="favChannelId"
+							value="${channel.getId()}">
+						<button type="submit" class="btn btn-primary"
+							style="float: right;">Remove from Favourites</button>
+
+					</form>
 				</div>
-				
+
 			</section>
 
 			<!-- Main content -->
@@ -58,7 +60,7 @@
 						<!-- DIRECT CHAT PRIMARY -->
 						<div class="box box-primary direct-chat direct-chat-primary">
 							<div class="box-header with-border">
-								
+
 								<div class="box-tools pull-right">
 									<button type="button" class="btn btn-box-tool"
 										data-toggle="tooltip" title="" data-widget="chat-pane-toggle"
@@ -81,8 +83,9 @@
 							<!-- /.box-body -->
 							<div class="box-footer">
 								<form method="POST" name="message" action="/test/send">
-									<input type="hidden" name="channelId" value="${channel.getId()}">
-									<input type="hidden" name="sessionId" value="${session.getId()}">
+									<input type="hidden" name="channelId"
+										value="${channel.getId()}"> <input type="hidden"
+										name="sessionId" value="${session.getId()}">
 									<div class="input-group">
 										<input type="text" name="usermsg" id="usermsg"
 											placeholder="Type Message ..." class="form-control">
@@ -118,15 +121,16 @@
 							</div>
 						</form>
 						<!-- form start -->
-						<form role="form" method="POST" action="/test/channel/{channelId}/{banName}"
+						<form role="form" method="POST"
+							action="/test/channel/{channelId}/{banName}"
 							modelAttribute="user">
 							<input type="hidden" name="channelId" value="${channel.getId()}">
 
 							<div class="box-body">
 								<div class="form-group">
 									<label for="banName">Ban User by username</label> <input
-										type="text" class="form-control" id="banName" placeholder="banName"
-										name="banName">
+										type="text" class="form-control" id="banName"
+										placeholder="banName" name="banName">
 								</div>
 							</div>
 							<!-- /.box-body -->
@@ -136,21 +140,41 @@
 							</div>
 						</form>
 						<!-- form start -->
-						<form role="form" method="POST" action="/test/channel/{channelId}/unban/{banName}"
+						<form role="form" method="POST"
+							action="/test/channel/{channelId}/unban/{banName}"
 							modelAttribute="user">
 							<input type="hidden" name="channelId" value="${channel.getId()}">
 
 							<div class="box-body">
 								<div class="form-group">
 									<label for="banName">Unban User by username</label> <input
-										type="text" class="form-control" id="banName" placeholder="banName"
-										name="banName">
+										type="text" class="form-control" id="banName"
+										placeholder="banName" name="banName">
 								</div>
 							</div>
 							<!-- /.box-body -->
 
 							<div class="box-footer">
 								<button type="submit" class="btn btn-primary">Unban</button>
+							</div>
+						</form>
+						
+						<form role="form" method="POST"
+							action="/test/channel/{channelId}/deleteuser/{deleteName}"
+							modelAttribute="user">
+							<input type="hidden" name="channelId" value="${channel.getId()}">
+
+							<div class="box-body">
+								<div class="form-group">
+									<label for="deleteName">Delete User by username</label> <input
+										type="text" class="form-control" id="deleteName"
+										placeholder="deleteName" name="deleteName">
+								</div>
+							</div>
+							<!-- /.box-body -->
+
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary">Delete</button>
 							</div>
 						</form>
 					</div>
@@ -171,22 +195,21 @@
 
 	<!-- Script library -->
 	<%@ include file="/WEB-INF/partials/scriptLib.jspf"%>
-	
-		<script>
+
+	<script>
 		for (var i = 1; i <= 1000; i++) {
-     			string = "#"+i;
-     			string2= "#"+i+"liked";
-     			
-     			$(string).on('click', function() {
-     				$(this).toggleClass('ButtonClicked');
-     			});
-     			$(string2).on('click', function() {
-     				$(this).toggleClass('ButtonUnClicked');
-     			});
-			
+			string = "#" + i;
+			string2 = "#" + i + "liked";
+
+			$(string).on('click', function() {
+				$(this).toggleClass('ButtonClicked');
+			});
+			$(string2).on('click', function() {
+				$(this).toggleClass('ButtonUnClicked');
+			});
+
 		}
-		
 	</script>
-	
+
 </body>
 </html>
