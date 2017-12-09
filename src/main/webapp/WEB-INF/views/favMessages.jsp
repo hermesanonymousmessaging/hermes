@@ -19,7 +19,7 @@
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1></h1>
+				<h1>Favourite Messages</h1>
 			</section>
 
 			<!-- Main content -->
@@ -44,23 +44,6 @@
 						</div>
 						<!--/.direct-chat -->
 					</div>
-				
-				
-					<!-- /.col -->
-<!-- 					<div class="col-md-9"> -->
-<!-- 						<div class="nav-tabs-custom"> -->
-<!-- 							<ul class="nav nav-tabs"> -->
-<!-- 								<li><a href="#messages" data-toggle="tab">Favourite Messages</a></li> -->
-<!-- 							</ul> -->
-<!-- 							<div class="tab-content"> -->
-<!-- 								<div class="tab-pane" id="messages"> -->
-<!-- 									<p>Schdule will be added here</p> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						/.nav-tabs-custom -->
-<!-- 					</div> -->
-					<!-- /.col -->
 				</div>
 				<!-- /.row -->
 

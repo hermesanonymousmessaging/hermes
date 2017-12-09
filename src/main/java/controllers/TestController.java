@@ -34,15 +34,22 @@ import domain.Message;
 import domain.Session;
 import domain.User;
 import domain.Sms;
+import domain.FavMessages;
+import domain.FavChannels;
+
 import repositories.BanRepository;
 import repositories.ChannelRepository;
 import repositories.MessageRepository;
 import repositories.SessionRepository;
 import repositories.UserRepository;
+import repositories.FavMessagesRepository;
+import repositories.FavChannelsRepository;
 import services.AsyncMail;
 import services.AsyncSms;
 import services.BanService;
 import services.ChannelService;
+import services.FavChannelsService;
+import services.FavMessagesService;
 import services.LogService;
 import services.MessageService;
 import services.SessionService;
@@ -71,6 +78,15 @@ public class TestController {
 	private SessionRepository sessionRepository;
 	@Autowired
 	private SessionService sessionService;
+	@Autowired
+	private FavMessagesService favMessagesService;
+	@Autowired
+	private FavMessagesRepository favMessagesRepository;
+	@Autowired
+	private FavChannelsService favChannelsService;
+	@Autowired
+	private FavChannelsRepository favChannelsRepository;
+
 	
 	@Autowired
 	private AsyncMail asyncMail;
@@ -217,6 +233,20 @@ public class TestController {
 			senders.put(message.getSenderId(), sender.getUsername());
 			senderPics.put(message.getSenderId(), sender.getProfilePicture());
 		}
+		
+		List<FavMessages> favMessagesList = new ArrayList<FavMessages>();
+		
+		favMessagesList = favMessagesRepository.findByUserId(current.getId());
+		List<Message> favMessages = new ArrayList<Message>();
+		for(FavMessages favmsg : favMessagesList) {
+			
+			favMessages.add(messageService.getById(favmsg.getMessageId()));
+			
+		}
+		
+		
+		model.addAttribute("favMessages",favMessages);
+
 		model.addAttribute("messages", messages);
 		model.addAttribute("senders", senders);
 		model.addAttribute("senderPics", senderPics);
@@ -617,18 +647,27 @@ public class TestController {
 		List<Channel> myChannels = new ArrayList<Channel>();
 		List<Channel> favouriteChannels = new ArrayList<Channel>();
 		
+		List<FavChannels> favouriteChannelsList = new ArrayList<FavChannels>();
+		
+		favouriteChannelsList = favChannelsService.getByUserId(current.getId());
+		
+		for(FavChannels msg : favouriteChannelsList) {
+			
+			
+			
+			favouriteChannels.add(channelService.getById(msg.getchannelId()));
+			
+		}
+
+		
 		Channel channel;
 		for(String channel1Id : current.getChannelsList()) {
 			channel = channelService.getById(channel1Id);
 			if(channel.getOwnerId().equals(current.getId())) {
 				myChannels.add(channel);
-				if(channel.isFavourite())
-					favouriteChannels.add(channel);
 
 			}else {
 				joinedChannels.add(channel);
-				if(channel.isFavourite())
-					favouriteChannels.add(channel);
 				
 			}
 
@@ -649,18 +688,21 @@ public class TestController {
 		
 		User current = userService.getById(((User) model.get("login")).getId());
         //return new ModelAndView("home", "user", new User());
+		
+		List<FavMessages> favouriteMessagesList = new ArrayList<FavMessages>();
+		
+		favouriteMessagesList = favMessagesService.getByUserId(current.getId());
+		
 		List<Message> favouriteMessages = new ArrayList<Message>();
 		
-			for(Message msg : messageService.listAll()) {
-				
-				for(String id: current.getChannelsList()) {
-					
-					if(id.equals(msg.getChannelId()) && msg.isFavourite() ) {
-						
-						favouriteMessages.add(msg);
-					}
-				}
-			}
+		for(FavMessages msg : favouriteMessagesList) {
+			
+			
+			
+			favouriteMessages.add(messageService.getById(msg.getMessageId()));
+			
+		}
+
 		
 		model.addAttribute("favouriteMessages",favouriteMessages);
         return "favMessages";
@@ -671,13 +713,14 @@ public class TestController {
 	public String addFovourites(@RequestParam (value="favChannelId") String channelId,
 			ModelMap model)  {
 		
-				Channel channel = channelService.getById(channelId);
-				
-				channel.setFavourite(true);
-				
-				channelService.saveOrUpdate(channel);
-				
-				return "redirect:/test/channel/" + channelId;
+		User current = userService.getById(((User) model.get("login")).getId());
+		
+		FavChannels channel = new FavChannels(current.getId(),channelId);
+		
+		favChannelsService.saveOrUpdate(channel);
+		
+		return "redirect:/test/channel/" + channelId;
+
 		
 	}
 	
@@ -685,26 +728,47 @@ public class TestController {
 	public String dropFovourites(@RequestParam (value="favChannelId") String channelId,
 			ModelMap model)  {
 		
-				Channel channel = channelService.getById(channelId);
+User current = userService.getById(((User) model.get("login")).getId());
+		
+		List<FavChannels> favouriteChannelsList = new ArrayList<FavChannels>();
+		
+		favouriteChannelsList = favChannelsRepository.findByUserId(current.getId());
+		
+		String favChnId;
+		
+		for(FavChannels temp:favouriteChannelsList) {
+			
+			if(temp.getchannelId().equals(channelId)) {
 				
-				channel.setFavourite(false);
+				favChnId = temp.getId();
 				
-				channelService.saveOrUpdate(channel);
+				favChannelsService.delete(favChnId);
 				
-				return "redirect:/test/channel/" + channelId;
+				break;
+				
+			}
+			
+			
+		}
+		
+		return "redirect:/test/channel/" + channelId;
+
 	}
 	
 	@RequestMapping(value = "/test/addFavouritesMessages", method = RequestMethod.POST)
 	public String addFovouritesMessages(@RequestParam (value="favMsgId") String messageId,@RequestParam (value="favChannelId") String channelId,
 			ModelMap model)  {
 		
-				Message message = messageService.getById(messageId);
-				
-				message.setFavourite(true);
-				
-				messageService.saveOrUpdate(message);
-				
-				return "redirect:/test/channel/" + channelId;
+		User current = userService.getById(((User) model.get("login")).getId());
+		
+		String userId = current.getId();
+		
+		FavMessages message = new FavMessages(userId,messageId);
+		
+		favMessagesService.saveOrUpdate(message);
+		
+		return "redirect:/test/channel/" + channelId;
+
 		
 	}
 	
@@ -712,13 +776,30 @@ public class TestController {
 	public String dropFovouritesMessages(@RequestParam (value="favMsgId") String messageId,@RequestParam (value="favChannelId") String channelId,
 			ModelMap model)  {
 		
-				Message message = messageService.getById(messageId);
+		User current = userService.getById(((User) model.get("login")).getId());
+		
+		List<FavMessages> favouriteMessagesList = new ArrayList<FavMessages>();
+		
+		favouriteMessagesList = favMessagesRepository.findByUserId(current.getId());
+		
+		String favMsgId;
+		
+		for(FavMessages temp:favouriteMessagesList) {
+			
+			if(temp.getMessageId().equals(messageId)) {
 				
-				message.setFavourite(false);
+				favMsgId = temp.getId();
 				
-				messageService.saveOrUpdate(message);
+				favMessagesService.delete(favMsgId);
 				
-				return "redirect:/test/channel/" + channelId;
+				break;
+				
+			}
+			
+			
+		}
+
+		return "redirect:/test/channel/" + channelId;
 		
 	}
 
