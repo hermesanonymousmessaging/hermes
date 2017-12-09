@@ -32,6 +32,7 @@ import domain.Message;
 import domain.Session;
 import domain.User;
 import domain.Sms;
+import repositories.BanRepository;
 import repositories.ChannelRepository;
 import repositories.MessageRepository;
 import repositories.SessionRepository;
@@ -75,6 +76,8 @@ public class TestController {
 	private AsyncSms asyncSms;
 	@Autowired
 	private BanService banService;
+	@Autowired
+	private BanRepository banRepository;
 	
 	@RequestMapping(value = "/test/createChannel", method = RequestMethod.GET)
 	public ModelAndView createChannelGet(Locale locale, ModelMap model) {
@@ -228,16 +231,20 @@ public class TestController {
 			//username is in database
 			
 			Channel channel = channelService.getById(channelId);
+			Ban newBan = banRepository.findByUserId(newuser.getId());
 			
-			if(!channel.isMember(username)) {
+			if(!channel.isMember(username) && (newBan == null)) {
 				channel.addMember(newuser.getId());
 				newuser.addChannel(channel.getId());
+				
+				channelService.saveOrUpdate(channel);
+				userService.saveOrUpdate(newuser);
+				Log newlog = new Log("Added a new user with ID: " + newuser.getId() + " to channel with ID: " + channelId);
+				logService.saveOrUpdate(newlog);
+			}else {
+				Log newlog = new Log("Could not add user with username: " + username + " to channel with ID: " + channelId + "as that user was banned previously");
+				logService.saveOrUpdate(newlog);
 			}
-			
-			channelService.saveOrUpdate(channel);
-			userService.saveOrUpdate(newuser);
-			Log newlog = new Log("Added a new user with ID: " + newuser.getId() + " to channel with ID: " + channelId);
-			logService.saveOrUpdate(newlog);
 			
 	        return "redirect:/test/channel/" + channelId;
 		}
@@ -258,7 +265,7 @@ public class TestController {
 			
 			Channel channel = channelService.getById(channelId);
 			
-			if(channel.isMember(banName)) {
+			if(channel.isMember(newuser.getId())) {
 				channel.removeMember(newuser.getId());
 				newuser.removeChannel(channel.getId());
 				
