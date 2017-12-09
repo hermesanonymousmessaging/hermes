@@ -40,6 +40,7 @@ public class MessageTest {
 		d1.setHours(01);
 		d1.setMinutes(42);
 		msg1.setTimestamp(d1);
+		msg2.setId("msg2");
 	}
 	
 	@Test
@@ -63,13 +64,13 @@ public class MessageTest {
 	
 	@Test
 	public void testgetId() {
-		Assert.assertEquals("ch1",msg1.getChannelId());
+		Assert.assertEquals("msg2",msg2.getId());
 	}
 	
 	@Test
 	public void testsetId() {
-		msg1.setChannelId("ch99");
-		Assert.assertEquals("ch99",msg1.getChannelId());
+		msg1.setId("msg1");
+		Assert.assertEquals("msg1",msg1.getId());
 	}
 	
 	@Test
@@ -156,6 +157,7 @@ public class MessageTest {
 		msg1.setFavourite(true);
 		Assert.assertEquals(true,msg1.isFavourite());
 	}
+	
 	
 	@Test
 	public void testcompare() {
