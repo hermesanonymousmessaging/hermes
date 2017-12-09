@@ -27,15 +27,11 @@ public class SessionTest {
 	
 	private static Session Sessiontest;
 	private static String id = "dwqdasdasd";
-	private static String date = "Thu Jun 18 20:56:02 EDT 2009";
-	private static SimpleDateFormat f1 = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");;
 	private static String channelId = "channelid879461";
-	private static Boolean active = false;
 	private static String message1 = "hi";
 	private static String message2 = "salut";
 	private static String message3 = "aloha";
 	private static List<String> messages = new ArrayList<String>();
-	private static Date d1;
 	
 	@BeforeClass
     public static void setUpBeforeClass() throws ParseException {
@@ -58,12 +54,10 @@ public class SessionTest {
 	public void testgetId() {
 		Assert.assertEquals(id,Sessiontest.getId());
 	}
-	
 	@Test
 	public void testgetChannelId() throws ParseException {
 		Assert.assertEquals(channelId,Sessiontest.getChannelId());
 	}
-	
 	@Test
 	public void testisActive() throws ParseException {
 		Assert.assertEquals(false,Sessiontest.isActive());
@@ -81,5 +75,56 @@ public class SessionTest {
 		Sessiontest.disable();
 		Assert.assertEquals(false,Sessiontest.isActive());
 	}
-	
+	@Test
+	public void testgetEndDate_Date() throws ParseException {
+		Date a = new Date();
+		a.setDate(12);
+		a.setMonth(12);
+		a.setYear(2017);
+		a.setHours(21);
+		a.setMinutes(39);
+		Sessiontest.setEndDate(a);
+		Assert.assertEquals(a,Sessiontest.getEndDate_Date());
+	}
+	@Test
+	public void testgetStartDate_Date() throws ParseException {
+		Date s = new Date();
+		s.setDate(12);
+		s.setMonth(12);
+		s.setYear(2017);
+		s.setHours(21);
+		s.setMinutes(39);
+		Sessiontest.setStartDate(s);
+		Assert.assertEquals(s,Sessiontest.getStartDate_Date());
+	}
+	@Test
+	public void testgetStartDateD() throws ParseException {
+		Date s = new Date();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		s.setDate(12);
+		s.setMonth(12);
+		s.setYear(2017);
+		s.setHours(21);
+		s.setMinutes(39);
+		Sessiontest.setStartDate(s);
+		Assert.assertEquals(format1.format(s),Sessiontest.getStartDateD());
+	}
+	@Test
+	public void testgetEndDateD() throws ParseException {
+		Date s = new Date();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		s.setDate(12);
+		s.setMonth(12);
+		s.setYear(2017);
+		s.setHours(21);
+		s.setMinutes(39);
+		Sessiontest.setEndDate(s);
+		Assert.assertEquals(format1.format(s),Sessiontest.getEndDateD());
+	}
+	/*@Test
+	public void testSession() throws ParseException {
+		String date = (Sessiontest.getStartDateD() + " - " + Sessiontest.getEndDateD());
+		Session test2 = new Session("id2",date);
+		Assert.assertEquals("id2",test2.getId());
+	}*/
 }
