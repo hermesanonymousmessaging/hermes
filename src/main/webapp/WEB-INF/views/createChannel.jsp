@@ -223,7 +223,7 @@
 				document.getElementById("addDatePicker").innerHTML = div;
 					$('.daterange').daterangepicker({
 						timePicker : true,
-						timePickerIncrement : 30,
+						timePickerIncrement : 1,
 						locale : {
 							format : 'MM/DD/YYYY h:mm A'
 						}
