@@ -426,6 +426,38 @@ public class TestController {
 		return "redirect:/test/home";
 	}
 	
+	@RequestMapping(value = "/test/deleteProfile", method = RequestMethod.POST)
+	public String deleteProfile(@ModelAttribute("user") User user, ModelMap model) {
+
+		User current = userService.getById(((User) model.get("login")).getId());
+		Channel channel;
+
+		for (String channel1Id : current.getChannelsList()) {
+			channel = channelService.getById(channel1Id);
+			if (channel != null) {
+				/*if (channel.getOwnerId().equals(current.getId())) { // if owner then delete all members from channels
+					for (String memberName : channel.getMembersList()) {
+						User member = userRepository.findByUsername(memberName);
+						if (member != null) {
+							channel.removeMember(member.getId());
+							member.removeChannel(channel.getId());
+						}
+					}
+				} else { */ // else delete only current from channels
+					channel.removeMember(current.getId());
+				//}
+			}
+		}
+
+		userService.delete(current.getId());
+
+		String username = current.getUsername();
+		Log newlog = new Log("Delete user with the username " + username);
+		logService.saveOrUpdate(newlog);
+
+		return "redirect:/test/home";
+	}
+	
 	@RequestMapping(value = "/test/search/{query}", method = RequestMethod.POST)
 	public String query(@RequestParam (value="query") String query) {
 		
