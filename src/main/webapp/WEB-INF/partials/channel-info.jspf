@@ -23,6 +23,7 @@
 					</div>
 				</li>
 			</c:forEach>
+			
 				<!-- End Contact Item -->
 			</ul>
 		</div>

@@ -8,5 +8,6 @@ import domain.Ban;
 
 public interface BanRepository extends MongoRepository<Ban, String> {
     public Ban findByUserId(String userId);
+    public List<Ban> findByChannelId(String channelId);
 
 }

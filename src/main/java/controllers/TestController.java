@@ -4,10 +4,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -216,6 +218,18 @@ public class TestController {
 		model.addAttribute("messages", messages);
 		model.addAttribute("senders", senders);
 		model.addAttribute("senderPics", senderPics);
+		
+		//adding non-members
+		List<User> allUsers = userRepository.findAll();
+		model.addAttribute("nonMembers", allUsers);
+		
+		//adding banned-members
+		List<User> bannedUsers = new ArrayList<User>();
+		List<Ban> bans = banRepository.findByChannelId(channel.getId());
+		for(Ban ban : bans) {
+			bannedUsers.add(userService.getById(ban.getUserId()));
+		}
+		model.addAttribute("bannedUsers", bannedUsers);
 		
 		Log newlog = new Log("Viewing channel with ID: " + channelId);
 		logService.saveOrUpdate(newlog);

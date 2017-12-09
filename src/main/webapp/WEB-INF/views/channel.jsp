@@ -13,11 +13,17 @@
 .ButtonUnClicked {
 	color: White;
 }
+.select2-selection__choice{
+    background-color: #3c8dbc !important;
+}
 </style>
 
 
 <title>Channel</title>
 <%@ include file="/WEB-INF/partials/headerStyle.jspf"%>
+<!-- Select2 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -109,16 +115,17 @@
 
 							<div class="box-body">
 								<div class="form-group">
-									<label for="userName">Add User by username</label> <input
-										type="text" class="form-control" id="name" placeholder="name"
-										name="name">
+									<label for="name"> Add a user by username
+									<select class="js-example-basic-single" style="width: 100%" id="name" name="name">
+										<c:forEach items="${nonMembers}" var="nonMember">
+											<option value="${nonMember.getUsername()}">${nonMember.getUsername()}</option>
+										</c:forEach>
+									</select>
+									</label>
 								</div>
-							</div>
-							<!-- /.box-body -->
-
-							<div class="box-footer">
 								<button type="submit" class="btn btn-primary">Add</button>
 							</div>
+							<!-- /.box-body -->
 						</form>
 						<!-- form start -->
 						<form role="form" method="POST"
@@ -128,16 +135,17 @@
 
 							<div class="box-body">
 								<div class="form-group">
-									<label for="banName">Ban User by username</label> <input
-										type="text" class="form-control" id="banName"
-										placeholder="banName" name="banName">
+									<label for="banName"> Ban a user by username
+									<select class="js-example-basic-single" style="width: 100%" id="banName" name="banName">
+										<c:forEach items="${members}" var="member">
+											<option value="${member.getUsername()}">${member.getUsername()}</option>
+										</c:forEach>
+									</select>
+									</label>
 								</div>
-							</div>
-							<!-- /.box-body -->
-
-							<div class="box-footer">
 								<button type="submit" class="btn btn-primary">Ban</button>
 							</div>
+							<!-- /.box-body -->
 						</form>
 						<!-- form start -->
 						<form role="form" method="POST"
@@ -147,16 +155,17 @@
 
 							<div class="box-body">
 								<div class="form-group">
-									<label for="banName">Unban User by username</label> <input
-										type="text" class="form-control" id="banName"
-										placeholder="banName" name="banName">
+									<label for="banName"> Unban a user by username
+									<select class="js-example-basic-single" style="width: 100%" id="unbanName" name="banName">
+										<c:forEach items="${bannedUsers}" var="member">
+											<option value="${member.getUsername()}">${member.getUsername()}</option>
+										</c:forEach>
+									</select>
+									</label>
 								</div>
-							</div>
-							<!-- /.box-body -->
-
-							<div class="box-footer">
 								<button type="submit" class="btn btn-primary">Unban</button>
 							</div>
+							<!-- /.box-body -->
 						</form>
 
 						<form role="form" method="POST"
@@ -211,6 +220,21 @@
 
 	<!-- Script library -->
 	<%@ include file="/WEB-INF/partials/scriptLib.jspf"%>
+	
+		<!-- Select2 -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+		<script>
+		$(document).ready(function() {
+		    $('.js-example-basic-single').select2({
+		    	 minimumInputLength: 1,
+		    	 placeholder: 'Username',
+		    	 allowClear: true,
+		    	 maximumSelectionLength: 1,
+		    	 multiple: true
+		    });
+		    $('.js-example-basic-single').val(null).trigger("change")
+		});
+		</script>
 
 	<script>
 		for (var i = 1; i <= 1000; i++) {
