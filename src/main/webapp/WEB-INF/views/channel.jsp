@@ -88,11 +88,6 @@
 								<button type="submit" class="btn btn-primary">Add</button>
 							</div>
 						</form>
-					</div>
-
-				</div>
-				<div class="row">
-					<div class="box-body">
 						<!-- form start -->
 						<form role="form" method="POST" action="/test/channel/{channelId}/{banName}"
 							modelAttribute="user">
@@ -109,6 +104,24 @@
 
 							<div class="box-footer">
 								<button type="submit" class="btn btn-primary">Ban</button>
+							</div>
+						</form>
+						<!-- form start -->
+						<form role="form" method="POST" action="/test/channel/{channelId}/unban/{banName}"
+							modelAttribute="user">
+							<input type="hidden" name="channelId" value="${channel.getId()}">
+
+							<div class="box-body">
+								<div class="form-group">
+									<label for="banName">Unban User by username</label> <input
+										type="text" class="form-control" id="banName" placeholder="banName"
+										name="banName">
+								</div>
+							</div>
+							<!-- /.box-body -->
+
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary">Unban</button>
 							</div>
 						</form>
 					</div>

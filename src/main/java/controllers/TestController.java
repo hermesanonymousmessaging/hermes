@@ -274,10 +274,6 @@ public class TestController {
 				
 				Ban newBan = new Ban(newuser.getId(),channel.getId());
 				banService.saveOrUpdate(newBan);
-				
-				Log newlog = new Log("Test ban");
-				logService.saveOrUpdate(newlog);
-				
 			}
 			
 			channelService.saveOrUpdate(channel);
@@ -288,6 +284,38 @@ public class TestController {
 	        return "redirect:/test/channel/" + channelId;
 		}
 		Log newlog = new Log("Could not ban user with username: " + banName + "as it was not found in the database");
+		logService.saveOrUpdate(newlog);
+		
+        return "redirect:/test/home";
+    }
+	
+	@RequestMapping(value = "/test/channel/{channelId}/unban/{banName}", method = RequestMethod.POST)
+	public String unBanUserFromChannel(@RequestParam (value="channelId") String channelId, 
+									@RequestParam (value="banName") String banName,
+									ModelMap model) {
+		
+		User newuser = userRepository.findByUsername(banName);
+		if(newuser != null) {
+			//username is in database
+			
+			Channel channel = channelService.getById(channelId);
+			Ban newBan = banRepository.findByUserId(newuser.getId());
+			
+			if(newBan != null) {
+				
+				banService.delete(newBan.getId());
+				
+				Log newlog = new Log("Unbanned a user with ID: " + newuser.getId() + " from channel with ID: " + channelId);
+				logService.saveOrUpdate(newlog);
+				
+			}else {
+				Log newlog = new Log("Could not unban user with username: " + banName + " from channel with ID: " + channelId + "as it was not banned");
+				logService.saveOrUpdate(newlog);
+			}
+			
+	        return "redirect:/test/channel/" + channelId;
+		}
+		Log newlog = new Log("Could not unban user with username: " + banName + "as it was not found in the database");
 		logService.saveOrUpdate(newlog);
 		
         return "redirect:/test/home";
