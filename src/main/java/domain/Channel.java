@@ -21,6 +21,7 @@ public class Channel {
 	private Set<String> members;
 	private Set<String> sessions;
 	private boolean favourite;
+	private String type;
 	
 	public Channel() {
 		sms = false;
@@ -33,6 +34,14 @@ public class Channel {
 	
 	public Boolean getSms() {
 		return sms;
+	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public void setSms(Boolean sms) {

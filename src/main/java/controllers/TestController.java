@@ -114,6 +114,7 @@ public class TestController {
 									@RequestParam (value="daterange2", required = false) String date2,
 									@RequestParam (value="daterange3", required = false) String date3,
 									@RequestParam (value="daterange4", required = false) String date4,
+									@RequestParam (value="public") String publicType,
 									@RequestParam (value="dateCount") Integer dateCount) throws ParseException {
 		
 		//sms, email  on/null
@@ -130,6 +131,7 @@ public class TestController {
 			channel.setSms(true);
 		if(email != null)
 			channel.setEmail(true);
+		channel.setType(publicType);
 		Channel newChannel = channelService.saveOrUpdate(channel);
 		//CREATE CHANNEL OPERATIONS
 		
@@ -527,6 +529,12 @@ public class TestController {
 		}
 		List<Channel> channels = channelRepository.findByName(query);
 		if(channels != null) {
+			//excluding hidden channels
+			for(int i = 0; i<channels.size(); i++) {
+				Channel ch = channels.get(i);
+				if(ch.getType().equals("hidden"))
+					channels.remove(i);
+			}
 			model.addAttribute("searchChannels", channels);
 		
 		}
