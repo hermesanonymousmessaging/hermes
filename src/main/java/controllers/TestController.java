@@ -230,18 +230,22 @@ public class TestController {
 		Channel channel = channelService.getById(channelId);
 		
 		if(channel.getOwnerId().equals(current.getId())) {	
-			for (String memberName : channel.getMembersList()) {
-				User member = userRepository.findByUsername(memberName);
-				if (member != null) {
+			for (String memberId : channel.getMembersList()) {
+				User member = userService.getById(memberId);
+
 					member.removeChannel(channel.getId());
 					userService.saveOrUpdate(member);
-				}
+					
+				
+					Log newlog = new Log("Deleted chann"+ channel.getId() + "from member" + member.getId());
+					logService.saveOrUpdate(newlog);
+				
 			}
 			channelRepository.delete(channel.getId());
 		}
 
 		
-		return "redirect:/test/home";
+		return "redirect:/test/profile";
 	}
 	
 	@RequestMapping(value = "/test/channel/{channelId}", method = RequestMethod.POST)
@@ -456,17 +460,22 @@ public class TestController {
 		for (String channel1Id : current.getChannelsList()) {
 			channel = channelService.getById(channel1Id);
 			if (channel != null) {
-				/*if (channel.getOwnerId().equals(current.getId())) { // if owner then delete all members from channels
-					for (String memberName : channel.getMembersList()) {
-						User member = userRepository.findByUsername(memberName);
+				if (channel.getOwnerId().equals(current.getId())) { // if owner then delete all members from channels
+					for (String memberId : channel.getMembersList()) {
+						User member = userService.getById(memberId);
 						if (member != null) {
 							channel.removeMember(member.getId());
 							member.removeChannel(channel.getId());
+							
+							userService.saveOrUpdate(member);
+							channelService.saveOrUpdate(channel);
 						}
+						channelRepository.delete(channel.getId());				
 					}
-				} else { */ // else delete only current from channels
+				} else {  // else delete only current from channels
 					channel.removeMember(current.getId());
-				//}
+					channelService.saveOrUpdate(channel);
+				}
 			}
 		}
 
