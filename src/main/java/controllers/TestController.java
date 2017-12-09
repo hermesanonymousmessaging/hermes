@@ -362,53 +362,6 @@ public class TestController {
 		return "redirect:/test/home";
 	}
 	
-	@RequestMapping(value = "/test/send", method = RequestMethod.POST)
-    public String send( @RequestParam (value="usermsg") String text,
-    					@RequestParam (value="sessionId") String sessionId,
-    					@RequestParam (value="channelId") String channelId
-						, Locale locale, ModelMap model) {
-		Session session = sessionService.getById(sessionId);
-		Channel channel = channelService.getById(channelId);
-		String senderId = ((User)model.get("login")).getId();
-		Message newmsg = new Message(1,text,senderId,channelId, sessionId);
-
-
-		for(String memberid : channel.getMembersList()) {
-			if(!(memberid.equals(senderId))) {
-				User receiver = userService.getById(memberid);
-				if(channel.getEmail()) {
-					try {
-						asyncMail.sendMail(receiver.getEmail(),text);
-					}catch( Exception e ){
-						// catch error
-					}
-					Log newlog = new Log("User ID: " + senderId + "Sent an e-Mail to user ID: " + receiver.getId() + "through channel ID: " + channelId + " with session ID: " + sessionId);
-					logService.saveOrUpdate(newlog);
-				}
-				if(channel.getSms()) {
-					try {
-						asyncSms.sendSms(receiver.getPhoneNumber(),SMS_SENDER,text);
-					}catch( Exception e ){
-						// catch error
-					}
-					Log newlog = new Log("User ID: " + senderId + "Sent an SMS to user ID: " + receiver.getId() + "through channel ID: " + channelId + " with session ID: " + sessionId);
-					logService.saveOrUpdate(newlog);
-				}
-			}
-		}
-		
-		
-		
-		
-		newmsg = messageService.saveOrUpdate(newmsg);
-		session.addMessage(newmsg.getId());
-		sessionService.saveOrUpdate(session);
-		Log newlog = new Log("Sent a new message to channel with ID: " + channelId + " with session ID: " + sessionId);
-		logService.saveOrUpdate(newlog);
-		
-        return "redirect:/test/channel/"+session.getChannelId();
-    }
-	
 	@RequestMapping(value = "/test/search/{query}", method = RequestMethod.POST)
 	public String query(@RequestParam (value="query") String query) {
 		
