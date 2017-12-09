@@ -32,6 +32,9 @@ public class Channel {
 		favourite = false;
 	}
 	
+	public boolean isPublic() {
+		return this.type.equals("public");
+	}
 	public Boolean getSms() {
 		return sms;
 	}
