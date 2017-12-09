@@ -159,7 +159,7 @@ public class MessageTest {
 	
 	@Test
 	public void testcompare() {
-		Assert.assertEquals(msg1.getTimestampD().compareTo(msg2.getTimestampD()),msg1.COMPARE_BY_TIMESTAMP.compare(msg1, msg2));
+		Assert.assertTrue(msg1.COMPARE_BY_TIMESTAMP.compare(msg1, msg2) > 0);
 	}
 
 }

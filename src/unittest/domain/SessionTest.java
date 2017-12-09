@@ -121,10 +121,17 @@ public class SessionTest {
 		Sessiontest.setEndDate(s);
 		Assert.assertEquals(format1.format(s),Sessiontest.getEndDateD());
 	}
-	/*@Test
-	public void testSession() throws ParseException {
-		String date = (Sessiontest.getStartDateD() + " - " + Sessiontest.getEndDateD());
-		Session test2 = new Session("id2",date);
-		Assert.assertEquals("id2",test2.getId());
-	}*/
+	@Test
+	public void testgetEndDate(){
+		Session s4 = new Session();
+		Date s = new Date();
+		s.setDate(12);
+		s.setMonth(12);
+		s.setYear(2017);
+		s.setHours(21);
+		s.setMinutes(39);
+		s4.setEndDate(s);
+		s4.setStartDate(s);
+		Assert.assertEquals(s4.getEndDate().compareTo(s4.getStartDate()),0);
+	}
 }
