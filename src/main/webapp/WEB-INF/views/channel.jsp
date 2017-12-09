@@ -158,7 +158,7 @@
 								<button type="submit" class="btn btn-primary">Unban</button>
 							</div>
 						</form>
-						
+
 						<form role="form" method="POST"
 							action="/test/channel/{channelId}/deleteuser/{deleteName}"
 							modelAttribute="user">
@@ -177,6 +177,22 @@
 								<button type="submit" class="btn btn-primary">Delete</button>
 							</div>
 						</form>
+
+						
+
+						<form role="form" method="POST"
+							action="/test/channel/{channelId}/deletechannel"
+							modelAttribute="user">
+							<input type="hidden" name="channelId" value="${channel.getId()}">
+
+
+							<!-- /.box-body -->
+
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary">Delete Channel</button>
+							</div>
+						</form>
+
 					</div>
 
 				</div>

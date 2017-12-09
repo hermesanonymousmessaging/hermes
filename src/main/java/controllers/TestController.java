@@ -223,6 +223,27 @@ public class TestController {
 	    return "channel";
 	}
 	
+	@RequestMapping(value = "/test/channel/{channelId}/deletechannel", method = RequestMethod.POST)
+	public String deleteChannel(@RequestParam (value="channelId") String channelId, 
+									ModelMap model) {
+		User current = userService.getById(((User) model.get("login")).getId());
+		Channel channel = channelService.getById(channelId);
+		
+		if(channel.getOwnerId().equals(current.getId())) {	
+			for (String memberName : channel.getMembersList()) {
+				User member = userRepository.findByUsername(memberName);
+				if (member != null) {
+					member.removeChannel(channel.getId());
+					userService.saveOrUpdate(member);
+				}
+			}
+			channelRepository.delete(channel.getId());
+		}
+
+		
+		return "redirect:/test/home";
+	}
+	
 	@RequestMapping(value = "/test/channel/{channelId}", method = RequestMethod.POST)
 	public String addUserToChannel(@RequestParam (value="channelId") String channelId, 
 									@RequestParam (value="name") String username,
