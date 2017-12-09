@@ -182,20 +182,11 @@ desired effect
 												id="password" placeholder="Password" name="password">
 										</div>
 									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2 col-sm-10">
-											<div class="checkbox">
-												<label> <input type="checkbox"> Remember me
-												</label>
-											</div>
-										</div>
-									</div>
+									
 								</div>
 								<!-- /.box-body -->
 								<div class="box-footer">
-									<button type="submit" class="btn btn-default"
-										data-dismiss="modal">Cancel</button>
-									<button type="submit" class="btn btn-info pull-right">Sign
+									<button type="submit" class="btn btn-info">Sign
 										in</button>
 								</div>
 								<!-- /.box-footer -->
@@ -285,20 +276,10 @@ desired effect
 												placeholder="Password" name="password">
 										</div>
 									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2 col-sm-10">
-											<div class="checkbox">
-												<label> <input type="checkbox"> Remember me
-												</label>
-											</div>
-										</div>
-									</div>
 								</div>
 								<!-- /.box-body -->
 								<div class="box-footer">
-									<button type="submit" class="btn btn-default"
-										data-dismiss="modal">Cancel</button>
-									<button type="submit" class="btn btn-info pull-right">Register</button>
+									<button type="submit" class="btn btn-info">Register</button>
 								</div>
 								<!-- /.box-footer -->
 							</form>

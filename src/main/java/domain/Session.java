@@ -27,7 +27,7 @@ public class Session {
 		this.channelId = channelId;
 		this.active = false;
 		String[] dates = dateRange.split(" - ");
-		DateFormat f1 = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		DateFormat f1 = new SimpleDateFormat("MM/dd/yyyy HH:mm ");
 		this.startDate = f1.parse(dates[0]); 
 		this.endDate = f1.parse(dates[1]);
 		messages = new ArrayList<String>();
@@ -69,6 +69,9 @@ public class Session {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		return format1.format(startDate);
 	}
+	public Date getStartDate_Date() {
+		return this.startDate;
+	}
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
@@ -102,6 +105,10 @@ public class Session {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		return format1.format(endDate);
 	}
+	public Date getEndDate_Date() {
+		return this.endDate;
+	}
+
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}

@@ -133,7 +133,6 @@ public class TestController {
 		
 		//TRY CREATING A SESSION
 		Session session = new Session(newChannel.getId(),date0);
-		session.setActive(); //FIRST SESSION IS ACTIVE,,,, CHANGE THIS LATER
 		session = sessionService.saveOrUpdate(session);
 		newChannel.addSession(session.getId());
 		newChannel = channelService.saveOrUpdate(newChannel);
