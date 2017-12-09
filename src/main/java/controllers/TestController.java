@@ -498,14 +498,25 @@ public class TestController {
 		}
 		List<Channel> joinedChannels = new ArrayList<Channel>();
 		List<Channel> myChannels = new ArrayList<Channel>();
+		List<Channel> favouriteChannels = new ArrayList<Channel>();
+		
 		Channel channel;
 		for(String channel1Id : current.getChannelsList()) {
 			channel = channelService.getById(channel1Id);
 			if(channel.getOwnerId().equals(current.getId())) {
 				myChannels.add(channel);
-			}else
+				if(channel.isFavourite())
+					favouriteChannels.add(channel);
+
+			}else {
 				joinedChannels.add(channel);
+				if(channel.isFavourite())
+					favouriteChannels.add(channel);
+				
+			}
+
 		}
+		model.addAttribute("favouriteChannels",favouriteChannels);
 		model.addAttribute("mychannels",myChannels);
 		model.addAttribute("joinedChannels",joinedChannels);
 		model.addAttribute("profile", current);
@@ -514,6 +525,84 @@ public class TestController {
 		logService.saveOrUpdate(newlog);
 		
 		return "profile";
+	}
+	
+	@RequestMapping(value = "/test/favouriteMessages", method = RequestMethod.GET)
+	public String testFavouriteMessages(Locale locale, ModelMap model) {
+		
+		User current = userService.getById(((User) model.get("login")).getId());
+        //return new ModelAndView("home", "user", new User());
+		List<Message> favouriteMessages = new ArrayList<Message>();
+		
+			for(Message msg : messageService.listAll()) {
+				
+				for(String id: current.getChannelsList()) {
+					
+					if(id.equals(msg.getChannelId()) && msg.isFavourite() ) {
+						
+						favouriteMessages.add(msg);
+					}
+				}
+			}
+		
+		model.addAttribute("favouriteMessages",favouriteMessages);
+        return "favMessages";
+    }
+
+	
+	@RequestMapping(value = "/test/addFavourites", method = RequestMethod.POST)
+	public String addFovourites(@RequestParam (value="favChannelId") String channelId,
+			ModelMap model)  {
+		
+				Channel channel = channelService.getById(channelId);
+				
+				channel.setFavourite(true);
+				
+				channelService.saveOrUpdate(channel);
+				
+				return "redirect:/test/channel/" + channelId;
+		
+	}
+	
+	@RequestMapping(value = "/test/dropFavourites", method = RequestMethod.POST)
+	public String dropFovourites(@RequestParam (value="favChannelId") String channelId,
+			ModelMap model)  {
+		
+				Channel channel = channelService.getById(channelId);
+				
+				channel.setFavourite(false);
+				
+				channelService.saveOrUpdate(channel);
+				
+				return "redirect:/test/channel/" + channelId;
+	}
+	
+	@RequestMapping(value = "/test/addFavouritesMessages", method = RequestMethod.POST)
+	public String addFovouritesMessages(@RequestParam (value="favMsgId") String messageId,@RequestParam (value="favChannelId") String channelId,
+			ModelMap model)  {
+		
+				Message message = messageService.getById(messageId);
+				
+				message.setFavourite(true);
+				
+				messageService.saveOrUpdate(message);
+				
+				return "redirect:/test/channel/" + channelId;
+		
+	}
+	
+	@RequestMapping(value = "/test/dropFavouritesMessages", method = RequestMethod.POST)
+	public String dropFovouritesMessages(@RequestParam (value="favMsgId") String messageId,@RequestParam (value="favChannelId") String channelId,
+			ModelMap model)  {
+		
+				Message message = messageService.getById(messageId);
+				
+				message.setFavourite(false);
+				
+				messageService.saveOrUpdate(message);
+				
+				return "redirect:/test/channel/" + channelId;
+		
 	}
 
 	@RequestMapping(value = "/test/chat", method = RequestMethod.GET)

@@ -55,6 +55,7 @@
             				</c:forEach>
           				</ul>
        				</li>
+       				<li class="active"><a href="/test/favouriteMessages"><i class="fa fa-heart"></i> <span>Favourite Messages</span></a></li>
        				<li class="active"><a href="/test/createChannel"><i class="fa fa-plus"></i> <span>Create New Channel</span></a></li>
        				<li class="active treeview menu-open">
           				<a href="#">

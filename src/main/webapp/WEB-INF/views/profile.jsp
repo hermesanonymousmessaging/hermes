@@ -150,6 +150,29 @@
 										<!-- /.box -->
 									</div>
 									<div class="col-md-3">
+										<div class="box box-default box-solid collapsed-box">
+											<div class="box-header with-border" style="background-color:#3c8dbc">
+												<h3 class="box-title" style="font-size:100%;color:white">Favourite Channels</h3>
+
+												<div class="box-tools pull-right">
+													<button type="button" class="btn btn-box-tool"
+														data-widget="collapse">
+														<i class="fa fa-plus"></i>
+													</button>
+												</div>
+												<!-- /.box-tools -->
+											</div>
+											<!-- /.box-header -->
+												<div class="box-body" style="display: none;">
+												<c:forEach items="${favouriteChannels}" var="item">
+													<a href="/test/channel/<c:out value="${item.getId()}" />" class="btn btn-primary"><c:out value="${item.getName()}" /></a>
+												</c:forEach>					
+												</div>
+											<!-- /.box-body -->
+										</div>
+										<!-- /.box -->
+									</div>
+									<div class="col-md-3">
 										<a href="/test/createChannel" class="btn btn-block btn-success btn-flat">Create New Channel</a>
 									</div>
 

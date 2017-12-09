@@ -4,6 +4,21 @@
 
 <html>
 <head>
+
+<style type="text/css">
+
+
+.ButtonClicked {
+    color:Red;
+}
+.ButtonUnClicked {
+    color:White;
+}
+
+
+</style>
+
+
 <title>Channel</title>
 <%@ include file="/WEB-INF/partials/headerStyle.jspf"%>
 </head>
@@ -20,6 +35,20 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>${channel.getName()}</h1>
+				<div class="box-footer">
+				<form role="form" method="POST" action="/test/addFavourites" style="display:inline">
+							<input type="hidden" name="favChannelId" value="${channel.getId()}">
+								<button type="submit" class="btn btn-primary" style="float: right;">Add to Favourites</button>
+								
+
+						</form>
+				<form role="form" method="POST" action="/test/dropFavourites" >
+							<input type="hidden" name="favChannelId" value="${channel.getId()}">
+								<button type="submit" class="btn btn-primary" style="float: right;">Remove from Favourites</button>
+							
+						</form>
+				</div>
+				
 			</section>
 
 			<!-- Main content -->
@@ -142,5 +171,22 @@
 
 	<!-- Script library -->
 	<%@ include file="/WEB-INF/partials/scriptLib.jspf"%>
+	
+		<script>
+		for (var i = 1; i <= 1000; i++) {
+     			string = "#"+i;
+     			string2= "#"+i+"liked";
+     			
+     			$(string).on('click', function() {
+     				$(this).toggleClass('ButtonClicked');
+     			});
+     			$(string2).on('click', function() {
+     				$(this).toggleClass('ButtonUnClicked');
+     			});
+			
+		}
+		
+	</script>
+	
 </body>
 </html>

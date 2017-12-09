@@ -15,6 +15,7 @@ public class Message {
 	private String senderId;
 	private String channelId;
 	private String sessionId;
+	private boolean favourite=false;
 	
 	//This allows sorting Messages by time stamps
 	public static Comparator<Message> COMPARE_BY_TIMESTAMP = new Comparator<Message>() {
@@ -121,6 +122,14 @@ public class Message {
 
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+
+	public boolean isFavourite() {
+		return favourite;
+	}
+
+	public void setFavourite(boolean favourite) {
+		this.favourite = favourite;
 	}
 	
 	

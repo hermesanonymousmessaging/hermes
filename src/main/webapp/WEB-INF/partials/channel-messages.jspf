@@ -14,6 +14,26 @@
 			</span> <span
 				class="direct-chat-timestamp <c:if test="${msg.getSenderId() != login.getId()}">pull-right</c:if><c:if test="${msg.getSenderId() == login.getId()}">pull-left</c:if>">${msg.getTimestamp()}
 			</span>
+			<c:if test="${msg.isFavourite() eq true}">
+							
+							<form role="form" method="POST" action="/test/dropFavouritesMessages"
+							modelAttribute="user">
+							<input type="hidden" name="favMsgId" value="${msg.getId()}">
+							<input type="hidden" name="favChannelId" value="${channel.getId()}">
+							<button id="button" style="background-Color:white" type="submit" class="btn btn_red"><span id="${counter.count}+liked" class="fa fa-fw fa-heart" style="color:red"></span><a href="#"></a><span></span></button>
+							</form>
+							
+							</c:if>
+							
+							<c:if test="${msg.isFavourite() eq false}">
+							<form role="form" method="POST" action="/test/addFavouritesMessages"
+							modelAttribute="user">
+							<input type="hidden" name="favMsgId" value="${msg.getId()}">
+							<input type="hidden" name="favChannelId" value="${channel.getId()}">
+							<button id="button" style="background-Color:white" type="submit" class="btn btn_red"><span id="${counter.count}" class="fa fa-fw fa-heart"></span><a href="#"></a><span></span></button>
+							</form>
+							</c:if>
+			
 		</div>
 		<!-- /.direct-chat-info -->
 		<img class="direct-chat-img" src="${senderPics.get(msg.getSenderId())}" alt="Message User Image"><!-- /.direct-chat-img -->
