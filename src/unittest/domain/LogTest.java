@@ -20,6 +20,7 @@ public class LogTest {
     public ExpectedException exception = ExpectedException.none();
 	
 	private static Log testLog;
+	private static Log testLog2;
 	private static String id = "0123456789";
 	private static Date timestamp = new Date();
 	private static String text = "This is a test log";
@@ -30,6 +31,8 @@ public class LogTest {
         testLog.setId(id);
         testLog.setTimestamp(timestamp);
         testLog.setText(text);
+        
+        testLog2 = new Log(text);
     }
 	
 	@Test
@@ -45,6 +48,11 @@ public class LogTest {
 	@Test
 	public void testgetText() {
 		Assert.assertEquals(text,testLog.getText());
+	}
+	
+	@Test
+	public void testgetTex2t() {
+		Assert.assertEquals(text,testLog2.getText());
 	}
 	
 }

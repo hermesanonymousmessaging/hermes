@@ -12,13 +12,6 @@ public class Log {
 	private Date timestamp;
 	private String text;
 	
-	//This allows sorting Messages by time stamps
-	public static Comparator<Message> COMPARE_BY_TIMESTAMP = new Comparator<Message>() {
-        public int compare(Message one, Message other) {
-            return one.getTimestamp().compareTo(other.getTimestamp());
-        }
-    };
-    
 	public Log() {
 		this.timestamp = new Date();
 	}
