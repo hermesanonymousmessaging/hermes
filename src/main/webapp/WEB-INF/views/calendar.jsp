@@ -211,6 +211,8 @@
 			    event.allDay = false;
 			    var aloalo = all.id;
 			    event.title = channelNames[aloalo];
+			    event.startEditable = false;
+			    event.durationEditable = false;
 			    events.push(event);
 		 });
 			$('#calendar').fullCalendar('addEventSource',events);
