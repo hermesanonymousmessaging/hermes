@@ -186,7 +186,7 @@ public class TestController {
 			if(channel1.getOwnerId().equals(current.getId())) {
 				myChannels.add(channel1);
 			}else
-				joinedChannels.add(channel);
+				joinedChannels.add(channel1);
 					
 		}
 		model.addAttribute("mychannels",myChannels);
