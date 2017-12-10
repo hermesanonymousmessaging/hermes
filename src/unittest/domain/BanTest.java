@@ -25,14 +25,19 @@ public class BanTest {
     public ExpectedException exception = ExpectedException.none();
 	
 	private static Ban Bantest;
-    public String id = "123";
-    private static String userId = "bedri";
-    private static String channelId = "5a3b";
+	private static Ban Bantest2;
+    public static String id = "123";
+    private static String userId = "1234";
+    private static String channelId = "5231";
     private Date timestamp;
     
 	@BeforeClass
     public static void setUpBeforeClass() throws ParseException {
         Bantest = new Ban(userId,channelId); 
+        Bantest2 = new Ban();
+        Bantest2.setUserId(userId);
+        Bantest2.setId(id);
+        Bantest2.setChannelId(channelId);
     }
 	
 	
@@ -44,6 +49,16 @@ public class BanTest {
 	@Test
 	public void testgetUserId() throws ParseException {
 		Assert.assertEquals(userId,Bantest.getUserId());
+	}
+	
+	@Test
+	public void testgetId() throws ParseException {
+		Assert.assertEquals(id,Bantest2.getId());
+	}
+	
+	@Test
+	public void testtoString() throws ParseException {
+		Assert.assertEquals("Customer[id=123, userId='1234', channelId='5231']",Bantest2.toString());
 	}
 	
 }

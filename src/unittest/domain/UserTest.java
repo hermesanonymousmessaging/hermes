@@ -115,8 +115,13 @@ public class UserTest {
 		Assert.assertEquals(photoUrl,Usertest3.getProfilePicture());
 	}
 	
+	@Test
+	public void testtoString() throws ParseException {
+		Assert.assertEquals("Customer[id=123, firstName='berk', lastName='dehri']",Usertest.toString());
+	}
 	
 	
+
 
 	
 }
