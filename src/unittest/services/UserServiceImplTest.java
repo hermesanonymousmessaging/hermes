@@ -21,8 +21,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 
-import domain.Message;
-import repositories.MessageRepository;
+import domain.User;
+import repositories.UserRepository;
 
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -35,7 +35,7 @@ import org.mockito.Mockito.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MessageServiceImplTest {
+public class UserServiceImplTest {
 	
 	
 	
@@ -43,63 +43,63 @@ public class MessageServiceImplTest {
 	@Test
 	public void testListAll () {
 		
-		List<Message> MessagesListMockito = Arrays.asList(new Message(),new Message());
+		List<User> UsersListMockito = Arrays.asList(new User(),new User());
 		
-		MessageRepository mockito = mock(MessageRepository.class);
+		UserRepository mockito = mock(UserRepository.class);
 		
-		when(mockito.findAll()).thenReturn(MessagesListMockito);
+		when(mockito.findAll()).thenReturn(UsersListMockito);
 		
-		MessageServiceImpl mes = new MessageServiceImpl(mockito);
+		UserServiceImpl usr = new UserServiceImpl(mockito);
 		
-		List<Message> MessagesList = Arrays.asList();
+		List<User> UsersList = Arrays.asList();
 		
-		MessagesList = mes.listAll();
+		UsersList = usr.listAll();
 		
 		//verify
 		
-		assertThat(MessagesList,is(MessagesListMockito));
+		assertThat(UsersList,is(UsersListMockito));
 		
 	}
 	
 	@Test
 	public void testGetById() {
 		
-		Message MessageMockito = new Message();
+		User UserMockito = new User();
 		
-		MessageMockito.setId("1");
+		UserMockito.setId("1");
 		
-		MessageRepository mockito = mock(MessageRepository.class);
+		UserRepository mockito = mock(UserRepository.class);
 		
-		when(mockito.findOne("1")).thenReturn(MessageMockito);
+		when(mockito.findOne("1")).thenReturn(UserMockito);
 		
-		MessageServiceImpl mes = new MessageServiceImpl(mockito);
+		UserServiceImpl usr = new UserServiceImpl(mockito);
 		
-		Message Message = mes.getById("1");
+		User User = usr.getById("1");
 		
 		//verify
 		
-		assertThat(Message,is(MessageMockito));
+		assertThat(User,is(UserMockito));
 		
 	}
 	
 	@Test
 	public void testSaveOrUpdate() {
 		
-		Message MessageMockito = new Message();
+		User UserMockito = new User();
 		
-		MessageRepository mockito = mock(MessageRepository.class);
+		UserRepository mockito = mock(UserRepository.class);
 		
-		when(mockito.save(MessageMockito)).thenReturn(MessageMockito);
+		when(mockito.save(UserMockito)).thenReturn(UserMockito);
 		
-		MessageServiceImpl mes = new MessageServiceImpl(mockito);
+		UserServiceImpl usr = new UserServiceImpl(mockito);
 		
-		Message Message = new Message();
+		User User = new User();
 		
-		Message = mes.saveOrUpdate(MessageMockito);
+		User = usr.saveOrUpdate(UserMockito);
 		
 		//verify
 		
-		assertThat(Message,is(MessageMockito));
+		assertThat(User,is(UserMockito));
 		
 	}
 
