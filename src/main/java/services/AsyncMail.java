@@ -9,17 +9,21 @@ import domain.Email;
 public class AsyncMail {
 	
 	@Async
-	public void sendMail(String address, String text) throws InterruptedException {
-        Thread.sleep(100);
-		
-        System.out.println("Sending email...");
-        //FORMAT SENT MESSAGES
-		//FORMAT SENT MESSAGES
-		//FORMAT SENT MESSAGES
-        Email newemail = new Email();
-		
-        newemail.SendEmail(address,text);
+	public int sendMail(String address, String text) throws InterruptedException {
+			
+			Thread.sleep(100);
+			
+	        System.out.println("Sending email...");
+	        //FORMAT SENT MESSAGES
+			//FORMAT SENT MESSAGES
+			//FORMAT SENT MESSAGES
+	        Email newemail = new Email();
+			
+	        newemail.SendEmail(address,text);
+	        
+			System.out.println("Email Sent!");
+			
+			return 1;
         
-		System.out.println("Email Sent!");
 	}
 }
