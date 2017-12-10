@@ -135,6 +135,7 @@ public class TestController {
 		
 		//sms, email  on/null
 		
+		
 		List<String> dateList = new ArrayList<String>();
 		dateList.add(date1);
 		dateList.add(date2);
@@ -702,8 +703,24 @@ public class TestController {
 			favouriteMessages.add(messageService.getById(msg.getMessageId()));
 			
 		}
+		List<Channel> joinedChannels = new ArrayList<Channel>();
+		List<Channel> myChannels = new ArrayList<Channel>();
+		Channel channel;
+		for(String channel1Id : current.getChannelsList()) {
+			channel = channelService.getById(channel1Id);
+			if(channel.getOwnerId().equals(current.getId())) {
+				myChannels.add(channel);
 
+			}else {
+				joinedChannels.add(channel);
+				
+			}
+
+		}
 		
+
+		model.addAttribute("mychannels",myChannels);
+		model.addAttribute("joinedChannels",joinedChannels);
 		model.addAttribute("favouriteMessages",favouriteMessages);
         return "favMessages";
     }
