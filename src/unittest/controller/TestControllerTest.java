@@ -133,12 +133,12 @@ public class TestControllerTest {
         		
     }
 	
-	@Test
+	/*@Test
     public void testAddFav() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/test/addFavourites"))
         		.andExpect(status().isOk());
         		
-    }
+    }*/
 	
 	
 }

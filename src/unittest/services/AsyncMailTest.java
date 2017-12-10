@@ -47,7 +47,7 @@ public class AsyncMailTest {
 		
 		AsyncMail mockito = mock(AsyncMail.class);
 		
-		when(mockito.sendMail(any(),any())).thenReturn(1);
+		when(mockito.sendMail("","")).thenReturn(1);
 		
 		AsyncMail asyncMail = new AsyncMail();
 		
