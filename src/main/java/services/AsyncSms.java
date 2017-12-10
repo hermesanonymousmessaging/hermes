@@ -10,7 +10,7 @@ import domain.Sms;
 public class AsyncSms {
 	
 	@Async
-	public void sendSms(String receiver, String sender, String text) throws InterruptedException {
+	public int sendSms(String receiver, String sender, String text) throws InterruptedException {
         Thread.sleep(100);
 		
         System.out.println("Sending SMS...");
@@ -22,5 +22,7 @@ public class AsyncSms {
 		newsms.SendSms(receiver, sender, text);
         
 		System.out.println("SMS Sent!");
+		
+		return 1;
 	}
 }
