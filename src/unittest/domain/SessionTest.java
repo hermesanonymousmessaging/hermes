@@ -2,6 +2,7 @@ package domain;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -121,17 +122,24 @@ public class SessionTest {
 		Sessiontest.setEndDate(s);
 		Assert.assertEquals(format1.format(s),Sessiontest.getEndDateD());
 	}
+	
 	@Test
-	public void testgetEndDate(){
-		Session s4 = new Session();
-		Date s = new Date();
-		s.setDate(12);
-		s.setMonth(12);
-		s.setYear(2017);
-		s.setHours(21);
-		s.setMinutes(39);
-		s4.setEndDate(s);
-		s4.setStartDate(s);
-		Assert.assertEquals(s4.getEndDate().compareTo(s4.getStartDate()),0);
+	public void testSession2() throws ParseException{
+		Date start = new Date();
+		Date end = new Date();
+		start.setDate(10);
+		start.setMonth(11);
+		start.setYear(2017);
+		start.setHours(16);
+		start.setMinutes(23);
+		end.setDate(10);
+		end.setMonth(11);
+		end.setYear(2017);
+		end.setHours(18);
+		end.setMinutes(23);
+		DateFormat f1 = new SimpleDateFormat("MM/dd/yyyy HH:mm ");
+		String date = f1.format(start) + " - " + f1.format(end);
+		Session s9 = new Session("ch2017",date);
+		Assert.assertEquals("ch2017",s9.getChannelId());
 	}
 }

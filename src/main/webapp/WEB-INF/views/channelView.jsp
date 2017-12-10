@@ -41,8 +41,8 @@
 										</tr>
 										<c:forEach items="${sessionList}" var="item">
 											<tr>
-												<td>${item.getStartDate()}</td>
-												<td>${item.getEndDate()}</td>
+												<td>${item.getStartDateD()}</td>
+												<td>${item.getEndDateD()}</td>
 												<td>
 													<c:if test="${item.getActive()}">
 														<span class="label label-success">Active</span>

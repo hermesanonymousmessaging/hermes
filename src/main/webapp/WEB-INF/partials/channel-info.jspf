@@ -8,8 +8,8 @@
 		<div class="col-md-6">
 			<ul class="contacts-list">
 				<li>NAME: ${channel.getName()}</li>
-				<li>START: ${session.getStartDate()}</li>
-				<li>END: ${session.getEndDate()}</li>
+				<li>START: ${session.getStartDateD()}</li>
+				<li>END: ${session.getEndDateD()}</li>
 				<!-- End Contact Item -->
 			</ul>
 		</div>
