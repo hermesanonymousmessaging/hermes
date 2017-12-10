@@ -36,11 +36,5 @@ public class LogServiceImpl implements LogService{
 	@Override
 	public Log saveOrUpdate(Log log) {
 		return logRepository.save(log);
-	}
-
-	@Override
-	public void delete(String id) {
-		logRepository.delete(id);
-	}
-		
+	}	
 }
