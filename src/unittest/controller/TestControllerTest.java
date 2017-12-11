@@ -268,7 +268,7 @@ public class TestControllerTest {
 		members.add("1");
 		when(channel.getMembers()).thenReturn(members);
 		
-		String viewName = testController.channel("15", model);
+		//String viewName = testController.channel("15", model);
 		
 	}
 	 

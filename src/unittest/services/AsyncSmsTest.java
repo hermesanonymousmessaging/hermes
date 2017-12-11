@@ -51,13 +51,13 @@ public class AsyncSmsTest {
 		
 		AsyncSms asyncSms = new AsyncSms();
 		
-		//int test = asyncSms.sendSms("+905073641191","+15752147992","Quality means doing it right even when no one is looking.\n\n Henry Ford");
+		int test = asyncSms.sendSms("+905073641191","+15752147992","Quality means doing it right even when no one is looking.\n\n Henry Ford");
 		
 		//Above line commented because of limited Sms provider account
 		//If you want to test AsyncSms service uncomment the above line and
 		//comment the below line
 		
-		int test = 1;
+		//int test = 1;
 		
 		
 		//verify
