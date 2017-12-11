@@ -3,6 +3,8 @@ package services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 //import static org.mockito.Mockito.doThrow;
 import static org.hamcrest.CoreMatchers.any;
@@ -23,6 +25,8 @@ import org.junit.Rule;
 
 import domain.Ban;
 import repositories.BanRepository;
+import repositories.MessageRepository;
+
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
@@ -118,6 +122,21 @@ public class BanServiceImplTest {
 		//verify
 		
 		assertThat(bannedUser,is(bannedUserMockito));
+		
+	}
+	
+	@Test
+	public void testDelete() {
+		
+		BanRepository mockito = mock(BanRepository.class);
+		
+		BanServiceImpl ban = new BanServiceImpl(mockito);
+		
+		ban.delete("");
+		
+		//verify
+		
+		verify(mockito,times(1)).delete("");
 		
 	}
 	
