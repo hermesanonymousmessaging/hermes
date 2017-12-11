@@ -175,7 +175,7 @@ public class TestController {
 		
 		Log newlog = new Log("A new channel with ID: " + newChannel.getId() + " is created by user with ID: " + userid);
 		logService.saveOrUpdate(newlog);
-        return "redirect:/test/channel/" + newChannel.getId();
+        return "redirect:/test/calendar";
     }
 	
 	@RequestMapping(value = "/test/channel/{channelId}", method = RequestMethod.GET )
@@ -220,6 +220,9 @@ public class TestController {
 			session = sessionService.getById(sessionId);
 			if(session.isActive())
 				break;
+		}
+		if(!session.isActive()) {
+			return "redirect:/test/sessionClosed";
 		}
 		model.addAttribute("session",session);
 	    
@@ -1029,8 +1032,27 @@ public class TestController {
 	
 	@RequestMapping(value = "/test/about", method = RequestMethod.GET)
 	public String testAbout(Locale locale, ModelMap model) {
-		
+		User current = userService.getById(((User) model.get("login")).getId());
+		List<Channel> myChannels = new ArrayList<Channel>();
+		List<Channel> joinedChannels = new ArrayList<Channel>();
+		Channel channel1;
+		for(String channel1Id : current.getChannelsList()) {
+			channel1 = channelService.getById(channel1Id);
+			if(channel1.getOwnerId().equals(current.getId())) {
+				myChannels.add(channel1);
+			}else
+				joinedChannels.add(channel1);
+					
+		}
+		model.addAttribute("mychannels",myChannels);
+		model.addAttribute("joinedChannels",joinedChannels);
 		return "about";
+	}
+	
+	@RequestMapping(value = "/test/sessionClosed", method = RequestMethod.GET)
+	public String testSesionClosed(Locale locale, ModelMap model) {
+		
+		return "closed";
 	}
 	
 	@RequestMapping(value = "/test/list", method = RequestMethod.GET)
