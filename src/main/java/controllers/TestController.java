@@ -620,35 +620,60 @@ public class TestController {
 	}
 	
 	@RequestMapping(value = "/test/profile/{query}", method = RequestMethod.GET)
-	public String otherProfile(@PathVariable("query") String query, ModelMap model){
+	public String testProfile(@PathVariable("query") String query, Locale locale, ModelMap model) throws JsonProcessingException {
+		
+		List<Channel> joinedChannels = new ArrayList<Channel>();
+		List<Channel> myChannels = new ArrayList<Channel>();
+		List<Channel> favouriteChannels = new ArrayList<Channel>();
+		List<FavChannels> favouriteChannelsList = new ArrayList<FavChannels>();
 		
 		User otherProfile = userRepository.findByUsername(query);
 		
-		if( otherProfile == null) {
-			Log newlog = new Log("Could not find a user with username: " + query);
-			logService.saveOrUpdate(newlog);
-			
-			return "redirect:/test/home";
+		favouriteChannelsList = favChannelsService.getByUserId(otherProfile.getId());
+		
+		for(FavChannels msg : favouriteChannelsList) {
+			favouriteChannels.add(channelService.getById(msg.getchannelId()));
 		}
-		User current = userService.getById(((User) model.get("login")).getId());
-		List<Channel> myChannels = new ArrayList<Channel>();
-		List<Channel> joinedChannels = new ArrayList<Channel>();
-		Channel channel1;
-		for(String channel1Id : current.getChannelsList()) {
-			channel1 = channelService.getById(channel1Id);
-			if(channel1.getOwnerId().equals(current.getId())) {
-				myChannels.add(channel1);
-			}else
-				joinedChannels.add(channel1);
-					
+		
+		Channel channel;
+		for(String channel1Id : otherProfile.getChannelsList()) {
+			channel = channelService.getById(channel1Id);
+			if(channel.getOwnerId().equals(otherProfile.getId())) {
+				myChannels.add(channel);
+			}else {
+				joinedChannels.add(channel);
+			}
 		}
+		
+		model.addAttribute("favouriteChannels",favouriteChannels);
 		model.addAttribute("mychannels",myChannels);
 		model.addAttribute("joinedChannels",joinedChannels);
-		model.addAttribute("otherProfile",otherProfile);
-		Log newlog = new Log("Found a user with username: " + query + "from search query");
+		model.addAttribute("profile", otherProfile);
+		List<Session> session = new ArrayList<Session>();
+		session = sessionService.listAll();
+		
+		model.addAttribute("sessionList",session);
+		
+		
+		//BEKOSHOW
+		HashMap<String,String> channelNames = new HashMap<String,String>();
+		session = new ArrayList<Session>();
+		myChannels = new ArrayList<Channel>();
+		for(String channelid : otherProfile.getChannelsList()) {
+			channel = channelService.getById(channelid);
+			for(String sesid : channel.getSessionsList()) {
+				session.add(sessionService.getById(sesid));
+				channelNames.put(sesid, channel.getName());
+			}
+		}
+		ObjectMapper objectMapper = new ObjectMapper();
+		model.addAttribute("bekoSessions",objectMapper.writeValueAsString(session));
+		model.addAttribute("bekoChannelNames",objectMapper.writeValueAsString(channelNames));
+		
+		Log newlog = new Log("Accessed to profile of user with ID: " + otherProfile.id);
 		logService.saveOrUpdate(newlog);
 		
-	    return "otherProfile";
+		return "otherProfile";
 	}
 	
 	@RequestMapping(value = "/test/home", method = RequestMethod.GET)
