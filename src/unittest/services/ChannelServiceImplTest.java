@@ -3,6 +3,8 @@ package services;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -10,6 +12,7 @@ import java.util.List;
 
 import domain.Channel;
 import repositories.ChannelRepository;
+import repositories.MessageRepository;
 
 import org.junit.Test;
 
@@ -74,4 +77,19 @@ public class ChannelServiceImplTest {
 		//Verify
 		assertThat(testChannel,is(newChannel));
     }
+	
+	@Test
+	public void testDelete() {
+		
+		ChannelRepository mockito = mock(ChannelRepository.class);
+		
+		ChannelServiceImpl chnl = new ChannelServiceImpl(mockito);
+		
+		chnl.delete("");
+		
+		//verify
+		
+		verify(mockito,times(1)).delete("");
+		
+	}
 }
