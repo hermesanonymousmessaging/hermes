@@ -3,6 +3,8 @@ package services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 //import static org.mockito.Mockito.doThrow;
 import static org.hamcrest.CoreMatchers.any;
@@ -100,6 +102,33 @@ public class UserServiceImplTest {
 		//verify
 		
 		assertThat(User,is(UserMockito));
+		
+	}
+	
+	@Test
+	public void testDelete() {
+		
+		//User UserMockito = new User();
+		
+		UserRepository mockito = mock(UserRepository.class);
+		
+		UserServiceImpl usr = new UserServiceImpl(mockito);
+		
+		usr.delete("");
+		
+		//when(mockito.save(UserMockito)).thenReturn(UserMockito);
+		
+		verify(mockito,times(1)).delete("");
+		
+		//UserServiceImpl usr = new UserServiceImpl(mockito);
+		
+		//User User = new User();
+		
+		//usr.delete(UserMockito);
+		
+		//verify
+		
+		//assertThat(User,is(UserMockito));
 		
 	}
 
