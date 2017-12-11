@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.OngoingStubbing;
+import org.powermock.api.mockito.PowerMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContext;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
@@ -25,12 +28,15 @@ import controllers.HomeController;
 import controllers.TestController;
 import services.ChannelService;
 import services.FavChannelsService;
+import services.FavMessagesService;
 import services.LogService;
 import services.UserService;
 
 import domain.User;
+import net.bytebuddy.matcher.ModifierMatcher.Mode;
 import repositories.UserRepository;
 import domain.Channel;
+import domain.FavMessages;
 
 import java.text.DateFormat;
 import java.util.Arrays;
@@ -39,6 +45,7 @@ import java.util.Locale;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -66,9 +73,21 @@ public class TestControllerTest {
 	@Mock
 	private FavChannelsService favchannelService;
 	
+	@Mock
+	private FavMessagesService favMessagesService;
+	
+	@Mock
+	private ModelMap model; 
+	
+	@Mock
+	private FavMessages favmes;
+	
 	private MockMvc mockMvc;
 	
 	String formattedDate;
+	
+	@Mock
+	private User mockuser;
 
 	@Before
 	public void setup() {
@@ -80,18 +99,28 @@ public class TestControllerTest {
 		// Process mock annotations
 		MockitoAnnotations.initMocks(this);
 		
-		ModelMap m = new ModelMap();
+
+		
 		
 		User u1 = new User();
 		User mockLoginUser = new User("berk","dehri","bdehrioglu@yahoo.com","150694","bdehri","05378877769", "dajfahjafs");
-		User mockuser = mock(User.class);
+		mockLoginUser.setId("1");
+		mockuser.setUsername("beko");
+		mockuser.setPassword("150694");
+		mockuser.setId("1");
 		u1.setId("user1");
+		
+		model.addAttribute("login", mockuser);
 		
 		Channel ch1 = new Channel();
 		
         when(userService.getById("user1")).thenReturn(u1);
         when(userRepository.findByUsername("bdehri")).thenReturn(mockLoginUser);
         when(userRepository.findByUsername("berk")).thenReturn(null);
+        when(userService.getById("1")).thenReturn(mockLoginUser);
+        when(mockuser.getId()).thenReturn("1");
+        
+        when(model.get("login")).thenReturn(mockuser);
         
 		// Setup Spring test in standalone mode
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -166,7 +195,7 @@ public class TestControllerTest {
 		.andExpect(status().is3xxRedirection());
 	}
 	
-	/*@Test
+	@Test
     public void testLogout() throws Exception {
 		MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.post("/test/login").param("username", "bdehri").param("password", "150694")).andReturn();
 		
@@ -175,14 +204,24 @@ public class TestControllerTest {
         		.andExpect(view().name("redirect:/test/home"))
         		.andExpect(model().attributeDoesNotExist("login"));
         		
-    }*/
+    }
 	
-	/*@Test
+	@Test
     public void testAddFav() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/test/addFavourites"))
-        		.andExpect(status().isOk());
-        		
-    }*/
+		
+		String viewName = testController.addFovourites("15", model);
+		assertEquals("redirect:/test/channel/15", viewName);    		
+    }
+	
+	@Test
+    public void testAddFavMes() throws Exception {
+		favmes = new FavMessages("1","15");
+		favmes.setId("1");
+		PowerMockito.whenNew(FavMessages.class).withArguments(Mockito.anyString(),Mockito.anyString()).thenReturn(favmes);
+		String viewName = testController.addFovouritesMessages("1", "15", model);
+		assertEquals("redirect:/test/channel/15", viewName);    		
+    }
+
 	
 	
 }
