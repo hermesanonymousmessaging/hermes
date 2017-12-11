@@ -26,6 +26,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import controllers.HomeController;
 import controllers.TestController;
+import services.BanService;
 import services.ChannelService;
 import services.FavChannelsService;
 import services.FavMessagesService;
@@ -35,13 +36,18 @@ import services.UserService;
 import domain.User;
 import net.bytebuddy.matcher.ModifierMatcher.Mode;
 import repositories.UserRepository;
+import domain.Ban;
 import domain.Channel;
 import domain.FavMessages;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
@@ -68,6 +74,10 @@ public class TestControllerTest {
 	private UserService userService;
 	
 	@Mock
+	private BanService banService;
+	
+	
+	@Mock
 	private ChannelService channelService;
 	
 	@Mock
@@ -80,7 +90,15 @@ public class TestControllerTest {
 	private ModelMap model; 
 	
 	@Mock
+	private Channel channel;
+	
+	@Mock
 	private FavMessages favmes;
+	
+	@Mock
+	private Ban ban;
+	
+	 Set<String> members ;
 	
 	private MockMvc mockMvc;
 	
@@ -100,8 +118,6 @@ public class TestControllerTest {
 		MockitoAnnotations.initMocks(this);
 		
 
-		
-		
 		User u1 = new User();
 		User mockLoginUser = new User("berk","dehri","bdehrioglu@yahoo.com","150694","bdehri","05378877769", "dajfahjafs");
 		mockLoginUser.setId("1");
@@ -119,8 +135,17 @@ public class TestControllerTest {
         when(userRepository.findByUsername("berk")).thenReturn(null);
         when(userService.getById("1")).thenReturn(mockLoginUser);
         when(mockuser.getId()).thenReturn("1");
+		when(channelService.getById("15")).thenReturn(channel);
+		when(channel.isMember(anyString())).thenReturn(true);
+		when(channel.getId()).thenReturn("15");
+		when(channel.getOwnerId()).thenReturn("1");
+		ban.id = "10";
         
         when(model.get("login")).thenReturn(mockuser);
+        
+        
+        members = new HashSet<String>();
+        
         
 		// Setup Spring test in standalone mode
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -222,6 +247,30 @@ public class TestControllerTest {
 		assertEquals("redirect:/test/channel/15", viewName);    		
     }
 
+	@Test
+	public void testBanUser() throws Exception{
+
+		PowerMockito.whenNew(Ban.class).withArguments("1", "15").thenReturn(ban);
+		String viewName = testController.banUserFromChannel("15", "bdehri", model);
+		assertEquals("redirect:/test/channel/15", viewName); 
+	}
 	
+	@Test
+	public void testBanUserUnsucess() throws Exception{
+
+		when(userRepository.findByUsername("beko")).thenReturn(null);
+		String viewName = testController.banUserFromChannel("15", "beko", model);
+		assertEquals("redirect:/test/home", viewName); 
+	}
+	
+	@Test 
+	public void testChannel() throws Exception{
+		members.add("1");
+		when(channel.getMembers()).thenReturn(members);
+		
+		String viewName = testController.channel("15", model);
+		
+	}
+	 
 	
 }
