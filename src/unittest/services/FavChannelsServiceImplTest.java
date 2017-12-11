@@ -3,6 +3,8 @@ package services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 //import static org.mockito.Mockito.doThrow;
 import static org.hamcrest.CoreMatchers.any;
@@ -23,6 +25,7 @@ import org.junit.Rule;
 
 import domain.FavChannels;
 import repositories.FavChannelsRepository;
+import repositories.MessageRepository;
 
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -121,6 +124,21 @@ public class FavChannelsServiceImplTest {
 		//verify
 		
 		assertThat(FavChannels,is(FavChannelsMockito));
+		
+	}
+	
+	@Test
+	public void testDelete() {
+		
+		FavChannelsRepository mockito = mock(FavChannelsRepository.class);
+		
+		FavChannelsServiceImpl fav = new FavChannelsServiceImpl(mockito);
+		
+		fav.delete("");
+		
+		//verify
+		
+		verify(mockito,times(1)).delete("");
 		
 	}
 	
