@@ -108,27 +108,15 @@ public class UserServiceImplTest {
 	@Test
 	public void testDelete() {
 		
-		//User UserMockito = new User();
-		
 		UserRepository mockito = mock(UserRepository.class);
 		
 		UserServiceImpl usr = new UserServiceImpl(mockito);
 		
 		usr.delete("");
 		
-		//when(mockito.save(UserMockito)).thenReturn(UserMockito);
-		
-		verify(mockito,times(1)).delete("");
-		
-		//UserServiceImpl usr = new UserServiceImpl(mockito);
-		
-		//User User = new User();
-		
-		//usr.delete(UserMockito);
-		
 		//verify
 		
-		//assertThat(User,is(UserMockito));
+		verify(mockito,times(1)).delete("");
 		
 	}
 
