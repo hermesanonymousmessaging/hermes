@@ -295,6 +295,31 @@ public class TestController {
 		return "redirect:/test/profile";
 	}
 	
+	@RequestMapping(value = "/test/channel/{channelId}/leavechannel", method = RequestMethod.POST)
+	public String leaveChannel(@RequestParam (value="channelId") String channelId, 
+									ModelMap model) {
+		User current = userService.getById(((User) model.get("login")).getId());
+		Channel channel = channelService.getById(channelId);
+		
+		if(!channel.isOwner(current.getId())) {
+			channel.removeMember(current.getId());
+			current.removeChannel(channel.getId());
+			
+			channelService.saveOrUpdate(channel);
+			userService.saveOrUpdate(current);
+			
+			Log newlog = new Log("User with ID: " + current.getId() + " left channel with ID: " + channelId);
+			logService.saveOrUpdate(newlog);
+			
+		}else {
+			
+			Log newlog = new Log("User with ID: " + current.getId() + " could not leave channel with ID: " + channelId + "as that user was the owner");
+			logService.saveOrUpdate(newlog);
+		}
+		
+		return "redirect:/test/profile";
+	}
+	
 	@RequestMapping(value = "/test/channel/{channelId}", method = RequestMethod.POST)
 	public String addUserToChannel(@RequestParam (value="channelId") String channelId, 
 									@RequestParam (value="name") String username,
@@ -722,6 +747,10 @@ public class TestController {
 		model.addAttribute("mychannels",myChannels);
 		model.addAttribute("joinedChannels",joinedChannels);
 		model.addAttribute("favouriteMessages",favouriteMessages);
+		
+		Log newlog = new Log("Messages favorited by user with ID: " + current.id + " is requested");
+		logService.saveOrUpdate(newlog);
+		
         return "favMessages";
     }
 
@@ -736,6 +765,9 @@ public class TestController {
 		
 		favChannelsService.saveOrUpdate(channel);
 		
+		Log newlog = new Log("Channel with ID: " + channelId + " is favorited by user with ID: " + current.id);
+		logService.saveOrUpdate(newlog);
+		
 		return "redirect:/test/channel/" + channelId;
 
 		
@@ -745,19 +777,21 @@ public class TestController {
 	public String dropFovourites(@RequestParam (value="favChannelId") String channelId,
 			ModelMap model)  {
 		
-User current = userService.getById(((User) model.get("login")).getId());
+		User current = userService.getById(((User) model.get("login")).getId());
 		
 		List<FavChannels> favouriteChannelsList = new ArrayList<FavChannels>();
 		
 		favouriteChannelsList = favChannelsRepository.findByUserId(current.getId());
 		
 		String favChnId;
+		String tempfavChnId = "Unknown favorited channel id";
 		
 		for(FavChannels temp:favouriteChannelsList) {
 			
 			if(temp.getchannelId().equals(channelId)) {
 				
 				favChnId = temp.getId();
+				tempfavChnId = temp.getId();
 				
 				favChannelsService.delete(favChnId);
 				
@@ -767,6 +801,9 @@ User current = userService.getById(((User) model.get("login")).getId());
 			
 			
 		}
+		
+		Log newlog = new Log("Channel with ID: " + tempfavChnId + " is unfavorited by user with ID: " + current.id);
+		logService.saveOrUpdate(newlog);
 		
 		return "redirect:/test/channel/" + channelId;
 
@@ -784,6 +821,9 @@ User current = userService.getById(((User) model.get("login")).getId());
 		
 		favMessagesService.saveOrUpdate(message);
 		
+		Log newlog = new Log("Message with ID: " + messageId + " is favorited by user with ID: " + current.id);
+		logService.saveOrUpdate(newlog);
+		
 		return "redirect:/test/channel/" + channelId;
 
 		
@@ -800,12 +840,14 @@ User current = userService.getById(((User) model.get("login")).getId());
 		favouriteMessagesList = favMessagesRepository.findByUserId(current.getId());
 		
 		String favMsgId;
+		String tempfavMsgId = "Unknown favorited message id";
 		
 		for(FavMessages temp:favouriteMessagesList) {
 			
 			if(temp.getMessageId().equals(messageId)) {
 				
 				favMsgId = temp.getId();
+				tempfavMsgId = temp.getId();
 				
 				favMessagesService.delete(favMsgId);
 				
@@ -815,6 +857,9 @@ User current = userService.getById(((User) model.get("login")).getId());
 			
 			
 		}
+		
+		Log newlog = new Log("Message with ID: " + tempfavMsgId + " is unfavorited by user with ID: " + current.id);
+		logService.saveOrUpdate(newlog);
 
 		return "redirect:/test/channel/" + channelId;
 		

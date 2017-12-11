@@ -175,30 +175,34 @@
 
 							<div class="box-body">
 								<div class="form-group">
-									<label for="deleteName">Delete User by username</label> <input
-										type="text" class="form-control" id="deleteName"
-										placeholder="deleteName" name="deleteName">
+									<label for="deleteName"> Delete User by username
+									<select class="js-example-basic-single" style="width: 100%" id="deleteName" name="deleteName">
+										<c:forEach items="${members}" var="member">
+											<option value="${member.getUsername()}">${member.getUsername()}</option>
+										</c:forEach>
+									</select>
+									</label>
 								</div>
-							</div>
-							<!-- /.box-body -->
-
-							<div class="box-footer">
 								<button type="submit" class="btn btn-primary">Delete</button>
 							</div>
+							<!-- /.box-body -->
 						</form>
-
-						
-
 						<form role="form" method="POST"
 							action="/test/channel/{channelId}/deletechannel"
 							modelAttribute="user">
 							<input type="hidden" name="channelId" value="${channel.getId()}">
 
-
-							<!-- /.box-body -->
-
 							<div class="box-footer">
 								<button type="submit" class="btn btn-primary">Delete Channel</button>
+							</div>
+						</form>
+						<form role="form" method="POST"
+							action="/test/channel/{channelId}/leavechannel"
+							modelAttribute="user">
+							<input type="hidden" name="channelId" value="${channel.getId()}">
+
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary">Leave Channel</button>
 							</div>
 						</form>
 
