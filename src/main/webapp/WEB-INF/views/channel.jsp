@@ -156,7 +156,7 @@
 							<div class="box-body">
 								<div class="form-group">
 									<label for="banName"> Unban a user by username
-									<select class="js-example-basic-single" style="width: 100%" id="unbanName" name="banName">
+									<select class="js-example-basic-single" style="width: 100%" id="unbanName" name="unbanName">
 										<c:forEach items="${bannedUsers}" var="member">
 											<option value="${member.getUsername()}">${member.getUsername()}</option>
 										</c:forEach>
