@@ -12,10 +12,12 @@ import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -27,6 +29,7 @@ import services.LogService;
 import services.UserService;
 
 import domain.User;
+import repositories.UserRepository;
 import domain.Channel;
 
 import java.text.DateFormat;
@@ -52,6 +55,9 @@ public class TestControllerTest {
 	private LogService logService;
 	
 	@Mock
+	private UserRepository userRepository;
+	
+	@Mock
 	private UserService userService;
 	
 	@Mock
@@ -74,13 +80,18 @@ public class TestControllerTest {
 		// Process mock annotations
 		MockitoAnnotations.initMocks(this);
 		
+		ModelMap m = new ModelMap();
+		
 		User u1 = new User();
+		User mockLoginUser = new User("berk","dehri","bdehrioglu@yahoo.com","150694","bdehri","05378877769", "dajfahjafs");
+		User mockuser = mock(User.class);
 		u1.setId("user1");
 		
 		Channel ch1 = new Channel();
 		
         when(userService.getById("user1")).thenReturn(u1);
-        
+        when(userRepository.findByUsername("bdehri")).thenReturn(mockLoginUser);
+        when(userRepository.findByUsername("berk")).thenReturn(null);
         
 		// Setup Spring test in standalone mode
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -132,6 +143,39 @@ public class TestControllerTest {
         		.andExpect(status().is3xxRedirection());
         		
     }
+	
+	@Test
+	public void testLogin() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/test/login").param("username", "bdehri").param("password", "150694"))
+		.andExpect(model().attributeExists("login"));
+	}
+	
+	@Test
+	public void testFalsePassLogin() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/test/login").param("username", "bdehri").param("password", "1506"))
+		.andExpect(view().name("redirect:/test/home"))
+		.andExpect(model().attributeDoesNotExist("login"))
+		.andExpect(status().is3xxRedirection());
+	}
+	
+	@Test
+	public void testNotUserLogin() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/test/login").param("username", "berk").param("password", "1506"))
+		.andExpect(view().name("redirect:/test/home"))
+		.andExpect(model().attributeDoesNotExist("login"))
+		.andExpect(status().is3xxRedirection());
+	}
+	
+	/*@Test
+    public void testLogout() throws Exception {
+		MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.post("/test/login").param("username", "bdehri").param("password", "150694")).andReturn();
+		
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/test/logout"))
+        		.andExpect(status().is3xxRedirection())
+        		.andExpect(view().name("redirect:/test/home"))
+        		.andExpect(model().attributeDoesNotExist("login"));
+        		
+    }*/
 	
 	/*@Test
     public void testAddFav() throws Exception {
