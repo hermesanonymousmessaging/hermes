@@ -3,6 +3,8 @@ package services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 //import static org.mockito.Mockito.doThrow;
 import static org.hamcrest.CoreMatchers.any;
@@ -23,6 +25,7 @@ import org.junit.Rule;
 
 import domain.Message;
 import repositories.MessageRepository;
+import repositories.SessionRepository;
 
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -100,6 +103,21 @@ public class MessageServiceImplTest {
 		//verify
 		
 		assertThat(Message,is(MessageMockito));
+		
+	}
+	
+	@Test
+	public void testDelete() {
+		
+		MessageRepository mockito = mock(MessageRepository.class);
+		
+		MessageServiceImpl mes = new MessageServiceImpl(mockito);
+		
+		mes.delete("");
+		
+		//verify
+		
+		verify(mockito,times(1)).delete("");
 		
 	}
 
