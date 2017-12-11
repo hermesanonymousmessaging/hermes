@@ -317,6 +317,7 @@ public class TestController {
 			logService.saveOrUpdate(newlog);
 		}
 		
+		
 		return "redirect:/test/profile";
 	}
 	
@@ -654,7 +655,7 @@ public class TestController {
     }
 	
 	@RequestMapping(value = "/test/profile", method = RequestMethod.GET)
-	public String testProfile(Locale locale, ModelMap model) {
+	public String testProfile(Locale locale, ModelMap model) throws JsonProcessingException {
 		if(model.get("login") == null) {
 			Log newlog = new Log("Could not access to profile because user is not logged in");
 			logService.saveOrUpdate(newlog);
@@ -698,10 +699,34 @@ public class TestController {
 			}
 
 		}
+		
 		model.addAttribute("favouriteChannels",favouriteChannels);
 		model.addAttribute("mychannels",myChannels);
 		model.addAttribute("joinedChannels",joinedChannels);
 		model.addAttribute("profile", current);
+		List<Session> session = new ArrayList<Session>();
+		session = sessionService.listAll();
+		
+		model.addAttribute("sessionList",session);
+		
+		
+		//BEKOSHOW
+		HashMap<String,String> channelNames = new HashMap<String,String>();
+		session = new ArrayList<Session>();
+		myChannels = new ArrayList<Channel>();
+		for(String channelid : current.getChannelsList()) {
+			channel = channelService.getById(channelid);
+			for(String sesid : channel.getSessionsList()) {
+				session.add(sessionService.getById(sesid));
+				channelNames.put(sesid, channel.getName());
+			}
+		}
+		ObjectMapper objectMapper = new ObjectMapper();
+		model.addAttribute("bekoSessions",objectMapper.writeValueAsString(session));
+		model.addAttribute("bekoChannelNames",objectMapper.writeValueAsString(channelNames));
+		
+		
+		
 		
 		Log newlog = new Log("Accessed to profile of user with ID: " + current.id);
 		logService.saveOrUpdate(newlog);
@@ -887,6 +912,7 @@ public class TestController {
 		List<String> channels = current.getChannelsList();
 		
 		
+		
 		if(channels == null) {
 			Log newlog = new Log("Could not access to chat because there does not exist any channel");
 			logService.saveOrUpdate(newlog);
@@ -900,6 +926,7 @@ public class TestController {
 		//TRY WITH FIRST SESSION
 		String sessionid = channel.getSessionsList().get(0);
 		Session session = sessionService.getById(sessionid);
+		
 		
 		messageList = messageRepository.findBySessionId(session.getId());
 		
@@ -936,6 +963,8 @@ public class TestController {
 		}
 		model.addAttribute("mychannels",myChannels);
 		model.addAttribute("joinedChannels",joinedChannels);
+		
+		//BEKOSHOW
 		List<Session> session = new ArrayList<Session>();
 		session = sessionService.listAll();
 		
@@ -956,8 +985,6 @@ public class TestController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		model.addAttribute("bekoSessions",objectMapper.writeValueAsString(session));
 		model.addAttribute("bekoChannelNames",objectMapper.writeValueAsString(channelNames));
-		//BEKOSHOW
-		
 		return "calendar";
 		
 	}
