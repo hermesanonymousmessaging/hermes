@@ -1032,6 +1032,12 @@ public class TestController {
 	
 	@RequestMapping(value = "/test/about", method = RequestMethod.GET)
 	public String testAbout(Locale locale, ModelMap model) {
+		
+		return "about";
+	}
+	
+	@RequestMapping(value = "/test/sessionClosed", method = RequestMethod.GET)
+	public String testSesionClosed(Locale locale, ModelMap model) {
 		User current = userService.getById(((User) model.get("login")).getId());
 		List<Channel> myChannels = new ArrayList<Channel>();
 		List<Channel> joinedChannels = new ArrayList<Channel>();
@@ -1046,12 +1052,6 @@ public class TestController {
 		}
 		model.addAttribute("mychannels",myChannels);
 		model.addAttribute("joinedChannels",joinedChannels);
-		return "about";
-	}
-	
-	@RequestMapping(value = "/test/sessionClosed", method = RequestMethod.GET)
-	public String testSesionClosed(Locale locale, ModelMap model) {
-		
 		return "closed";
 	}
 	
