@@ -28,7 +28,7 @@ public class SessionHandler {
 	private SessionService sessionService;
 	@Autowired
 	private LogService logService;
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = 3000)
     public void reportCurrentTime() throws ParseException {
     
     	List<Session> sessions = sessionService.listAll();

@@ -108,6 +108,7 @@
 				</div>
 				<div class="row">
 					<div class="box-body">
+					<c:if test="${channel.getOwnerId() == login.getId()}">
 						<!-- form start -->
 						<form role="form" method="POST" action="/test/channel/{channelId}"
 							modelAttribute="user">
@@ -156,7 +157,7 @@
 							<div class="box-body">
 								<div class="form-group">
 									<label for="unbanName"> Unban a user by username
-									<select class="js-example-basic-single" style="width: 100%" id="unbanName" name="unbanName">
+									<select class="js-example-basic-single" style="width: 100%" id="unbanName" name="banName">
 										<c:forEach items="${bannedUsers}" var="member">
 											<option value="${member.getUsername()}">${member.getUsername()}</option>
 										</c:forEach>
@@ -196,6 +197,8 @@
 								<button type="submit" class="btn btn-primary">Delete Channel</button>
 							</div>
 						</form>
+						</c:if>
+						<c:if test="${channel.getOwnerId() != login.getId()}">
 						<form role="form" method="POST"
 							action="/test/channel/{channelId}/leavechannel"
 							modelAttribute="user">
@@ -205,6 +208,7 @@
 								<button type="submit" class="btn btn-primary">Leave Channel</button>
 							</div>
 						</form>
+						</c:if>
 
 					</div>
 
