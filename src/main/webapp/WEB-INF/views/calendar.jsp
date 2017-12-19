@@ -198,19 +198,28 @@
     })
     
 		var events=new Array();
-
+   	 	var colors = ["#FA5882", "0404B4", "2EFE64", "F7FE2E", "FE9A2E"];
+    	var mymap = new Map();
+    	var cntcolor = 0;
 		var bekoList = eval(${bekoSessions});
 		var channelNames = eval(${bekoChannelNames});
+		 $.each(bekoList, function (indexa, all) {
+			 var aloalo = all.id;
+			 if(!mymap.has(channelNames[aloalo])){
+				 mymap.set(channelNames[aloalo], (cntcolor++)%5);
+			 }
+		 });
+		console.log(bekoList);
 		  $.each(bekoList, function (indexa, all) {
 		     event = new Object();
 			    date = new Date(all.startDateD);
 			    event.start = date; // this should be date object // this should be date object
 			    date = new Date(all.endDateD);
 			    event.end = date;
-			    event.color = "blue";
 			    event.allDay = false;
 			    var aloalo = all.id;
 			    event.title = channelNames[aloalo];
+			    event.color = colors[mymap.get(channelNames[aloalo])];
 			    event.startEditable = false;
 			    event.durationEditable = false;
 			    events.push(event);
