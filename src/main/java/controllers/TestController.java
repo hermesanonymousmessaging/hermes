@@ -1,5 +1,8 @@
 package controllers;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.MultiValueMap;
@@ -25,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.hash.Hashing;
 
 import domain.Ban;
 import domain.Channel;
@@ -486,7 +491,7 @@ public class TestController {
 	@RequestMapping(value = "/test/login", method = RequestMethod.POST)
     public String login(@RequestParam (value="username") String username,
 			    		@RequestParam (value="password") String password
-						, Locale locale, ModelMap model) {
+						, Locale locale, ModelMap model) throws NoSuchAlgorithmException {
 		User newuser = userRepository.findByUsername(username);
 		//username check
 		if(newuser == null) {
@@ -497,7 +502,9 @@ public class TestController {
 		}
 		
 		//password check
-		if(!newuser.getPassword().equals(password)) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		boolean result = passwordEncoder.matches(password, newuser.getPassword());
+		if(!result) {
 			Log newlog = new Log("Could not log in a user with username: " + username + "because of wrong password");
 			logService.saveOrUpdate(newlog);
 			

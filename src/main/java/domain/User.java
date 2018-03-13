@@ -1,11 +1,17 @@
 package domain;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.google.common.hash.Hashing;
 
 
 public class User {
@@ -70,8 +76,10 @@ public class User {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String password){
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(password);
+		this.password = hashedPassword;
 	}
 
 	public String getId() {
