@@ -18,11 +18,24 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.search.FlagTerm;
 
 import org.jsoup.Jsoup;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import domain.User;
+import repositories.ChannelRepository;
+import repositories.UserRepository;
+
 @Component
 public class AsyncMailReceiver {
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private ChannelService channelService;
+	@Autowired
+	private ChannelRepository channelRepository;
 	
 	@Scheduled(fixedDelay=10000)
 	public void doSomething() {
@@ -59,6 +72,13 @@ public class AsyncMailReceiver {
 	           System.out.println("Subject: " + message.getSubject().replace("Re: ","").replace("Re:",""));
 	           System.out.println("From: " + message.getFrom()[0]);
 	           System.out.println("Text: " + getTextFromMessage(message));
+	           String[] address = message.getFrom()[0].toString().split(" ");
+	           String mail = address[address.length - 1];
+	           mail = mail.replace("<","").replace(">","");
+	           System.out.println(mail);
+	           User sender = userRepository.findByEmail(message.getFrom()[0].toString());
+	           if(sender != null)
+	        	   System.out.println("DBYE KAYITLI");
 	           MimeMessage source = (MimeMessage) message;
 	           MimeMessage copy = new MimeMessage(source);
 	        }
