@@ -580,21 +580,21 @@ public class TestController {
 	@RequestMapping(value = "/test/search/{query}", method = RequestMethod.GET)
 	public String search(@PathVariable("query") String query, ModelMap model){
 		
-		User otherProfile = userRepository.findByUsername(query);
+		User otherProfile = userRepository.findByUsernameIgnoreCase(query);
 		if( otherProfile != null) {
 			model.addAttribute("otherProfileUser",otherProfile);
 		}
 		
-		List<User> otherProfilesFirst = userRepository.findByFirstName(query);
+		List<User> otherProfilesFirst = userRepository.findByFirstNameIgnoreCase(query);
 		if( otherProfilesFirst != null) {
 			model.addAttribute("otherProfilesFirst",otherProfilesFirst);
 		}
 		
-		List<User> otherProfilesLast = userRepository.findByLastName(query);
+		List<User> otherProfilesLast = userRepository.findByLastNameIgnoreCase(query);
 		if( otherProfilesLast != null) {
 			model.addAttribute("otherProfilesLast",otherProfilesLast);
 		}
-		List<Channel> channels = channelRepository.findByName(query);
+		List<Channel> channels = channelRepository.findByNameIgnoreCase(query);
 		if(channels != null) {
 			//excluding hidden channels
 			for(int i = 0; i<channels.size(); i++) {
