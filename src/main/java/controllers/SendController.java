@@ -79,15 +79,9 @@ public class SendController {
 	@Autowired
 	private BanRepository banRepository;
 	
-	
-	@RequestMapping(value = "/test/send", method = RequestMethod.POST)
-    public String send( @RequestParam (value="usermsg") String text,
-    					@RequestParam (value="sessionId") String sessionId,
-    					@RequestParam (value="channelId") String channelId
-						, Locale locale, ModelMap model) {
+	public Session sendMsg(String senderId, String text, String sessionId, String channelId) {
 		Session session = sessionService.getById(sessionId);
 		Channel channel = channelService.getById(channelId);
-		String senderId = ((User)model.get("login")).getId();
 		Message newmsg = new Message(1,text,senderId,channelId, sessionId);
 
 
@@ -124,6 +118,18 @@ public class SendController {
 		newmsg = messageService.saveOrUpdate(newmsg);
 		session.addMessage(newmsg.getId());
 		sessionService.saveOrUpdate(session);
+		
+		return session;
+	}
+	@RequestMapping(value = "/test/send", method = RequestMethod.POST)
+    public String send( @RequestParam (value="usermsg") String text,
+    					@RequestParam (value="sessionId") String sessionId,
+    					@RequestParam (value="channelId") String channelId
+						, Locale locale, ModelMap model) {
+
+		String senderId = ((User)model.get("login")).getId();
+		Session session = sendMsg(senderId, text, sessionId, channelId);
+		
 		Log newlog = new Log("Sent a new message to channel with ID: " + channelId + " with session ID: " + sessionId);
 		logService.saveOrUpdate(newlog);
 		

@@ -2,6 +2,8 @@ package services;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
@@ -22,8 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import controllers.SendController;
+import domain.Channel;
+import domain.Log;
 import domain.User;
 import repositories.ChannelRepository;
+import repositories.MessageRepository;
+import repositories.SessionRepository;
 import repositories.UserRepository;
 
 @Component
@@ -36,9 +43,21 @@ public class AsyncMailReceiver {
 	private ChannelService channelService;
 	@Autowired
 	private ChannelRepository channelRepository;
+	@Autowired
+	private SessionRepository sessionRepository;
+	@Autowired
+	private SessionService sessionService;
+	@Autowired
+	private MessageService messageService;
+	@Autowired
+	private MessageRepository messageRepository;
+	@Autowired
+	private LogService logService;
+	@Autowired
+	private SendController sendController;
 	
 	@Scheduled(fixedDelay=10000)
-	public void doSomething() {
+	public void checkMails() {
 	    System.out.println("[*]Mail receiver");
 	    String host = "imap.gmail.com";
 	    String mailStoreType = "imap";
@@ -62,26 +81,7 @@ public class AsyncMailReceiver {
 	        Message[] messages = emailFolder.search(new FlagTerm(new Flags(
                     Flags.Flag.SEEN), false));
 
-            System.out.println("[*]No. of Unread Messages : " + messages.length);
-	        
-
-	        for (int i = 0, n = messages.length; i < n; i++) {
-	           Message message = messages[i];
-	           System.out.println("---------------------------------");
-	           System.out.println("Email Number " + (i + 1));
-	           System.out.println("Subject: " + message.getSubject().replace("Re: ","").replace("Re:",""));
-	           System.out.println("From: " + message.getFrom()[0]);
-	           System.out.println("Text: " + getTextFromMessage(message));
-	           String[] address = message.getFrom()[0].toString().split(" ");
-	           String mail = address[address.length - 1];
-	           mail = mail.replace("<","").replace(">","");
-	           System.out.println(mail);
-	           User sender = userRepository.findByEmail(message.getFrom()[0].toString());
-	           if(sender != null)
-	        	   System.out.println("DBYE KAYITLI");
-	           MimeMessage source = (MimeMessage) message;
-	           MimeMessage copy = new MimeMessage(source);
-	        }
+	        addMailsToDatabase(messages);
 	               
 	        emailFolder.close(false);
 	        store.close();
@@ -127,6 +127,60 @@ public class AsyncMailReceiver {
 	        }
 	    }
 	    return result;
+	}
+	
+	private void addMailsToDatabase(Message[] messages) throws MessagingException, IOException {
+		System.out.println("[*]No. of Unread Messages : " + messages.length);
+        
+
+        for (int i = 0, n = messages.length; i < n; i++) {
+           Message message = messages[i];
+           System.out.println("---------------------------------");
+           System.out.println("Email Number " + (i + 1));
+           String title = message.getSubject().replace("Re: ","").replace("Re:","");
+           System.out.println("Subject: " + title);
+           System.out.println("From: " + message.getFrom()[0]);
+           String text = getTextFromMessage(message);
+           System.out.println("Text: " + text);
+           String[] address = message.getFrom()[0].toString().split(" ");
+           String mail = address[address.length - 1];
+           mail = mail.replace("<","").replace(">","");
+           System.out.println(mail);
+           MimeMessage source = (MimeMessage) message;
+           MimeMessage copy = new MimeMessage(source);
+           User sender = userRepository.findByEmailIgnoreCase(mail);
+           if(sender != null)
+        	   System.out.println("DBYE KAYITLI");
+           List<String> channelIds = sender.getChannelsList();
+           Channel channel = null;
+           
+           for(String channelId : channelIds) {
+        	   Channel itChannel = channelService.getById(channelId);
+        	   if(itChannel.getName().compareToIgnoreCase(title) == 0) {
+        		   channel = itChannel;
+        		   break;
+        	   }
+           }
+           if(channel == null)
+        	   return;
+           List<domain.Session> sessions = sessionRepository.findByChannelId(channel.getId());
+           domain.Session session = null;
+           for(domain.Session tempSession : sessions) {
+        	   if(tempSession.isActive()) {
+        		   session = tempSession;
+        		   break;
+        	   }
+           }
+           if(session == null)
+        	   return;
+           
+           
+           sendController.sendMsg(sender.getId(), text, session.getId(), channel.getId());
+	   		
+			Log newlog = new Log("UserID: " + sender.getId()+ " has sent a new message via mail to channel with ID: " + channel.getId() + " with session ID: " + session.getId());
+			logService.saveOrUpdate(newlog);
+           
+        }
 	}
 	
 }
