@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableAsync
+@EnableScheduling
 @EnableMongoRepositories("repositories")
 @EntityScan("domain")
 @ComponentScan({"services", "controllers","configuration"})
