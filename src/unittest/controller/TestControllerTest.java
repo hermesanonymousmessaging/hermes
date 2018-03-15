@@ -24,8 +24,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import controllers.BaseController;
+import controllers.ChannelController;
+import controllers.FavouriteController;
 import controllers.HomeController;
-import controllers.TestController;
 import services.BanService;
 import services.ChannelService;
 import services.FavChannelsService;
@@ -62,7 +64,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TestControllerTest {
 
 	@InjectMocks
-	private TestController testController;
+	private HomeController testController;
+	@InjectMocks
+	private FavouriteController favouriteController;
+	@InjectMocks
+	private ChannelController channelController;
 	
 	@Mock
 	private LogService logService;
@@ -234,7 +240,7 @@ public class TestControllerTest {
 	@Test
     public void testAddFav() throws Exception {
 		
-		String viewName = testController.addFovourites("15", model);
+		String viewName = favouriteController.addFovourites("15", model);
 		assertEquals("redirect:/test/channel/15", viewName);    		
     }
 	
@@ -243,7 +249,7 @@ public class TestControllerTest {
 		favmes = new FavMessages("1","15");
 		favmes.setId("1");
 		PowerMockito.whenNew(FavMessages.class).withArguments(Mockito.anyString(),Mockito.anyString()).thenReturn(favmes);
-		String viewName = testController.addFovouritesMessages("1", "15", model);
+		String viewName = favouriteController.addFovouritesMessages("1", "15", model);
 		assertEquals("redirect:/test/channel/15", viewName);    		
     }
 
@@ -251,7 +257,7 @@ public class TestControllerTest {
 	public void testBanUser() throws Exception{
 
 		PowerMockito.whenNew(Ban.class).withArguments("1", "15").thenReturn(ban);
-		String viewName = testController.banUserFromChannel("15", "bdehri", model);
+		String viewName = channelController.banUserFromChannel("15", "bdehri", model);
 		assertEquals("redirect:/test/channel/15", viewName); 
 	}
 	
@@ -259,7 +265,7 @@ public class TestControllerTest {
 	public void testBanUserUnsucess() throws Exception{
 
 		when(userRepository.findByUsername("beko")).thenReturn(null);
-		String viewName = testController.banUserFromChannel("15", "beko", model);
+		String viewName = channelController.banUserFromChannel("15", "beko", model);
 		assertEquals("redirect:/test/home", viewName); 
 	}
 	

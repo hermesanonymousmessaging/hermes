@@ -18,7 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import controllers.HomeController;
+import controllers.BaseController;
 
 import java.text.DateFormat;
 import java.util.Arrays;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class HomeControllerTest {
 
 	@InjectMocks
-	private HomeController homeController;
+	private BaseController homeController;
 
 	private MockMvc mockMvc;
 	

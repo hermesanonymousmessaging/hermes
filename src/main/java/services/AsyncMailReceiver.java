@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import controllers.SendController;
+import controllers.MessageController;
 import domain.Channel;
 import domain.Log;
 import domain.User;
@@ -54,7 +54,7 @@ public class AsyncMailReceiver {
 	@Autowired
 	private LogService logService;
 	@Autowired
-	private SendController sendController;
+	private MessageController sendController;
 	
 	@Scheduled(fixedDelay=10000)
 	public void checkMails() {
