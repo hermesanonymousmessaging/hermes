@@ -46,7 +46,7 @@ public class NotificationServiceImpl implements NotificationService{
 	@Override
 	public List<Notification> getByIdWithNames(String id) {
 		List<Notification> notifications = notificationRepository.findByRecipientId(id);
-		Collections.sort(notifications);
+		Collections.sort(notifications, Collections.reverseOrder());
 		int size = notifications.size();
 		if(size > 10)
 			size = 10;

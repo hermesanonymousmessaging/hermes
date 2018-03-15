@@ -201,10 +201,7 @@ public class ChannelController {
 		
 		Log newlog = new Log("Viewing channel with ID: " + channelId);
 		logService.saveOrUpdate(newlog);
-		
-		Notification notification = new Notification(current.getId(), channelId);
-		notification.setBanned(true);
-		notificationService.saveOrUpdate(notification);
+				
 		model.addAttribute("notifications", notificationService.getByIdWithNames(current.getId()));
 	    return "channel";
 	}

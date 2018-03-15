@@ -58,9 +58,32 @@
 							<ul class="menu">
 								<c:forEach items="${notifications}" var="notification" varStatus="counter">
 									<li>
-										<!-- start notification --> <a href="#"> <i
-											class="fa fa-check text-aqua"></i> ${notification.toString()}
-									</a>
+										<a href="#"><i class="fa
+											<c:choose>
+											    <c:when test="${notification.isMessage()}">
+											    	fa-envelope text-aqua">
+											    </c:when>
+											    <c:when test="${notification.isInvite()}">
+											    	fa-user-plus text-aqua">
+											    </c:when>
+											    <c:when test="${notification.isApproved()}">
+											    	fa-check-circle text-green">
+											    </c:when>
+											    <c:when test="${notification.isJoin()}">
+											    	fa-user text-green">
+											    </c:when>
+											    <c:when test="${notification.isBanned()}">
+											    	fa-close text-red">
+											    </c:when>
+											    <c:when test="${notification.isKicked()}">
+											    	fa-close text-yellow">
+											    </c:when>
+											    <c:otherwise></c:otherwise>
+											</c:choose>
+											</i>
+											 ${notification.toString()}
+											 
+										</a>
 									</li>
 								</c:forEach>
 								<!-- end notification -->
