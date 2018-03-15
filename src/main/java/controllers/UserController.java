@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +42,7 @@ import domain.Message;
 import domain.Session;
 import domain.User;
 import domain.Sms;
+import domain.TempUser;
 import domain.FavMessages;
 import domain.FavChannels;
 
@@ -46,6 +50,7 @@ import repositories.BanRepository;
 import repositories.ChannelRepository;
 import repositories.MessageRepository;
 import repositories.SessionRepository;
+import repositories.TempUserRepository;
 import repositories.UserRepository;
 import repositories.FavMessagesRepository;
 import repositories.FavChannelsRepository;
@@ -58,6 +63,7 @@ import services.FavMessagesService;
 import services.LogService;
 import services.MessageService;
 import services.SessionService;
+import services.TempUserService;
 import services.UserService;
 
 @Controller
@@ -67,6 +73,10 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private TempUserService tempUserService;
+	@Autowired
+	private TempUserRepository tempUserRepository;
 	@Autowired
 	private ChannelService channelService;
 	@Autowired
@@ -101,7 +111,7 @@ public class UserController {
 	private BanRepository banRepository;
 	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
-    public String createUser(@ModelAttribute("user")User user, ModelMap model) {
+    public String createUser(@ModelAttribute("user")TempUser user, ModelMap model, HttpServletRequest request) {
 		User newuser = userRepository.findByUsername(user.getUsername());
 		if(newuser != null) {
 			//username is taken
@@ -119,15 +129,62 @@ public class UserController {
 			return "redirect:/test/home";
 		}
 		
-		newuser = userService.saveOrUpdate(user);
+		user.setConfirmationToken(UUID.randomUUID().toString());
+		
+		TempUser tempnewuser = tempUserService.saveOrUpdate(user);
         
-        model.put("login",newuser);
-        
-        Log newlog = new Log("Created a new user with username: " + user.getUsername() + " and Email: " + user.getEmail());
+		String appUrl = "https://" + request.getServerName() + ":5001";
+		
+		try {
+			String mailText = "Welcome to Hermes Anonymous Messaging.\n To confirm your e-mail address, please click the link below:\n"
+					+ appUrl + "/confirm?token=" + user.getConfirmationToken();
+			asyncMail.sendMailWithTitle(user.getEmail(),mailText,"Registration Confirmation");
+		}catch( Exception e ){
+			// catch error
+		}
+		
+		Log newlog = new Log("Created a new temporary user with username: " + user.getUsername() + " and Email: " + user.getEmail());
 		logService.saveOrUpdate(newlog);
 		
-        return "redirect:/test/profile";
+        return "newRegistry";
     }
+	
+	@RequestMapping(value="/confirm", method = RequestMethod.GET)
+	public String showConfirmationPage(ModelMap model, @RequestParam("token") String token) {
+			
+		TempUser newUser = tempUserRepository.findByConfirmationToken(token);
+		
+		if (newUser == null) { // No token found in DB
+			model.addAttribute("verificationMessage", "Oops!  This is an invalid confirmation link.");
+			
+			Log newlog = new Log("Could not find confirmation token with ID : " + token);
+			logService.saveOrUpdate(newlog);
+			
+			return "confirm";
+			
+		} else { // Token found
+			
+			List<TempUser> users = tempUserRepository.findByEmail(tempUserRepository.findByConfirmationToken(token).getEmail());
+			
+			for(TempUser currentUser : users) {
+				tempUserRepository.delete(currentUser.id);
+			}
+			
+			/*if(tempUserRepository.findByConfirmationToken(token).id != null) {
+				tempUserRepository.delete(tempUserRepository.findByConfirmationToken(token).id);
+			}*/
+			User shadow = new User(newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getPassword(), newUser.getUsername(), newUser.getPhoneNumber(), newUser.getProfilePicture());
+			shadow.setConfirmationToken(newUser.getConfirmationToken());
+			userService.saveOrUpdate(shadow);
+			
+			Log newlog = new Log("Successfully activated account with username: " + newUser.getUsername() + " and Email: " + newUser.getEmail());
+			logService.saveOrUpdate(newlog);
+			
+			model.put("login",shadow);
+			
+			return "redirect:/test/profile";
+		}	
+	}
 	
 	@RequestMapping(value = "/test/login", method = RequestMethod.POST)
     public String login(@RequestParam (value="username") String username,

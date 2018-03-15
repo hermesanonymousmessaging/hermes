@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.google.common.hash.Hashing;
 
 
-public class User {
+public class TempUser {
 
     @Id
     public String id;
@@ -29,17 +29,17 @@ public class User {
     private String confirmationToken;
     private Set<String> channels;
 
-    public User() {
+    public TempUser() {
     	channels = new HashSet<String>();
     }
 
-    public User(String firstName, String lastName) {
+    public TempUser(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
         channels = new HashSet<String>();
     }
   
-    public User(String firstName, String lastName, String email, String password, String username, String phoneNumber, String profilePicture) {
+    public TempUser(String firstName, String lastName, String email, String password, String username, String phoneNumber, String profilePicture) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

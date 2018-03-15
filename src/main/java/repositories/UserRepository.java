@@ -20,4 +20,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     public User findByEmailIgnoreCase(String email);
     
     public User findByPhoneNumber(String phoneNumber);
+    
+    public User findByConfirmationToken(String confirmationToken);
 }
