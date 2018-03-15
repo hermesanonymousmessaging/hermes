@@ -36,6 +36,7 @@ import domain.Channel;
 import domain.Email;
 import domain.Log;
 import domain.Message;
+import domain.Notification;
 import domain.Session;
 import domain.User;
 import domain.Sms;
@@ -45,6 +46,7 @@ import domain.FavChannels;
 import repositories.BanRepository;
 import repositories.ChannelRepository;
 import repositories.MessageRepository;
+import repositories.NotificationRepository;
 import repositories.SessionRepository;
 import repositories.UserRepository;
 import repositories.FavMessagesRepository;
@@ -57,6 +59,7 @@ import services.FavChannelsService;
 import services.FavMessagesService;
 import services.LogService;
 import services.MessageService;
+import services.NotificationService;
 import services.SessionService;
 import services.UserService;
 
@@ -91,6 +94,10 @@ public class HomeController {
 	private FavChannelsService favChannelsService;
 	@Autowired
 	private FavChannelsRepository favChannelsRepository;
+	@Autowired
+	private NotificationRepository notificationRepository;
+	@Autowired
+	private NotificationService notificationService;
 
 	
 	@Autowired
@@ -101,7 +108,6 @@ public class HomeController {
 	private BanService banService;
 	@Autowired
 	private BanRepository banRepository;
-	
 	
 	@RequestMapping(value = "/test/search/{query}", method = RequestMethod.POST)
 	public String query(@RequestParam (value="query") String query) {

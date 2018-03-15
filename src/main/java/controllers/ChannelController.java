@@ -36,6 +36,7 @@ import domain.Channel;
 import domain.Email;
 import domain.Log;
 import domain.Message;
+import domain.Notification;
 import domain.Session;
 import domain.User;
 import domain.Sms;
@@ -45,6 +46,7 @@ import domain.FavChannels;
 import repositories.BanRepository;
 import repositories.ChannelRepository;
 import repositories.MessageRepository;
+import repositories.NotificationRepository;
 import repositories.SessionRepository;
 import repositories.UserRepository;
 import repositories.FavMessagesRepository;
@@ -57,6 +59,7 @@ import services.FavChannelsService;
 import services.FavMessagesService;
 import services.LogService;
 import services.MessageService;
+import services.NotificationService;
 import services.SessionService;
 import services.UserService;
 
@@ -89,7 +92,13 @@ public class ChannelController {
 	private FavChannelsService favChannelsService;
 	@Autowired
 	private FavChannelsRepository favChannelsRepository;
+	@Autowired
+	private NotificationRepository notificationRepository;
+	@Autowired
+	private NotificationService notificationService;
 
+	@Autowired
+	private HomeController homeController;
 	
 	@Autowired
 	private AsyncMail asyncMail;
@@ -187,11 +196,16 @@ public class ChannelController {
 		for(Ban ban : bans) {
 			bannedUsers.add(userService.getById(ban.getUserId()));
 		}
+		
 		model.addAttribute("bannedUsers", bannedUsers);
 		
 		Log newlog = new Log("Viewing channel with ID: " + channelId);
 		logService.saveOrUpdate(newlog);
 		
+		Notification notification = new Notification(current.getId(), channelId);
+		notification.setBanned(true);
+		notificationService.saveOrUpdate(notification);
+		model.addAttribute("notifications", notificationService.getByIdWithNames(current.getId()));
 	    return "channel";
 	}
 	

@@ -49,6 +49,7 @@ import domain.FavChannels;
 import repositories.BanRepository;
 import repositories.ChannelRepository;
 import repositories.MessageRepository;
+import repositories.NotificationRepository;
 import repositories.SessionRepository;
 import repositories.TempUserRepository;
 import repositories.UserRepository;
@@ -62,6 +63,7 @@ import services.FavChannelsService;
 import services.FavMessagesService;
 import services.LogService;
 import services.MessageService;
+import services.NotificationService;
 import services.SessionService;
 import services.TempUserService;
 import services.UserService;
@@ -99,6 +101,10 @@ public class UserController {
 	private FavChannelsService favChannelsService;
 	@Autowired
 	private FavChannelsRepository favChannelsRepository;
+	@Autowired
+	private NotificationRepository notificationRepository;
+	@Autowired
+	private NotificationService notificationService;
 
 	
 	@Autowired
@@ -350,12 +356,8 @@ public class UserController {
 		
 		favouriteChannelsList = favChannelsService.getByUserId(current.getId());
 		
-		for(FavChannels msg : favouriteChannelsList) {
-			
-			
-			
-			favouriteChannels.add(channelService.getById(msg.getchannelId()));
-			
+		for(FavChannels msg : favouriteChannelsList) {			
+			favouriteChannels.add(channelService.getById(msg.getchannelId()));			
 		}
 
 		

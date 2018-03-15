@@ -56,12 +56,13 @@
 						<li>
 							<!-- Inner Menu: contains the notifications -->
 							<ul class="menu">
-								<li>
-									<!-- start notification --> <a href="#"> <i
-										class="fa fa-users text-aqua"></i> 5 new members joined your
-										channel today
-								</a>
-								</li>
+								<c:forEach items="${notifications}" var="notification" varStatus="counter">
+									<li>
+										<!-- start notification --> <a href="#"> <i
+											class="fa fa-check text-aqua"></i> ${notification.toString()}
+									</a>
+									</li>
+								</c:forEach>
 								<!-- end notification -->
 							</ul>
 						</li>
