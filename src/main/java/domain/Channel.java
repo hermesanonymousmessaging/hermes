@@ -20,7 +20,6 @@ public class Channel {
 	private Integer userCount;
 	private Set<String> members;
 	private Set<String> sessions;
-	private boolean favourite;
 	private String type;
 	
 	public Channel() {
@@ -29,7 +28,6 @@ public class Channel {
 		members = new HashSet<String>();
 		sessions = new HashSet<String>();
 		userCount = 0;
-		favourite = false;
 	}
 	
 	public boolean isPublic() {
@@ -125,13 +123,7 @@ public class Channel {
 		sessions.remove(sessionId);
 	}
 
-	public boolean isFavourite() {
-		return favourite;
-	}
 
-	public void setFavourite(boolean favourite) {
-		this.favourite = favourite;
-	}
 	
 	
 	
