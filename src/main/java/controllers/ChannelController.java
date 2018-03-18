@@ -1,5 +1,8 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,9 +15,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,6 +39,7 @@ import com.google.common.hash.Hashing;
 
 import domain.Ban;
 import domain.Channel;
+import domain.Config;
 import domain.Email;
 import domain.Log;
 import domain.Message;
@@ -45,6 +52,7 @@ import domain.FavChannels;
 
 import repositories.BanRepository;
 import repositories.ChannelRepository;
+import repositories.ConfigRepository;
 import repositories.MessageRepository;
 import repositories.NotificationRepository;
 import repositories.SessionRepository;
@@ -55,6 +63,7 @@ import services.AsyncMail;
 import services.AsyncSms;
 import services.BanService;
 import services.ChannelService;
+import services.ConfigService;
 import services.FavChannelsService;
 import services.FavMessagesService;
 import services.LogService;
@@ -96,6 +105,10 @@ public class ChannelController {
 	private NotificationRepository notificationRepository;
 	@Autowired
 	private NotificationService notificationService;
+	@Autowired
+	private ConfigRepository configRepository;
+	@Autowired
+	private ConfigService configService;
 
 	@Autowired
 	private HomeController homeController;
@@ -374,13 +387,15 @@ public class ChannelController {
 									@ModelAttribute("channel")Channel channel, ModelMap model,
 									@RequestParam (value="sms", required = false) String sms,
 									@RequestParam (value="email", required = false) String email,
+									@RequestParam (value="friendlyChannel", required = false) String friendlyChannel,
+									@RequestParam (value="friendlyUser", required = false) String friendlyUser,
 									@RequestParam (value="daterange0") String date0,
 									@RequestParam (value="daterange1", required = false) String date1,
 									@RequestParam (value="daterange2", required = false) String date2,
 									@RequestParam (value="daterange3", required = false) String date3,
 									@RequestParam (value="daterange4", required = false) String date4,
 									@RequestParam (value="public") String publicType,
-									@RequestParam (value="dateCount") Integer dateCount) throws ParseException {
+									@RequestParam (value="dateCount") Integer dateCount) throws ParseException, FileNotFoundException {
 		
 		//sms, email  on/null
 		
@@ -399,6 +414,29 @@ public class ChannelController {
 			channel.setEmail(true);
 		channel.setType(publicType);
 		Channel newChannel = channelService.saveOrUpdate(channel);
+		if(friendlyChannel != null) {
+			String filePath = new File("").getAbsolutePath();
+			System.out.println (filePath);
+			JacksonJsonParser parser = new JacksonJsonParser();
+			Scanner s = new Scanner(new File(filePath + "/src/main/webapp/resources/fruits.txt"));
+			ArrayList<String> list = new ArrayList<String>();
+			while (s.hasNext()){
+				list.add(s.next());
+			}
+			s.close();
+			
+			Config config = configService.getConfig();
+			int i = config.getFriendlyChannelNum();
+			i++;
+			config.setFriendlyChannelNum(i);
+			String channelName = list.get(i % list.size());
+			if(i >= list.size()) {
+				channelName += " " + new Integer(i/list.size()).toString();
+			}
+			newChannel.setName(channelName);
+			newChannel = channelService.saveOrUpdate(newChannel);
+			config = configService.saveOrUpdate(config);
+		}
 		//CREATE CHANNEL OPERATIONS
 		
 		//TRY CREATING A SESSION
