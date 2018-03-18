@@ -1,12 +1,18 @@
 package domain;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 
+import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.data.annotation.Id;
 
 public class Channel {
@@ -21,15 +27,45 @@ public class Channel {
 	private Set<String> members;
 	private Set<String> sessions;
 	private String type;
+	private Boolean friendly;
+	private ArrayList<String> animalNames;
+	private Integer friendlyNamesGeneration;
+	private HashMap<String, String> friendlyNames;
 	
 	public Channel() {
-		sms = false;
-		email = false;
-		members = new HashSet<String>();
-		sessions = new HashSet<String>();
-		userCount = 0;
+		this.friendly = false;
+		this.sms = false;
+		this.email = false;
+		this.members = new HashSet<String>();
+		this.sessions = new HashSet<String>();
+		this.animalNames = new ArrayList<String>();
+		this.friendlyNames = new HashMap<String,String>();
+		this.friendlyNamesGeneration = 0;
+		this.userCount = 0;
 	}
 	
+	public Boolean isFriendly() {
+		return friendly;
+	}
+	
+	public Boolean getFriendly() {
+		return friendly;
+	}
+
+	public void setFriendly(Boolean friendly) throws FileNotFoundException {
+		this.friendly = friendly;
+		if(this.friendly) {
+			String filePath = new File("").getAbsolutePath();
+			System.out.println (filePath);
+			Scanner s = new Scanner(new File(filePath + "/src/main/webapp/resources/animalnames.txt"));
+			while (s.hasNext()){
+				this.animalNames.add(s.next());
+			}
+			s.close();
+			Collections.shuffle(this.animalNames);
+		}
+	}
+
 	public boolean isPublic() {
 		return this.type.equals("public");
 	}
@@ -78,7 +114,7 @@ public class Channel {
 	public String getOwnerId() {
 		return ownerId;
 	}
-	public void setOwnerId(String ownerId) {
+	public void setOwnerId(String ownerId) throws FileNotFoundException {
 		this.ownerId = ownerId;
 		addMember(ownerId);
 	}
@@ -93,7 +129,17 @@ public class Channel {
 	public Set<String> getSessions() {
 		return sessions;
 	}
-	
+	public HashMap<String, String> getFriendlyNames() {
+		return friendlyNames;
+	}
+	public void setFriendlyNames(HashMap<String, String> friendlyNames) {
+		this.friendlyNames = friendlyNames;
+	}
+
+	public void setAnimalNames(ArrayList<String> animalNames) {
+		this.animalNames = animalNames;
+	}
+
 	public List<String> getSessionsList() {
 		List<String> myList = new ArrayList<String>();
 		myList.addAll(this.sessions);
@@ -109,7 +155,36 @@ public class Channel {
 	public Boolean isMember(String userId) {
 		return members.contains(userId);
 	}
-	public void addMember(String userId) {
+	public void addMember(String userId) throws FileNotFoundException {
+		if(this.animalNames.isEmpty() && this.isFriendly()) {
+			this.setFriendly(true);
+			//create new namelist
+			this.friendlyNamesGeneration++;
+		}
+		
+		if(this.friendly) {
+			String filePath = new File("").getAbsolutePath();
+			Scanner s = new Scanner(new File(filePath + "/src/main/webapp/resources/adjectives.txt"));
+			ArrayList<String> adj = new ArrayList<String>();
+			while (s.hasNext()){
+				adj.add(s.next());
+			}
+			s.close();
+			Random r = new Random();
+			int rand = r.nextInt(adj.size());
+			String adjective = adj.get(rand);
+			
+			String newname = adjective + " " + this.animalNames.get(userCount);
+			animalNames.remove(userCount);
+			
+			if(this.friendlyNamesGeneration > 0)
+				newname += " " + this.friendlyNamesGeneration.toString();
+			
+			this.friendlyNames.put(userId, newname);
+			System.out.println(userId);
+			System.out.println("AHA");
+			System.out.println(newname);
+		}
 		members.add(userId);
 		userCount++;
 	}
@@ -123,6 +198,18 @@ public class Channel {
 		sessions.remove(sessionId);
 	}
 
+	public Integer getFriendlyNamesGeneration() {
+		return friendlyNamesGeneration;
+	}
+
+	public void setFriendlyNamesGeneration(Integer friendlyNamesGeneration) {
+		this.friendlyNamesGeneration = friendlyNamesGeneration;
+	}
+
+	public ArrayList<String> getAnimalNames() {
+		return animalNames;
+	}
+	
 
 	
 	

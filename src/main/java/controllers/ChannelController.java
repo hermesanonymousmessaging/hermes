@@ -174,14 +174,25 @@ public class ChannelController {
 		List<Message> messages = new ArrayList<Message>();
 		HashMap<String,String> senders = new HashMap<String,String>();
 		HashMap<String,String> senderPics = new HashMap<String,String>();
+
+		if(channel.isFriendly()) {
+			senders = channel.getFriendlyNames();
+		}
 		for(String messageId : session.getMessages()) {
 			Message message = messageService.getById(messageId);
 			messages.add(message);
 			User sender = userService.getById(message.getSenderId());
-			senders.put(message.getSenderId(), sender.getUsername());
-			senderPics.put(message.getSenderId(), sender.getProfilePicture());
+			if(!channel.isFriendly()) {
+				senders.put(message.getSenderId(), sender.getUsername());
+			}
+			if(channel.isFriendly()) {
+				String picname = senders.get(message.getSenderId());
+				String[] splitStr = picname.split("\\s+");
+				senderPics.put(message.getSenderId(), "https://ssl.gstatic.com/docs/common/profile/" + splitStr[1] +"_lg.png");
+			}
+			else
+				senderPics.put(message.getSenderId(), sender.getProfilePicture());
 		}
-		
 		List<FavMessages> favMessagesList = new ArrayList<FavMessages>();
 		
 		favMessagesList = favMessagesRepository.findByUserId(current.getId());
@@ -297,7 +308,7 @@ public class ChannelController {
 	@RequestMapping(value = "/test/channel/{channelId}", method = RequestMethod.POST)
 	public String addUserToChannel(@RequestParam (value="channelId") String channelId, 
 									@RequestParam (value="name") String username,
-									ModelMap model) {
+									ModelMap model) throws FileNotFoundException {
 		
 		User newuser = userRepository.findByUsername(username);
 		if(newuser != null) {
@@ -416,7 +427,6 @@ public class ChannelController {
 		Channel newChannel = channelService.saveOrUpdate(channel);
 		if(friendlyChannel != null) {
 			String filePath = new File("").getAbsolutePath();
-			System.out.println (filePath);
 			JacksonJsonParser parser = new JacksonJsonParser();
 			Scanner s = new Scanner(new File(filePath + "/src/main/webapp/resources/fruits.txt"));
 			ArrayList<String> list = new ArrayList<String>();
@@ -436,6 +446,12 @@ public class ChannelController {
 			newChannel.setName(channelName);
 			newChannel = channelService.saveOrUpdate(newChannel);
 			config = configService.saveOrUpdate(config);
+		}
+		if(friendlyUser != null) {
+			newChannel.setFriendly(true);
+			newChannel.removeMember(newChannel.getOwnerId());
+			newChannel.addMember(newChannel.getOwnerId());
+			newChannel = channelService.saveOrUpdate(newChannel);
 		}
 		//CREATE CHANNEL OPERATIONS
 		

@@ -42,7 +42,7 @@
 		
 		
 			
-			<img class="direct-chat-img" src="${senderPics.get(msg.getSenderId())}" alt="Message User Image">
+			<img class="direct-chat-img" src="${senderPics.get(msg.getSenderId())}" alt="Message User Image" style="background-color: black;">
 			
 			<div class="direct-chat-text">
 			<c:if test="${msg.getSenderId() == login.getId()}">
