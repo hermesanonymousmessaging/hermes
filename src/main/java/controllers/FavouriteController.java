@@ -45,6 +45,7 @@ import domain.FavChannels;
 import repositories.BanRepository;
 import repositories.ChannelRepository;
 import repositories.MessageRepository;
+import repositories.NotificationRepository;
 import repositories.SessionRepository;
 import repositories.UserRepository;
 import repositories.FavMessagesRepository;
@@ -57,6 +58,7 @@ import services.FavChannelsService;
 import services.FavMessagesService;
 import services.LogService;
 import services.MessageService;
+import services.NotificationService;
 import services.SessionService;
 import services.UserService;
 
@@ -99,6 +101,10 @@ public class FavouriteController {
 	private BanService banService;
 	@Autowired
 	private BanRepository banRepository;
+	@Autowired
+	private NotificationRepository notificationRepository;
+	@Autowired
+	private NotificationService notificationService;
 	
 	@RequestMapping(value = "/test/favouriteMessages", method = RequestMethod.GET)
 	public String testFavouriteMessages(Locale locale, ModelMap model) {
@@ -141,7 +147,8 @@ public class FavouriteController {
 		
 		Log newlog = new Log("Messages favorited by user with ID: " + current.id + " is requested");
 		logService.saveOrUpdate(newlog);
-		
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "favMessages";
     }
 
@@ -158,7 +165,8 @@ public class FavouriteController {
 		
 		Log newlog = new Log("Channel with ID: " + channelId + " is favorited by user with ID: " + current.id);
 		logService.saveOrUpdate(newlog);
-		
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/channel/" + channelId;
 
 		
@@ -195,7 +203,8 @@ public class FavouriteController {
 		
 		Log newlog = new Log("Channel with ID: " + tempfavChnId + " is unfavorited by user with ID: " + current.id);
 		logService.saveOrUpdate(newlog);
-		
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/channel/" + channelId;
 
 	}
@@ -214,7 +223,8 @@ public class FavouriteController {
 		
 		Log newlog = new Log("Message with ID: " + messageId + " is favorited by user with ID: " + current.id);
 		logService.saveOrUpdate(newlog);
-		
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/channel/" + channelId;
 
 		
@@ -252,6 +262,7 @@ public class FavouriteController {
 		Log newlog = new Log("Message with ID: " + tempfavMsgId + " is unfavorited by user with ID: " + current.id);
 		logService.saveOrUpdate(newlog);
 
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/channel/" + channelId;
 		
 	}

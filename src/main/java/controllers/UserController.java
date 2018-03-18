@@ -69,7 +69,7 @@ import services.TempUserService;
 import services.UserService;
 
 @Controller
-@SessionAttributes({"login"})
+@SessionAttributes({"login", "notifications"})
 public class UserController {	
 	@Autowired
 	private UserService userService;
@@ -218,7 +218,8 @@ public class UserController {
         model.put("login",newuser);
         Log newlog = new Log("Logged in a user with username: " + username);
 		logService.saveOrUpdate(newlog);
-        
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "redirect:/test/profile";
     }
 	@RequestMapping(value = "/test/logout", method = RequestMethod.GET)
@@ -231,6 +232,7 @@ public class UserController {
 		}
 		else {
 			model.remove("login");
+			model.remove("notifications");
 		}
 		Log newlog = new Log("Logged out current user");
 		logService.saveOrUpdate(newlog);
@@ -328,7 +330,8 @@ public class UserController {
 		
 		Log newlog = new Log("Accessed to profile of user with ID: " + otherProfile.id);
 		logService.saveOrUpdate(newlog);
-		
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "otherProfile";
 	}
 	
@@ -404,7 +407,8 @@ public class UserController {
 		
 		Log newlog = new Log("Accessed to profile of user with ID: " + current.id);
 		logService.saveOrUpdate(newlog);
-		
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "profile";
 	}
 	

@@ -111,7 +111,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/test/search/{query}", method = RequestMethod.POST)
 	public String query(@RequestParam (value="query") String query) {
-		
+
 		return "redirect:/test/search/" + query;
     }
 	
@@ -160,7 +160,8 @@ public class HomeController {
 		model.addAttribute("joinedChannels",joinedChannels);
 		Log newlog = new Log("User made a search with query: " + query + " from GET method");
 		logService.saveOrUpdate(newlog);
-		
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "search";
 	}
 	
@@ -217,7 +218,8 @@ public class HomeController {
 		
 		Log newlog = new Log("Accessed to chat by user with ID: " + current.id);
 		logService.saveOrUpdate(newlog);
-		
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "chat";
 	}
 	
@@ -260,6 +262,8 @@ public class HomeController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		model.addAttribute("bekoSessions",objectMapper.writeValueAsString(session));
 		model.addAttribute("bekoChannelNames",objectMapper.writeValueAsString(channelNames));
+		
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "calendar";
 		
 	}
@@ -293,6 +297,8 @@ public class HomeController {
 		model.addAttribute("owner", owner);
 		model.addAttribute("channel",channel);
 		model.addAttribute("sessionList",sessionList);
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "channelView";
 	}
 	
@@ -318,6 +324,8 @@ public class HomeController {
 		}
 		model.addAttribute("mychannels",myChannels);
 		model.addAttribute("joinedChannels",joinedChannels);
+		
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "closed";
 	}
 	

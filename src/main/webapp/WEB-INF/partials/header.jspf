@@ -30,12 +30,17 @@
 							<!-- inner menu: contains the messages -->
 							<ul class="menu">
 								<li>
-									<!-- start message --> <a href="#"> <!-- Message title and timestamp -->
-										<h4>
-											Channel A <small><i class="fa fa-clock-o"></i> 5 mins</small>
-										</h4> <!-- The message -->
-										<p>Dehrioglu #A03C: Greetings, Mr. Giriş.</p>
-								</a>
+									<!-- start message --> 
+									<a href="#">
+				                      <div class="pull-left">
+				                        <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+				                      </div>
+				                      <h4>
+				                        Berkay Giris
+				                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+				                      </h4>
+				                      <p>Yo what's up</p>
+				                    </a>
 								</li>
 								<!-- end message -->
 							</ul> <!-- /.menu -->
@@ -51,11 +56,12 @@
 					data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <span
 						class="label label-warning">10</span>
 				</a>
-					<ul class="dropdown-menu">
+					<ul class="dropdown-menu" style="width: 400px;">
 						<li class="header">You have 10 notifications</li>
 						<li>
 							<!-- Inner Menu: contains the notifications -->
-							<ul class="menu">
+							<ul class="menu" style="max-height: 350px;">
+
 								<c:forEach items="${notifications}" var="notification" varStatus="counter">
 									<li>
 										<a href="#"><i class="fa
@@ -80,9 +86,8 @@
 											    </c:when>
 											    <c:otherwise></c:otherwise>
 											</c:choose>
-											</i>
-											 ${notification.toString()}
-											 
+											</i> ${notification.toString()}
+											<small class="pull-right">${notification.getTimestamp().toLocaleString()}</small>	 
 										</a>
 									</li>
 								</c:forEach>

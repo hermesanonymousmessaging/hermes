@@ -64,7 +64,7 @@ import services.SessionService;
 import services.UserService;
 
 @Controller
-@SessionAttributes({"login"})
+@SessionAttributes({"login", "notifications"})
 public class ChannelController {	
 	@Autowired
 	private UserService userService;
@@ -202,7 +202,7 @@ public class ChannelController {
 		Log newlog = new Log("Viewing channel with ID: " + channelId);
 		logService.saveOrUpdate(newlog);
 				
-		model.addAttribute("notifications", notificationService.getByIdWithNames(current.getId()));
+		model.put("notifications", notificationService.getByIdWithNames(current.getId()));
 	    return "channel";
 	}
 	
@@ -230,11 +230,16 @@ public class ChannelController {
 			Log newlog = new Log("Banned a user with ID: " + newuser.getId() + " from channel with ID: " + channelId);
 			logService.saveOrUpdate(newlog);
 			
+			Notification notification = new Notification(newuser.getId(), channelId);
+			notification.setBanned(true);			
+			notificationService.saveOrUpdate(notification);
+			
 	        return "redirect:/test/channel/" + channelId;
 		}
 		Log newlog = new Log("Could not ban user with username: " + banName + "as it was not found in the database");
 		logService.saveOrUpdate(newlog);
 		
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "redirect:/test/home";
     }
 	
@@ -265,10 +270,14 @@ public class ChannelController {
 				Log newlog = new Log("Delete user with ID: " + deleteUser.getId() + " from channel with ID: " + channelId);
 				logService.saveOrUpdate(newlog);
 				
+				Notification notification = new Notification(deleteUser.getId(), channelId);
+				notification.setKicked(true);			
+				notificationService.saveOrUpdate(notification);
+				
 				
 			}
 		}
-		
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/channel/" + channelId;
 	}
 	
@@ -292,16 +301,21 @@ public class ChannelController {
 				userService.saveOrUpdate(newuser);
 				Log newlog = new Log("Added a new user with ID: " + newuser.getId() + " to channel with ID: " + channelId);
 				logService.saveOrUpdate(newlog);
+				
+				Notification notification = new Notification(newuser.getId(), channelId);
+				notification.setApproved(true);			
+				notificationService.saveOrUpdate(notification);
+				
 			}else {
 				Log newlog = new Log("Could not add user with username: " + username + " to channel with ID: " + channelId + "as that user was banned previously");
 				logService.saveOrUpdate(newlog);
 			}
-			
+			model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 	        return "redirect:/test/channel/" + channelId;
 		}
 		Log newlog = new Log("Could not add user with username: " + username + "as it was not found in the database");
 		logService.saveOrUpdate(newlog);
-		
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "redirect:/test/home";
     }
 	
@@ -327,7 +341,7 @@ public class ChannelController {
 			logService.saveOrUpdate(newlog);
 		}
 		
-		
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/profile";
 	}
 	
@@ -350,6 +364,7 @@ public class ChannelController {
 		}
 		model.addAttribute("mychannels",myChannels);
 		model.addAttribute("joinedChannels",joinedChannels);
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return new ModelAndView("createChannel", "channel", new Channel());
     }
 	
@@ -409,6 +424,7 @@ public class ChannelController {
 		
 		Log newlog = new Log("A new channel with ID: " + newChannel.getId() + " is created by user with ID: " + userid);
 		logService.saveOrUpdate(newlog);
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "redirect:/test/calendar";
     }
 	
@@ -433,7 +449,7 @@ public class ChannelController {
 			channelRepository.delete(channel.getId());
 		}
 
-		
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/profile";
 	}
 	
@@ -465,14 +481,14 @@ public class ChannelController {
 		}
 		Log newlog = new Log("Could not unban user with username: " + banName + "as it was not found in the database");
 		logService.saveOrUpdate(newlog);
-		
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "redirect:/test/home";
     }
 	
 
 	@RequestMapping(value = "/test/channelView/{name}", method = RequestMethod.POST)
-	public String channelView() {
-		
+	public String channelView(ModelMap model) {
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "channelView";
     }
 	
