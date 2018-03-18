@@ -66,7 +66,7 @@
 								modelAttribute="user">
 								<div id="addDateCount"><input type="hidden" name="dateCount" value="1"></div>
 								<div class="box-body">
-									<div class="form-group">
+									<div id="div1" class="form-group">
 										<label for="channelName">Channel Name</label> <input
 											type="text" class="form-control" id="name"
 											placeholder="name" name="name">
@@ -139,6 +139,33 @@
 											</div>
 										</div>
 									</div>
+									
+									<div class="row">
+										<div class="col-md-5">
+											<div class="box box-body">
+												<div class="form-group">
+													<div class="checkbox">
+														<label> <input type="checkbox" name="friendlyChannel"
+															id="friendlyChannel" onclick="showMe('div1')"> <i class="fa fa-fw fa-tag"></i>
+															Friendly Channel Name
+															<p class="text-muted">Your channel name will be set to a friendly name.</p>
+														</label>
+													</div>
+													<div class="checkbox">
+														<label> <input type="checkbox" name="friendlyUser" id="friendlyUser">
+															<i class="fa fa-fw fa-tags"></i> 
+															Friendly User Names
+															<p class="text-muted">Users in this channel will be shown as animal names instead of their usernames.</p>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									
+									
+									
 									<div class="box box-body">
 										<div class="form-group">
 											<label>Date and time range:</label>
@@ -202,7 +229,17 @@
 	<script src="../resources/adminlte/dist/js/demo.js"></script>
 	<script src="../resources/adminlte/bower_components/moment/min/moment.min.js"></script>
 	<script src="../resources/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+	<script>
+		function showMe (box) {
+		    var chboxs = document.getElementById("div1").style.display;
+		    var vis = "none";
+		        if(chboxs=="none"){
+		         vis = "block"; }
+		        if(chboxs=="block"){
+		         vis = "none"; }
+		    document.getElementById(box).style.display = vis;
+		}
+	</script>
 	<script type="text/javascript">
 		$(function() {
 			$('.daterange').daterangepicker({
