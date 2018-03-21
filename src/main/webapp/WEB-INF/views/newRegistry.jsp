@@ -128,7 +128,7 @@ desired effect
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Hermes</a>
+				<a class="navbar-brand" href="https://localhost:5001">Hermes</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
