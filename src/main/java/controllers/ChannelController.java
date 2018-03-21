@@ -142,6 +142,24 @@ public class ChannelController {
 			members.add(member);
 		}
 		User current = userService.getById(((User) model.get("login")).getId());
+		
+		boolean isMember=false;
+		
+		for(String userId : channel.getMembersList()) {
+			if(userId.equals(current.getId())) {
+				
+				isMember = true;
+			}
+		}
+		
+		if(isMember == false) {
+			Log newlog = new Log("Could not access to channel with ID: " + channelId + " because user does not have authorization");
+			logService.saveOrUpdate(newlog);
+			
+			return "redirect:/test/profile";
+			
+		}
+		
 		List<Channel> myChannels = new ArrayList<Channel>();
 		List<Channel> joinedChannels = new ArrayList<Channel>();
 		Channel channel1;
@@ -342,6 +360,85 @@ public class ChannelController {
 		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "redirect:/test/home";
     }
+	
+	@RequestMapping(value = "/test/channel/{channelId}/joinRequest", method = RequestMethod.POST)
+	public String joinRequestToChannel(@RequestParam (value="channelId") String channelId, 
+									@RequestParam (value="name") String username,
+									ModelMap model) throws FileNotFoundException {
+		
+		User newuser = userRepository.findByUsername(username);
+		if(newuser != null) {
+			//username is in database
+			
+			Channel channel = channelService.getById(channelId);
+			Ban newBan = banRepository.findByUserId(newuser.getId());
+			
+			if(!channel.isMember(username) && (newBan == null) && !(newuser.getId().equals(channel.getOwnerId()))) {
+				//channel.addMember(newuser.getId());
+				//newuser.addChannel(channel.getId());
+				
+				//channelService.saveOrUpdate(channel);
+				//userService.saveOrUpdate(newuser);
+				Log newlog = new Log("Sended a join request for user with ID: " + newuser.getId() + " to channel with ID: " + channelId);
+				logService.saveOrUpdate(newlog);
+				
+				Notification notification = new Notification(channel.getOwnerId(), channelId);
+				notification.setJoin(true);	
+				notification.setApplicantName(username);
+				notificationService.saveOrUpdate(notification);
+				
+			}else {
+				Log newlog = new Log("Could not send join request for the user with username: " + username + " to channel with ID: " + channelId + "as that user was banned previously or owner of the channel");
+				logService.saveOrUpdate(newlog);
+			}
+			model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
+	        return "redirect:/test/profile";
+		}
+		Log newlog = new Log("Could not add user with username: " + username + "as it was not found in the database");
+		logService.saveOrUpdate(newlog);
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
+        return "redirect:/test/home";
+    }
+	
+	@RequestMapping(value = "/test/channel/{channelId}/inviteRequest", method = RequestMethod.POST)
+	public String inviteRequestToChannel(@RequestParam (value="channelId") String channelId, 
+									@RequestParam (value="name") String username,
+									ModelMap model) throws FileNotFoundException {
+		
+		User newuser = userRepository.findByUsername(username);
+		if(newuser != null) {
+			//username is in database
+			
+			Channel channel = channelService.getById(channelId);
+			Ban newBan = banRepository.findByUserId(newuser.getId());
+			
+			if(!channel.isMember(username) && (newBan == null) && !(newuser.getId().equals(channel.getOwnerId()))) {
+				//channel.addMember(newuser.getId());
+				//newuser.addChannel(channel.getId());
+				
+				//channelService.saveOrUpdate(channel);
+				//userService.saveOrUpdate(newuser);
+				Notification notification = new Notification(newuser.getId(), channelId);
+				notification.setInvite(true);
+				notification.setRecipientName(username);
+				notificationService.saveOrUpdate(notification);
+				
+				Log newlog = new Log("Sended an invite request for user with ID: " + newuser.getId() + " to channel with ID: " + channelId);
+				logService.saveOrUpdate(newlog);
+				
+			}else {
+				Log newlog = new Log("Could not send invite request for the user with username: " + username + " to channel with ID: " + channelId + "as that user was banned previously or owner of the channel");
+				logService.saveOrUpdate(newlog);
+			}
+			model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
+	        return "redirect:/test/channel/" + channelId;
+		}
+		Log newlog = new Log("Could not add user with username: " + username + "as it was not found in the database");
+		logService.saveOrUpdate(newlog);
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
+        return "redirect:/test/home";
+    }
+	
 	
 	@RequestMapping(value = "/test/channel/{channelId}/leavechannel", method = RequestMethod.POST)
 	public String leaveChannel(@RequestParam (value="channelId") String channelId, 

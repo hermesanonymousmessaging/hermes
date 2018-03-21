@@ -110,13 +110,13 @@
 					<div class="box-body">
 					<c:if test="${channel.getOwnerId() == login.getId()}">
 						<!-- form start -->
-						<form role="form" method="POST" action="/test/channel/{channelId}"
+						<form role="form" method="POST" action="/test/channel/{channelId}/inviteRequest"
 							modelAttribute="user">
 							<input type="hidden" name="channelId" value="${channel.getId()}">
 
 							<div class="box-body">
 								<div class="form-group">
-									<label for="name"> Add a user by username
+									<label for="name"> Invite a user by username
 									<select class="js-example-basic-single" style="width: 100%" id="name" name="name">
 										<c:forEach items="${nonMembers}" var="nonMember">
 											<option value="${nonMember.getUsername()}">${nonMember.getUsername()}</option>
@@ -124,7 +124,7 @@
 									</select>
 									</label>
 								</div>
-								<button type="submit" class="btn btn-primary">Add</button>
+								<button type="submit" class="btn btn-primary">Invite</button>
 							</div>
 							<!-- /.box-body -->
 						</form>

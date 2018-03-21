@@ -69,6 +69,14 @@ public class Channel {
 	public boolean isPublic() {
 		return this.type.equals("public");
 	}
+	
+	public boolean isPrivate() {
+		return this.type.equals("private");
+	}
+	
+	public boolean isHidden() {
+		return this.type.equals("hidden");
+	}
 	public Boolean getSms() {
 		return sms;
 	}

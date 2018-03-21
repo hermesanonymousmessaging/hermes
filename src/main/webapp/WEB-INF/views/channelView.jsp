@@ -71,6 +71,18 @@
 								</form>
 							</c:if>
 						</div>
+						
+						<div class="box box-primary">
+							<c:if test="${channel.isPrivate() eq true}">
+								<form role="form" method="POST" action="/test/channel/{channelId}/joinRequest">
+									<input type="hidden" name="channelId" value="${channel.getId()}">
+									<input type="hidden" name="name" value="${login.getUsername()}">
+									<span class="input-group-btn">
+										<button type="submit" class="btn btn-block btn-success"><i class="fa fa-fw fa-plus-square"></i> JOIN REQUEST</button>
+									</span>
+								</form>
+							</c:if>
+						</div>
 						<!-- /.box -->
 					</div>
 				</div>

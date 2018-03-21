@@ -170,6 +170,48 @@ public class HomeController {
 		
         return new ModelAndView("home", "user", new User());
     }
+	
+	@RequestMapping(value = "/test/allNotifications", method = RequestMethod.GET)
+	public String testAllNotifications(Locale locale, ModelMap model) {
+		
+		User current = userService.getById(((User) model.get("login")).getId());
+        //return new ModelAndView("home", "user", new User());
+		
+		List<Notification> allNotificationsList = new ArrayList<Notification>();
+		
+		allNotificationsList = notificationRepository.findByRecipientId(current.getId());
+		
+		Collections.sort(allNotificationsList, Collections.reverseOrder());
+		
+		for(Notification notification : allNotificationsList) {
+			notification.setChannelName(channelRepository.findOne(notification.getChannelId()).getName());
+		}
+		List<Channel> joinedChannels = new ArrayList<Channel>();
+		List<Channel> myChannels = new ArrayList<Channel>();
+		Channel channel;
+		for(String channel1Id : current.getChannelsList()) {
+			channel = channelService.getById(channel1Id);
+			if(channel.getOwnerId().equals(current.getId())) {
+				myChannels.add(channel);
+
+			}else {
+				joinedChannels.add(channel);
+				
+			}
+
+		}
+		
+
+		model.addAttribute("mychannels",myChannels);
+		model.addAttribute("joinedChannels",joinedChannels);
+		
+		Log newlog = new Log("Messages favorited by user with ID: " + current.id + " is requested");
+		logService.saveOrUpdate(newlog);
+
+		model.put("allNotifications",allNotificationsList);
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
+        return "allNotifications";
+    }
 
 	@RequestMapping(value = "/test/chat", method = RequestMethod.GET)
 	public String testChat(Locale locale, ModelMap model) {

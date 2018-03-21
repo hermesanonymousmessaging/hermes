@@ -29,9 +29,12 @@ public class Notification implements Comparable<Notification>{
     private Boolean kicked;
     
     private String channelName;
+    private String applicantName; // Username of the applicant for join requests
+    private String recipientName; // Username of the recepient for invite requests
     
     private String channelId;
     private String recipientId; // recipient that gets notified
+    
     
     private Integer messageCount;
     
@@ -163,6 +166,22 @@ public class Notification implements Comparable<Notification>{
 	@Override
 	public int compareTo(Notification other) {
         return this.timestamp.compareTo(other.timestamp);
+	}
+
+	public String getApplicantName() {
+		return applicantName;
+	}
+
+	public void setApplicantName(String applicantName) {
+		this.applicantName = applicantName;
+	}
+
+	public String getRecipientName() {
+		return recipientName;
+	}
+
+	public void setRecipientName(String recipientName) {
+		this.recipientName = recipientName;
 	}
     
     
