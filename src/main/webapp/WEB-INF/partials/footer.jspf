@@ -3,6 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	<footer class="main-footer">
 		<!-- Default to the left -->
-		<strong>Copyright &copy; 2016 <a href="#">Hermes</a>.
+		<strong>Copyright &copy; 2018 <a href="#">Hermes</a>.
 		</strong> All rights reserved.
 	</footer>
