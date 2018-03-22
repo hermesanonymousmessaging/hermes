@@ -88,10 +88,15 @@ public class MessageController {
 		for(String memberid : channel.getMembersList()) {
 			if(!(memberid.equals(senderId))) {
 				User receiver = userService.getById(memberid);
+				String name = "";
+				if(channel.isFriendly())
+					name = channel.getFriendlyNames().get(senderId);
+				else
+					name = userService.getById(senderId).getUsername();
 				if(channel.getEmail()) {
 					try {
-						
-						String mailText = "Hello there, "+userService.getById(senderId).getUsername()+" from channel "+channel.getName()+" sent in "+newmsg.getTimestamp()+"\n\n"+text;
+							
+						String mailText = "Hello there, \""+ name +"\" from channel "+channel.getName()+" sent in "+newmsg.getTimestamp()+"\n\n"+text;
 						
 						asyncMail.sendMail(receiver.getEmail(),mailText);
 					}catch( Exception e ){
@@ -102,8 +107,7 @@ public class MessageController {
 				}
 				if(channel.getSms()) {
 					try {
-						
-						String smsText = userService.getById(senderId).getUsername()+" from channel "+channel.getName()+" sent in "+newmsg.getTimestamp()+" : "+text;
+						String smsText ="\""+ name +"\" from channel "+channel.getName()+" sent in "+newmsg.getTimestamp()+" : "+text;
 						
 						asyncSms.sendSms(receiver.getPhoneNumber(),SMS_SENDER,smsText);
 					}catch( Exception e ){
