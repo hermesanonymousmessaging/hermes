@@ -21,34 +21,44 @@
 			<section class="content-header">
 				<h1>Favourite Messages</h1>
 			</section>
-
-			<!-- Main content -->
 			<section class="content">
 
-				<div class="row">
-					<div class="col-md-12">
-						<!-- DIRECT CHAT PRIMARY -->
-						<div class="box box-primary direct-chat direct-chat-primary">
-							
-							<!-- /.box-header -->
-							<div class="box-body">
-								<!-- Conversations are loaded here -->
-								<div class="direct-chat-messages">
-									<%@ include file="/WEB-INF/partials/fav-messages.jspf"%>
-								</div>
-								<!--/.direct-chat-messages-->
-								<!-- /.direct-chat-pane -->
-							</div>
-							<!-- /.box-body -->
-							<!-- /.box-footer-->
-						</div>
-						<!--/.direct-chat -->
-					</div>
-				</div>
-				<!-- /.row -->
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12">
+							<!-- The time line -->
+							<ul class="timeline">
+								<!-- timeline time label -->
+								<!-- /.timeline-label -->
+								<!-- timeline item -->
+								
+								<c:forEach items="${favouriteMessages}" var="msg" varStatus="counter">
+									<li>
+									
+										<i class="fa fa-envelope bg-blue"></i>
+											<div class="timeline-item">
+<%-- 												<span class="time"><small class="pull-right">${favouriteMessages.getTimestamp().toLocaleString()}</small></span> --%>
 
-			</section>
-			<!-- /.content -->
+												<h3 class="timeline-header">
+													<a href="/test/channel/<c:out value="${msg.getChannelId()}"/>"><c:out value="${current.getUserName()}" />Channel name : ${msg.getChannelName()}</a>
+												</h3>
+											    	<div class="timeline-body">
+											    	${msg.getMessageText()}
+											    	</div>
+											</div>
+										</a>
+									</li>
+								</c:forEach>
+								
+								<!-- END timeline item -->
+								<!-- timeline item -->
+							</ul>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+
+				</section>
 		</div>
 		<!-- /.content-wrapper -->
 

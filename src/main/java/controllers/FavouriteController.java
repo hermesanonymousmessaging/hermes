@@ -116,13 +116,11 @@ public class FavouriteController {
 		
 		favouriteMessagesList = favMessagesService.getByUserId(current.getId());
 		
-		List<Message> favouriteMessages = new ArrayList<Message>();
-		
+//		List<Message> favouriteMessages = new ArrayList<Message>();
+//		
 		for(FavMessages msg : favouriteMessagesList) {
 			
-			
-			
-			favouriteMessages.add(messageService.getById(msg.getMessageId()));
+			msg.setMessageText(messageService.getById(msg.getMessageId()).getText());;
 			
 		}
 		List<Channel> joinedChannels = new ArrayList<Channel>();
@@ -139,11 +137,9 @@ public class FavouriteController {
 			}
 
 		}
-		
-
 		model.addAttribute("mychannels",myChannels);
 		model.addAttribute("joinedChannels",joinedChannels);
-		model.addAttribute("favouriteMessages",favouriteMessages);
+		model.addAttribute("favouriteMessages",favouriteMessagesList);
 		
 		Log newlog = new Log("Messages favorited by user with ID: " + current.id + " is requested");
 		logService.saveOrUpdate(newlog);
@@ -217,7 +213,9 @@ public class FavouriteController {
 		
 		String userId = current.getId();
 		
-		FavMessages message = new FavMessages(userId,messageId);
+		
+		
+		FavMessages message = new FavMessages(userId,current.getUsername(),messageId,channelId,channelService.getChannelName(channelId));
 		
 		favMessagesService.saveOrUpdate(message);
 		

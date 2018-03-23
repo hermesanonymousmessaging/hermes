@@ -43,5 +43,12 @@ public class ChannelServiceImpl implements ChannelService{
 	public void delete(String id) {
 		channelRepository.delete(id);
 	}
+	
+	@Override
+	public String getChannelName(String id) {
+		
+		return channelRepository.findOne(id).getName();
+		
+	}
 		
 }
