@@ -26,17 +26,34 @@
 			<section class="content">
 
 				<div class="row">
+				    <c:if test="${!empty searchUsers}">
 					<div class="col-md-3">
-
-						<!-- Profile Image -->
 						<div class="box box-primary">
+						    <div class="box-header with-border">
+                                <i class="fa fa-users"></i>
+                                <h3 class="box-title">Users</h3>
+                            </div>
 							<div class="box-body box-profile">
-							<c:forEach items="${searchUsers}" var="user" varStatus="counter">
-								<c:if test="${!empty user}">
-								<h3 class="profile-username text-center"><a href="/test/profile/${user.getUsername()}">${user.getFirstName()}
-									${user.getLastName()}</a></h3>
-								</c:if>
-							</c:forEach>
+                                <c:forEach items="${searchUsers}" var="user" varStatus="counter">
+                                    <c:if test="${!empty user}">
+                                    <h3 class="profile-username text-center"><a href="/test/profile/${user.getUsername()}">${user.getFirstName()}
+                                        ${user.getLastName()}</a></h3>
+                                    </c:if>
+                                </c:forEach>
+							</div>
+							<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+					</c:if>
+					<c:if test="${!empty searchChannels}">
+					<div class="col-md-3">
+						<div class="box box-primary">
+						    <div class="box-header with-border">
+                                <i class="fa fa-commenting"></i>
+                                <h3 class="box-title">Channels</h3>
+                            </div>
+							<div class="box-body box-profile">
 							<c:forEach items="${searchChannels}" var="channel" varStatus="counter">
 								<c:if test="${!empty channel}">
 								<h3 class="profile-username text-center"><a href="/test/channelView/${channel.getId()}">${channel.getName()}</a></h3>
@@ -47,6 +64,7 @@
 						</div>
 						<!-- /.box -->
 					</div>
+					</c:if>
 				</div>
 				<!-- /.row -->
 
