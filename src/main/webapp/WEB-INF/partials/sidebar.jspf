@@ -37,10 +37,8 @@
 			      <ul class="sidebar-menu" data-widget="tree">
 			        <li class="header">Navigation</li>
 			        <!-- Optionally, you can add icons to the links -->
-			        <li class="active"><a href="../../test/home"><i class="fa fa-circle"></i> <span>Home</span></a></li>
 			        <li class="active"><a href="../../test/profile"><i class="fa fa-user-o"></i> <span>Profile</span></a></li>
 			        <li class="active"><a href="../../test/calendar"><i class="fa fa-calendar"></i> <span>Schedule</span></a></li>
-			        <li class="active"><a href="../../test/about"><i class="fa fa-info"></i> <span>About</span></a></li>
 			        <li class="header">Channels</li>
 			        <li class="active treeview menu-open">
           				<a href="#">
