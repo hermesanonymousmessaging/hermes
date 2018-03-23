@@ -70,7 +70,7 @@ import services.UserService;
 
 @Controller
 @SessionAttributes({"login", "notifications"})
-public class UserController {	
+public class UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -115,6 +115,9 @@ public class UserController {
 	private BanService banService;
 	@Autowired
 	private BanRepository banRepository;
+
+	@Autowired
+	private ChannelController channelController;
 	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user")TempUser user, ModelMap model, HttpServletRequest request) {
@@ -250,17 +253,7 @@ public class UserController {
 			channel = channelService.getById(channel1Id);
 			if (channel != null) {
 				if (channel.getOwnerId().equals(current.getId())) { // if owner then delete all members from channels
-					for (String memberId : channel.getMembersList()) {
-						User member = userService.getById(memberId);
-						if (member != null) {
-							channel.removeMember(member.getId());
-							member.removeChannel(channel.getId());
-							
-							userService.saveOrUpdate(member);
-							channelService.saveOrUpdate(channel);
-						}
-						channelRepository.delete(channel.getId());				
-					}
+					channelController.channelDeleter(current.getId(), channel.getId());
 				} else {  // else delete only current from channels
 					channel.removeMember(current.getId());
 					channelService.saveOrUpdate(channel);

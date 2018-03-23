@@ -296,7 +296,7 @@ public class ChannelController {
 		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/channel/" + channelId;
     }
-	
+
 	@RequestMapping(value = "/test/channel/{channelId}/deleteuser/{deleteName}", method = RequestMethod.POST)
 	public String deleteUserFromChannel(@RequestParam (value="channelId") String channelId, 
 									@RequestParam (value="deleteName") String deleteName,
@@ -590,14 +590,10 @@ public class ChannelController {
 		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "redirect:/test/calendar";
     }
-	
-	@RequestMapping(value = "/test/channel/{channelId}/deletechannel", method = RequestMethod.POST)
-	public String deleteChannel(@RequestParam (value="channelId") String channelId, 
-									ModelMap model) {
-		User current = userService.getById(((User) model.get("login")).getId());
+	public void channelDeleter(String deleterId, String channelId){
 		Channel channel = channelService.getById(channelId);
-		
-		if(channel.getOwnerId().equals(current.getId())) {
+
+		if(channel.getOwnerId().equals(deleterId)) {
 			for (Message message: messageRepository.findByChannelId(channel.getId())){
 				messageService.delete(message.getId());
 			}
@@ -613,21 +609,30 @@ public class ChannelController {
 			for(domain.Ban ban : banRepository.findByChannelId(channelId)){
 				banRepository.delete(ban.getId());
 			}
+			for(Notification notification : notificationRepository.findByChannelId(channelId)){
+				notificationRepository.delete(notification.getId());
+			}
 			for (String memberId : channel.getMembersList()) {
 				User member = userService.getById(memberId);
 
-					member.removeChannel(channel.getId());
-					userService.saveOrUpdate(member);
-					
-				
-					Log newlog = new Log("Deleted chann"+ channel.getId() + "from member" + member.getId());
-					logService.saveOrUpdate(newlog);
-				
+				member.removeChannel(channel.getId());
+				userService.saveOrUpdate(member);
+
+
+				Log newlog = new Log("Deleted chann"+ channel.getId() + "from member" + member.getId());
+				logService.saveOrUpdate(newlog);
+
 			}
 			channelRepository.delete(channel.getId());
 		}
+	}
+	@RequestMapping(value = "/test/channel/{channelId}/deletechannel", method = RequestMethod.POST)
+	public String deleteChannel(@RequestParam (value="channelId") String channelId, 
+									ModelMap model) {
+		User current = userService.getById(((User) model.get("login")).getId());
+		Channel channel = channelService.getById(channelId);
 
-
+		channelDeleter(current.getId(),channel.getId());
 
 		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/profile";
