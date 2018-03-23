@@ -122,11 +122,9 @@
 								<a href="#" class="btn btn-default btn-flat">Profile</a>
 							</div>
 							<div class="center">
-								<form role="form" method="POST" action="/test/deleteProfile"
-									style="display: inline">
-									<button type="submit" class="btn btn-primary"
-										style="float: center;">Delete</button>
-								</form>
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                                    Delete Profile
+                                </button>
 							</div>
 							<div class="pull-right">
 								<a href="/test/logout" class="btn btn-default btn-flat">Sign
@@ -139,3 +137,27 @@
 		</div>
 	</nav>
 </header>
+
+<div class="modal modal-danger fade" id="modal-danger" style="display: none;">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">You are about to delete your profile!</h4>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure? We are going to miss you.</p>
+              </div>
+              <div class="modal-footer">
+                <form role="form" method="POST" action="/test/deleteProfile"
+                									style="display: inline">
+                									<button type="submit" class="btn btn-danger"
+                										style="float: center;">Delete</button>
+                								</form>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
