@@ -46,7 +46,7 @@ public class FavMessagesServiceImplTest {
 	@Test
 	public void testListAll () {
 		
-		List<FavMessages> favMessagesListMockito = Arrays.asList(new FavMessages("5a2c25c053161f2668a31d9d","5a2c25d353161f2668a31da4"),new FavMessages("5a2d3d0953161f173ccac7d2","5a2c25d353161f2668a31da4"));
+		List<FavMessages> favMessagesListMockito = Arrays.asList(new FavMessages("5a3b","3r5","dehri","123","channel"),new FavMessages("5a3b","3r5","dehri","123","channel"));
 		
 		FavMessagesRepository mockito = mock(FavMessagesRepository.class);
 		
@@ -67,7 +67,7 @@ public class FavMessagesServiceImplTest {
 	@Test
 	public void testGetById() {
 		
-		FavMessages FavMessagesMockito = new FavMessages("5a2c25c053161f2668a31d9d","5a2c25d353161f2668a31da4");
+		FavMessages FavMessagesMockito = new FavMessages("5a3b","3r5","dehri","123","channel");
 		
 		FavMessagesMockito.setId("1");
 		
@@ -88,7 +88,7 @@ public class FavMessagesServiceImplTest {
 	@Test
 	public void testGetUserId() {
 		
-		List<FavMessages> favMessagesListMockito = Arrays.asList(new FavMessages("5a2c25c053161f2668a31d9d","5a2c25d353161f2668a31da4"),new FavMessages("5a2d3d0953161f173ccac7d2","5a2c25d353161f2668a31da4"));
+		List<FavMessages> favMessagesListMockito = Arrays.asList(new FavMessages("5a3b","3r5","dehri","123","channel"),new FavMessages("5a3b","3r5","dehri","123","channel"));
 		
 		FavMessagesRepository mockito = mock(FavMessagesRepository.class);
 		
@@ -109,7 +109,7 @@ public class FavMessagesServiceImplTest {
 	@Test
 	public void testSaveOrUpdate() {
 		
-		FavMessages FavMessagesMockito = new FavMessages("5a2c25c053161f2668a31d9d","5a2c25d353161f2668a31da4");
+		FavMessages FavMessagesMockito = new FavMessages("5a3b","3r5","dehri","123","channel");
 		
 		FavMessagesRepository mockito = mock(FavMessagesRepository.class);
 		

@@ -25,6 +25,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import controllers.BaseController;
+import controllers.MessageController;
+import controllers.UserController;
 import controllers.ChannelController;
 import controllers.FavouriteController;
 import controllers.HomeController;
@@ -69,6 +71,12 @@ public class TestControllerTest {
 	private FavouriteController favouriteController;
 	@InjectMocks
 	private ChannelController channelController;
+	@InjectMocks
+	private BaseController baseController;
+	@InjectMocks
+	private MessageController messageController;
+	@InjectMocks
+	private UserController userController;
 	
 	@Mock
 	private LogService logService;
@@ -184,10 +192,7 @@ public class TestControllerTest {
 	@Test
     public void testRegister() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/test/register"))
-        		.andExpect(status().isOk())
-        		.andExpect(view().name("register"))
-                .andExpect(forwardedUrl("/WEB-INF/view/register.jsp"));
-     
+        		.andExpect(status().isNotFound());
     }
 	
 	@Test
@@ -246,7 +251,7 @@ public class TestControllerTest {
 	
 	@Test
     public void testAddFavMes() throws Exception {
-		favmes = new FavMessages("1","15");
+		favmes = new FavMessages("5a3b","3r5","dehri","123","channel");
 		favmes.setId("1");
 		PowerMockito.whenNew(FavMessages.class).withArguments(Mockito.anyString(),Mockito.anyString()).thenReturn(favmes);
 		String viewName = favouriteController.addFovouritesMessages("1", "15", model);

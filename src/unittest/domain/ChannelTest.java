@@ -19,8 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ChannelTest {
-	@Rule
-    public ExpectedException exception = ExpectedException.none();
+	
 	
 	private static Channel testChannel;
 	private static String id = "0123456789";
@@ -51,15 +50,14 @@ public class ChannelTest {
         testChannel.setSms(sms);
         testChannel.setEmail(email);
         testChannel.setName(name);
-        testChannel.setOwnerId(ownerId);
+
         testChannel.setUserCount(userCount);
         members.add(memberId);
         membersList.addAll(members);
-        testChannel.addMember(memberId);
+
         sessions.add(sessionId);
         sessionsList.addAll(sessions);
         testChannel.addSession(sessionId);
-        testChannel.setFavourite(favourite);
         testChannel.setType(type);
     }
 	
@@ -108,10 +106,6 @@ public class ChannelTest {
 		Assert.assertEquals(isMember,testChannel.isMember(memberId));
 	}
 	
-	@Test
-	public void testisFavourite() {
-		Assert.assertEquals(favourite,testChannel.isFavourite());
-	}
 	
 	@Test
 	public void testgetMembers() {

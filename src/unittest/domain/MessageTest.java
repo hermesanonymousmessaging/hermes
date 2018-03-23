@@ -152,11 +152,6 @@ public class MessageTest {
 		Assert.assertEquals(sid,msg10.getSessionId());
 	}
 	
-	@Test
-	public void testsetFavoutite() {
-		msg1.setFavourite(true);
-		Assert.assertEquals(true,msg1.isFavourite());
-	}
 	
 	
 	@Test

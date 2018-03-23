@@ -28,11 +28,14 @@ public class FavMessagesTest {
     
     private static String userId =  "5a3b";
     private static String messageId = "3r5";
+    private static String userName = "dehri";
+    private static String channelId = "123";
+    private static String channelName = "channel";
 	
 	@BeforeClass
     public static void setUpBeforeClass() {
 		favMessages = new FavMessages();
-		favMessages2 = new FavMessages(userId,messageId);
+		favMessages2 = new FavMessages(userId,userName,messageId,channelId,channelName);
 		
 		
 		
