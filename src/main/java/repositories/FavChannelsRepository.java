@@ -8,6 +8,6 @@ import domain.FavChannels;
 
 public interface FavChannelsRepository extends MongoRepository<FavChannels, String> {
     public List<FavChannels> findByUserId(String userId);
-    
+    public List<FavChannels> findByChannelId(String channelId);
 
 }

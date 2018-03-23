@@ -597,7 +597,22 @@ public class ChannelController {
 		User current = userService.getById(((User) model.get("login")).getId());
 		Channel channel = channelService.getById(channelId);
 		
-		if(channel.getOwnerId().equals(current.getId())) {	
+		if(channel.getOwnerId().equals(current.getId())) {
+			for (Message message: messageRepository.findByChannelId(channel.getId())){
+				messageService.delete(message.getId());
+			}
+			for (String sessionId : channel.getSessionsList()){
+				sessionService.delete(sessionId);
+			}
+			for(FavMessages favMessage : favMessagesRepository.findByChannelId(channelId)){
+				favMessagesService.delete(favMessage.getId());
+			}
+			for(FavChannels favChannel : favChannelsRepository.findByChannelId(channelId)){
+				favChannelsRepository.delete(favChannel.getId());
+			}
+			for(domain.Ban ban : banRepository.findByChannelId(channelId)){
+				banRepository.delete(ban.getId());
+			}
 			for (String memberId : channel.getMembersList()) {
 				User member = userService.getById(memberId);
 
@@ -611,6 +626,8 @@ public class ChannelController {
 			}
 			channelRepository.delete(channel.getId());
 		}
+
+
 
 		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "redirect:/test/profile";

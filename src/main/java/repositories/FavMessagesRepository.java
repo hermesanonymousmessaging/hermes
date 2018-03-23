@@ -8,6 +8,5 @@ import domain.FavMessages;
 
 public interface FavMessagesRepository extends MongoRepository<FavMessages, String> {
     public List<FavMessages> findByUserId(String userId);
-    
-
+    public List<FavMessages> findByChannelId(String channelId);
 }
