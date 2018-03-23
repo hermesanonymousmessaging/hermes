@@ -139,7 +139,9 @@
 									<label for="banName"> Ban a user by username
 									<select class="js-example-basic-single" style="width: 100%" id="banName" name="banName">
 										<c:forEach items="${members}" var="member">
-											<option value="${member.getUsername()}">${member.getUsername()}</option>
+											<c:if test="${channel.getOwnerId() != member.getId()}">
+												<option value="${member.getUsername()}">${member.getUsername()}</option>
+											</c:if>
 										</c:forEach>
 									</select>
 									</label>

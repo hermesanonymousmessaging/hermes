@@ -230,8 +230,15 @@ public class ChannelController {
 		
 		//adding non-members
 		List<User> allUsers = userRepository.findAll();
-		model.addAttribute("nonMembers", allUsers);
+		List<User> nonMemberList = new ArrayList<User>();
 		
+		for(User nonMember : allUsers) {
+			if(!channel.isMember(nonMember.getId())) {
+				nonMemberList.add(nonMember);
+			}
+		}
+		
+		model.addAttribute("nonMembers", nonMemberList);
 		//adding banned-members
 		List<User> bannedUsers = new ArrayList<User>();
 		List<Ban> bans = banRepository.findByChannelId(channel.getId());
@@ -253,36 +260,41 @@ public class ChannelController {
 									@RequestParam (value="banName") String banName,
 									ModelMap model) {
 		
+		User current = userService.getById(((User) model.get("login")).getId());
 		User newuser = userRepository.findByUsername(banName);
-		if(newuser != null) {
-			//username is in database
-			
-			Channel channel = channelService.getById(channelId);
-			
-			if(channel.isMember(newuser.getId())) {
-				channel.removeMember(newuser.getId());
-				newuser.removeChannel(channel.getId());
+
+		if(!banName.equals(current.getUsername())) {
+			System.out.println("user is not channel owner");
+			if(newuser != null) {
+				//username is in database
 				
-				Ban newBan = new Ban(newuser.getId(),channel.getId());
-				banService.saveOrUpdate(newBan);
+				Channel channel = channelService.getById(channelId);
+				
+				if(channel.isMember(newuser.getId())) {
+					channel.removeMember(newuser.getId());
+					newuser.removeChannel(channel.getId());
+					
+					Ban newBan = new Ban(newuser.getId(),channel.getId());
+					banService.saveOrUpdate(newBan);
+				}
+				
+				channelService.saveOrUpdate(channel);
+				userService.saveOrUpdate(newuser);
+				Log newlog = new Log("Banned a user with ID: " + newuser.getId() + " from channel with ID: " + channelId);
+				logService.saveOrUpdate(newlog);
+				
+				Notification notification = new Notification(newuser.getId(), channelId);
+				notification.setBanned(true);			
+				notificationService.saveOrUpdate(notification);
+				
+		        return "redirect:/test/channel/" + channelId;
 			}
-			
-			channelService.saveOrUpdate(channel);
-			userService.saveOrUpdate(newuser);
-			Log newlog = new Log("Banned a user with ID: " + newuser.getId() + " from channel with ID: " + channelId);
-			logService.saveOrUpdate(newlog);
-			
-			Notification notification = new Notification(newuser.getId(), channelId);
-			notification.setBanned(true);			
-			notificationService.saveOrUpdate(notification);
-			
-	        return "redirect:/test/channel/" + channelId;
 		}
 		Log newlog = new Log("Could not ban user with username: " + banName + "as it was not found in the database");
 		logService.saveOrUpdate(newlog);
 		
 		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
-        return "redirect:/test/home";
+		return "redirect:/test/channel/" + channelId;
     }
 	
 	@RequestMapping(value = "/test/channel/{channelId}/deleteuser/{deleteName}", method = RequestMethod.POST)
