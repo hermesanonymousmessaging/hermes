@@ -49,7 +49,7 @@ import services.UserService;
 @Controller
 @SessionAttributes({"login"})
 public class MessageController {
-	private static final String SMS_SENDER = "+15752147992";
+	private static final String SMS_SENDER = "+18317041153";
 	
 	@Autowired
 	private UserService userService;
