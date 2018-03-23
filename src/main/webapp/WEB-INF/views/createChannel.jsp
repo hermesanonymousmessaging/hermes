@@ -69,7 +69,7 @@
 									<div id="div1" class="form-group">
 										<label for="channelName">Channel Name</label> <input
 											type="text" class="form-control" id="name"
-											placeholder="name" name="name">
+											placeholder="name" name="name" required>
 									</div>
 									<div class="row">
 										<div class="col-md-3">
@@ -232,6 +232,12 @@
 	<script>
 		function showMe (box) {
 		    var chboxs = document.getElementById("div1").style.display;
+		    var check_box = document.getElementById('friendlyChannel');
+		    if(check_box.checked)
+		         document.getElementById('name').required = false;
+		    else
+		         document.getElementById('name').required = true;
+
 		    var vis = "none";
 		        if(chboxs=="none"){
 		         vis = "block"; }
