@@ -118,20 +118,41 @@ public class HomeController {
 	@RequestMapping(value = "/test/search/{query}", method = RequestMethod.GET)
 	public String search(@PathVariable("query") String query, ModelMap model){
 		
+		Set<String> otherProfilesIDs = new HashSet<String>();
+		
 		User otherProfile = userRepository.findByUsernameIgnoreCase(query);
 		if( otherProfile != null) {
-			model.addAttribute("otherProfileUser",otherProfile);
+			//model.addAttribute("otherProfileUser",otherProfile);
+			otherProfilesIDs.add(otherProfile.getId());
 		}
 		
 		List<User> otherProfilesFirst = userRepository.findByFirstNameIgnoreCase(query);
 		if( otherProfilesFirst != null) {
-			model.addAttribute("otherProfilesFirst",otherProfilesFirst);
+			for(User temp : otherProfilesFirst) {
+				otherProfilesIDs.add(temp.getId());
+				
+			}
+			//model.addAttribute("otherProfilesFirst",otherProfilesFirst);
 		}
 		
 		List<User> otherProfilesLast = userRepository.findByLastNameIgnoreCase(query);
 		if( otherProfilesLast != null) {
-			model.addAttribute("otherProfilesLast",otherProfilesLast);
+			for(User temp : otherProfilesLast) {
+				otherProfilesIDs.add(temp.getId());
+				
+			}
+			//model.addAttribute("otherProfilesLast",otherProfilesLast);
 		}
+		
+		List<User> searchUsers = new ArrayList<User>();
+		
+		for(String id :otherProfilesIDs ) {
+			
+			searchUsers.add(userService.getById(id));
+		}
+		
+		model.addAttribute("searchUsers",searchUsers);
+		
 		List<Channel> channels = channelRepository.findByNameIgnoreCase(query);
 		if(channels != null) {
 			//excluding hidden channels

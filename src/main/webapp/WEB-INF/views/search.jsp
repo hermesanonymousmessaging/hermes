@@ -31,29 +31,17 @@
 						<!-- Profile Image -->
 						<div class="box box-primary">
 							<div class="box-body box-profile">
-								<c:if test="${!empty otherProfileUser}">
-								<h3 class="profile-username text-center"><a href="/test/profile/${otherProfileUser.getUsername()}">${otherProfileUser.getFirstName()}
-									${otherProfileUser.getLastName()}</a></h3>
+							<c:forEach items="${searchUsers}" var="user" varStatus="counter">
+								<c:if test="${!empty user}">
+								<h3 class="profile-username text-center"><a href="/test/profile/${user.getUsername()}">${user.getFirstName()}
+									${user.getLastName()}</a></h3>
 								</c:if>
-								<c:if test="${!empty otherProfilesFirst}">
-								<h3 class="profile-username text-center"><a href="/test/profile/${otherProfilesFirst[0].getUsername()}">${otherProfilesFirst[0].getFirstName()}
-									${otherProfilesFirst[0].getLastName()}</a></h3>
+							</c:forEach>
+							<c:forEach items="${searchChannels}" var="channel" varStatus="counter">
+								<c:if test="${!empty channel}">
+								<h3 class="profile-username text-center"><a href="/test/channelView/${channel.getId()}">${channel.getName()}</a></h3>
 								</c:if>
-								<c:if test="${!empty otherProfilesFirst[1]}">
-								<h3 class="profile-username text-center"><a href="/test/profile/${otherProfilesFirst[1].getUsername()}">${otherProfilesFirst[1].getFirstName()}
-									${otherProfilesFirst[1].getLastName()}</a></h3>
-								</c:if>	
-								<c:if test="${!empty otherProfilesLast}">
-								<h3 class="profile-username text-center"><a href="/test/profile/${otherProfilesLast[0].getUsername()}">${otherProfilesLast[0].getFirstName()}
-									${otherProfilesLast[0].getLastName()}</a></h3>
-								</c:if>
-								<c:if test="${!empty otherProfilesLast[1]}">
-								<h3 class="profile-username text-center"><a href="/test/profile/${otherProfilesLast[1].getUsername()}">${otherProfilesLast[1].getFirstName()}
-									${otherProfilesLast[1].getLastName()}</a></h3>
-								</c:if>
-								<c:if test="${!empty searchChannels}">
-								<h3 class="profile-username text-center"><a href="/test/channelView/${searchChannels.get(0).getId()}">${searchChannels.get(0).getName()}</a></h3>
-								</c:if>
+							</c:forEach>
 							</div>
 							<!-- /.box-body -->
 						</div>
