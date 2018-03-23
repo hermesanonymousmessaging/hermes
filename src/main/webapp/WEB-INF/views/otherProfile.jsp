@@ -171,8 +171,10 @@
 											</div>
 											<!-- /.box-header -->
 											<div class="box-body" style="display: none;">
-												<c:forEach items="${mychannels}" var="item">
+												<c:forEach items="${othermychannels}" var="item">
+												<c:if test="${!item.isHidden()}">
 													<a href="#" class="btn btn-primary"><c:out value="${item.getName()}" /></a>
+												</c:if>
 												</c:forEach>					
 											</div>
 											<!-- /.box-body -->
@@ -194,8 +196,10 @@
 											</div>
 											<!-- /.box-header -->
 												<div class="box-body" style="display: none;">
-												<c:forEach items="${joinedChannels}" var="item">
+												<c:forEach items="${otherjoinedChannels}" var="item">
+												<c:if test="${!item.isHidden()}">
 													<a href="#" class="btn btn-primary"><c:out value="${item.getName()}" /></a>
+												</c:if>
 												</c:forEach>					
 												</div>
 											<!-- /.box-body -->
@@ -217,8 +221,10 @@
 											</div>
 											<!-- /.box-header -->
 												<div class="box-body" style="display: none;">
-												<c:forEach items="${favouriteChannels}" var="item">
+												<c:forEach items="${otherfavouriteChannels}" var="item">
+												<c:if test="${!item.isHidden()}">
 													<a href="#" class="btn btn-primary"><c:out value="${item.getName()}" /></a>
+												</c:if>
 												</c:forEach>					
 												</div>
 											<!-- /.box-body -->

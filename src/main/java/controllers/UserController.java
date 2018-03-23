@@ -280,33 +280,53 @@ public class UserController {
 	@RequestMapping(value = "/test/profile/{query}", method = RequestMethod.GET)
 	public String testProfile(@PathVariable("query") String query, Locale locale, ModelMap model) throws JsonProcessingException {
 		
+		User current = userService.getById(((User) model.get("login")).getId());
+		
+		List<Channel> otherJoinedChannels = new ArrayList<Channel>();
+		List<Channel> otherMyChannels = new ArrayList<Channel>();
+		List<Channel> otherFavouriteChannels = new ArrayList<Channel>();
+		List<FavChannels> favouriteChannelsList = new ArrayList<FavChannels>();
+		
 		List<Channel> joinedChannels = new ArrayList<Channel>();
 		List<Channel> myChannels = new ArrayList<Channel>();
-		List<Channel> favouriteChannels = new ArrayList<Channel>();
-		List<FavChannels> favouriteChannelsList = new ArrayList<FavChannels>();
 		
 		User otherProfile = userRepository.findByUsername(query);
 		
 		favouriteChannelsList = favChannelsService.getByUserId(otherProfile.getId());
 		
 		for(FavChannels msg : favouriteChannelsList) {
-			favouriteChannels.add(channelService.getById(msg.getchannelId()));
+			otherFavouriteChannels.add(channelService.getById(msg.getchannelId()));
 		}
 		
 		Channel channel;
 		for(String channel1Id : otherProfile.getChannelsList()) {
 			channel = channelService.getById(channel1Id);
 			if(channel.getOwnerId().equals(otherProfile.getId())) {
-				myChannels.add(channel);
+				otherMyChannels.add(channel);
 			}else {
-				joinedChannels.add(channel);
+				otherJoinedChannels.add(channel);
 			}
 		}
 		
-		model.addAttribute("favouriteChannels",favouriteChannels);
-		model.addAttribute("mychannels",myChannels);
-		model.addAttribute("joinedChannels",joinedChannels);
+		for(String channel1Id : current.getChannelsList()) {
+			channel = channelService.getById(channel1Id);
+			if(channel.getOwnerId().equals(current.getId())) {
+				myChannels.add(channel);
+
+			}else {
+				joinedChannels.add(channel);
+				
+			}
+
+		}
+		
+		model.addAttribute("otherfavouriteChannels",otherFavouriteChannels);
+		model.addAttribute("othermychannels",otherMyChannels);
+		model.addAttribute("otherjoinedChannels",otherJoinedChannels);
 		model.addAttribute("profile", otherProfile);
+		
+		model.addAttribute("joinedChannels",joinedChannels);
+		model.addAttribute("mychannels",myChannels);
 		List<Session> session = new ArrayList<Session>();
 		session = sessionService.listAll();
 		
