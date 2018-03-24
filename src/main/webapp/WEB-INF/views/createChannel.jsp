@@ -125,14 +125,14 @@
 												<div class="form-group">
 													<div class="radio">
 														<label> <input type="radio" name="group"
-															id="group2" value="direct" checked=""> <i class="fa fa-fw fa-user"></i> Direct 
-															<p class="text-muted">Every member will contact with the owner seperately</p>
+															id="group2" value="group" checked=""> <i class="fa fa-fw fa-users"></i> Group
+															<p class="text-muted">Messages will be sent to all members</p>
 														</label>
 													</div>
 													<div class="radio">
 														<label> <input type="radio" name="group"
-															id="group2" value="group"> <i class="fa fa-fw fa-users"></i> Group 
-															<p class="text-muted">Messages will be sent to all members</p>
+															id="group2" value="direct" disabled="true"> <i class="fa fa-fw fa-user"></i> Direct
+															<p class="text-muted">Every member will contact with the owner seperately</p>
 														</label>
 													</div>
 												</div>
