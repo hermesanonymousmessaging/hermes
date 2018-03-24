@@ -28,15 +28,18 @@ public class User {
     private String profilePicture;
     private String confirmationToken;
     private Set<String> channels;
+    private Boolean privateProfile;
 
     public User() {
     	channels = new HashSet<String>();
+		this.privateProfile = true;
     }
 
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
         channels = new HashSet<String>();
+        this.privateProfile = true;
     }
   
     public User(String firstName, String lastName, String email, String password, String username, String phoneNumber, String profilePicture) {
@@ -48,14 +51,16 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.profilePicture = profilePicture;
         channels = new HashSet<String>();
+		this.privateProfile = true;
     }
 
-    @Override
-    public String toString() {
-        return String.format(
-                "Customer[id=%s, firstName='%s', lastName='%s']",
-                id, firstName, lastName);
-    }
+	public Boolean getPrivateProfile() {
+		return privateProfile;
+	}
+
+	public void setPrivateProfile(Boolean privateProfile) {
+		this.privateProfile = privateProfile;
+	}
 
 	public String getFirstName() {
 		return firstName;

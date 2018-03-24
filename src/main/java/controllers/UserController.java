@@ -227,6 +227,31 @@ public class UserController {
 		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "redirect:/test/profile";
     }
+
+	@RequestMapping(value = "/test/changePrivacy", method = RequestMethod.POST)
+	public String changeProfilePrivacy(@RequestParam (value="userId") String userId, Locale locale, ModelMap model) {
+		User current = userRepository.findOne(userId);
+		//username check
+		if(current == null) {
+			Log newlog = new Log("Could not find the user: " + userId);
+			logService.saveOrUpdate(newlog);
+
+			return "redirect:/test/home";
+		}
+
+		if(((User)model.get("login")).getId().equals(current.getId())){
+			current.setPrivateProfile(!current.getPrivateProfile());
+		}
+		model.put("login",current);
+		userService.saveOrUpdate(current);
+
+		Log newlog = new Log("User \"" + userId +"\" has changed their privacy setting");
+		logService.saveOrUpdate(newlog);
+
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
+		return "redirect:/test/profile";
+	}
+
 	@RequestMapping(value = "/test/logout", method = RequestMethod.GET)
 	public String logout(Locale locale, ModelMap model) {
 		if(model.get("login") == null) {
@@ -244,7 +269,7 @@ public class UserController {
 		
 		return "redirect:/test/home";
 	}
-	
+
 	@RequestMapping(value = "/test/deleteProfile", method = RequestMethod.POST)
 	public String deleteProfile(@ModelAttribute("user") User user, ModelMap model) {
 
@@ -287,7 +312,46 @@ public class UserController {
 		List<Channel> myChannels = new ArrayList<Channel>();
 		
 		User otherProfile = userRepository.findByUsername(query);
-		
+		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
+		Channel chnl;
+		for(String channel1Id : current.getChannelsList()) {
+			chnl = channelService.getById(channel1Id);
+			if(chnl.getOwnerId().equals(current.getId())) {
+				myChannels.add(chnl);
+
+			}else {
+				joinedChannels.add(chnl);
+
+			}
+
+		}
+		model.addAttribute("joinedChannels",joinedChannels);
+		model.addAttribute("mychannels",myChannels);
+		List<Session> session = new ArrayList<Session>();
+		session = sessionService.listAll();
+
+		model.addAttribute("sessionList",session);
+
+
+		//BEKOSHOW
+		HashMap<String,String> channelNames = new HashMap<String,String>();
+		session = new ArrayList<Session>();
+		myChannels = new ArrayList<Channel>();
+		for(String channelid : otherProfile.getChannelsList()) {
+			chnl = channelService.getById(channelid);
+			for(String sesid : chnl.getSessionsList()) {
+				session.add(sessionService.getById(sesid));
+				channelNames.put(sesid, chnl.getName());
+			}
+		}
+		ObjectMapper objectMapper = new ObjectMapper();
+		model.addAttribute("bekoSessions",objectMapper.writeValueAsString(session));
+		model.addAttribute("bekoChannelNames",objectMapper.writeValueAsString(channelNames));
+
+		//CANT ACCESS PROFILE
+		if(otherProfile.getPrivateProfile())
+			return "privateProfile";
+
 		favouriteChannelsList = favChannelsService.getByUserId(otherProfile.getId());
 		
 		for(FavChannels msg : favouriteChannelsList) {
@@ -304,50 +368,18 @@ public class UserController {
 			}
 		}
 		
-		for(String channel1Id : current.getChannelsList()) {
-			channel = channelService.getById(channel1Id);
-			if(channel.getOwnerId().equals(current.getId())) {
-				myChannels.add(channel);
 
-			}else {
-				joinedChannels.add(channel);
-				
-			}
-
-		}
 		
 		model.addAttribute("otherfavouriteChannels",otherFavouriteChannels);
 		model.addAttribute("othermychannels",otherMyChannels);
 		model.addAttribute("otherjoinedChannels",otherJoinedChannels);
 		model.addAttribute("profile", otherProfile);
 		
-		model.addAttribute("joinedChannels",joinedChannels);
-		model.addAttribute("mychannels",myChannels);
-		List<Session> session = new ArrayList<Session>();
-		session = sessionService.listAll();
-		
-		model.addAttribute("sessionList",session);
-		
-		
-		//BEKOSHOW
-		HashMap<String,String> channelNames = new HashMap<String,String>();
-		session = new ArrayList<Session>();
-		myChannels = new ArrayList<Channel>();
-		for(String channelid : otherProfile.getChannelsList()) {
-			channel = channelService.getById(channelid);
-			for(String sesid : channel.getSessionsList()) {
-				session.add(sessionService.getById(sesid));
-				channelNames.put(sesid, channel.getName());
-			}
-		}
-		ObjectMapper objectMapper = new ObjectMapper();
-		model.addAttribute("bekoSessions",objectMapper.writeValueAsString(session));
-		model.addAttribute("bekoChannelNames",objectMapper.writeValueAsString(channelNames));
+
 		
 		Log newlog = new Log("Accessed to profile of user with ID: " + otherProfile.id);
 		logService.saveOrUpdate(newlog);
 
-		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
 		return "otherProfile";
 	}
 	

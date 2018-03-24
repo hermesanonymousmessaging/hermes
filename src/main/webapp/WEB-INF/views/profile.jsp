@@ -91,9 +91,16 @@
 								<h3 class="profile-username text-center">${profile.getFirstName()}
 									${profile.getLastName()}</h3>
 
-								<p class="text-muted text-center">Software Engineer</p>
-
-								<a href="#" class="btn btn-primary btn-block"><b>Contact</b></a>
+								<p class="text-muted text-center">
+								    <c:choose>
+                                       <c:when test="${profile.getPrivateProfile()}">Private Profile Page</c:when>
+                                       <c:otherwise>Public Profile Page</c:otherwise>
+                                    </c:choose>
+								</p>
+                                <form role="form" method="POST" action="/test/changePrivacy">
+                                    <input type="hidden" name="userId" value="${profile.getId()}">
+                                    <button id="button" type="submit" class="btn btn-primary"><i class="fa fa-fw fa-gear"></i><b>Change</b></button>
+                                </form>
 							</div>
 							<!-- /.box-body -->
 						</div>
@@ -103,56 +110,12 @@
 					<div class="col-md-9">
 						<div class="nav-tabs-custom">
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#about" data-toggle="tab">About</a></li>
-								<li><a href="#channels" data-toggle="tab">Channels</a></li>
+								<li class="active"><a href="#channels" data-toggle="tab">Channels</a></li>
 								<li><a href="#schedule" data-toggle="tab">Schedule</a></li>
 							</ul>
 							<div class="tab-content">
-								<div class="active tab-pane" id="about">
-									<div class="box-body">
-										<strong><i class="fa fa-book margin-r-5"></i>
-											Education</strong>
-
-										<p class="text-muted">B.S. in Computer Science from the
-											Istanbul Technical University</p>
-
-										<hr>
-
-										<strong><i class="fa fa-map-marker margin-r-5"></i>
-											Location</strong>
-
-										<p class="text-muted">Istanbul, Turkey</p>
-
-										<hr>
-
-										<strong><i class="fa fa-file-text-o margin-r-5"></i>
-											Notes</strong>
-
-										<p>Since I'm busy this term, it might take a few hours for
-											me to reply back. Sorry for inconvenience.</p>
-
-										<hr>
-
-										<strong><i class="fa fa-clock-o margin-r-5"></i>
-											Available times</strong>
-
-										<p>I'm available from 9-to-5 from Mondays to Thursdays</p>
-
-										<hr>
-
-										<strong><i class="fa fa-comments margin-r-5"></i>
-											Preferred communication channels</strong>
-
-										<p>
-											<span class="label label-primary">E-mail</span> <span
-												class="label label-primary">In app message</span> <span
-												class="label label-primary">SMS</span>
-										</p>
-
-									</div>
-								</div>
 								<!-- /.tab-pane -->
-								<div class="tab-pane" id="channels">
+								<div class="active tab-pane" id="channels">
 
 								<div class="box-body">
 
