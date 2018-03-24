@@ -1,5 +1,8 @@
 package controllers;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +18,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,6 +128,15 @@ public class UserController {
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user")TempUser user, ModelMap model, HttpServletRequest request) {
 		User newuser = userRepository.findByUsername(user.getUsername());
+		Image image = null;
+		try {
+			image = ImageIO.read(new File(user.getProfilePicture()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(image == null){
+			user.setProfilePicture("/resources/avatar.jpg");
+		}
 		if(newuser != null) {
 			//username is taken
 			Log newlog = new Log("Could not create user with username: " + user.getUsername() + "as it was taken");
