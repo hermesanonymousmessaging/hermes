@@ -222,12 +222,16 @@ public class ChannelController {
 			favMessages.add(messageService.getById(favmsg.getMessageId()));
 			
 		}
+		
 		if(channel.isFriendly()) {
+			
 			List<String> friendlyNamesList = new ArrayList<String>();
 			for(User member : members) {
 				
 				friendlyNamesList.add(senders.get(member.getId()));
 			}
+			String ownerFriendlyName = senders.get(channel.getOwnerId());
+			model.addAttribute("ownerFriendlyName", ownerFriendlyName);
 			model.addAttribute("friendlyUserNames", friendlyNamesList);
 		}
 		
@@ -250,11 +254,20 @@ public class ChannelController {
 		model.addAttribute("nonMembers", nonMemberList);
 		//adding banned-members
 		List<User> bannedUsers = new ArrayList<User>();
+		List<String> bannedFriendlyNamesList = new ArrayList<String>();
 		List<Ban> bans = banRepository.findByChannelId(channel.getId());
+		senders = channel.getFriendlyNames();
 		for(Ban ban : bans) {
+			
 			bannedUsers.add(userService.getById(ban.getUserId()));
-		}
+			if(channel.isFriendly()) {
+				String temporary = senders.get(ban.getUserId());
+				bannedFriendlyNamesList.add(temporary);
+			    }
+			    
+			}
 		
+		model.addAttribute("friendlyBannedUsers",bannedFriendlyNamesList);
 		model.addAttribute("bannedUsers", bannedUsers);
 		
 		Log newlog = new Log("Viewing channel with ID: " + channelId);
@@ -264,20 +277,48 @@ public class ChannelController {
 	    return "channel";
 	}
 	
+	public String processName(String channelId, String banName) {
+		
+		Channel channel = channelService.getById(channelId);
+		String processedBanName = new String();
+		HashMap<String,String> senders = new HashMap<String,String>();
+
+		if(channel.isFriendly()) {
+			System.out.println("Friendly");
+			senders = channel.getFriendlyNames();
+		    for (Entry<String, String> entry : senders.entrySet()) {
+		         if (entry.getValue().equals(banName)) {
+		        	 	processedBanName = entry.getKey();
+		         }
+		    }
+		    User processUser = userService.getById(processedBanName);
+		    processedBanName = processUser.getUsername();
+			System.out.println(processedBanName);
+		}
+		else {
+			processedBanName = banName;
+			System.out.println(processedBanName);
+		}
+		return processedBanName;
+	}
+	
 	@RequestMapping(value = "/test/channel/{channelId}/{banName}", method = RequestMethod.POST)
 	public String banUserFromChannel(@RequestParam (value="channelId") String channelId, 
 									@RequestParam (value="banName") String banName,
 									ModelMap model) {
 		
+		String processedBanName = processName(channelId,banName);
+		Channel channel = channelService.getById(channelId);
 		User current = userService.getById(((User) model.get("login")).getId());
-		User newuser = userRepository.findByUsername(banName);
+		User newuser = userRepository.findByUsername(processedBanName);
 
-		if(!banName.equals(current.getUsername())) {
+
+		if(!processedBanName.equals(current.getUsername())) {
 			System.out.println("user is not channel owner");
 			if(newuser != null) {
 				//username is in database
 				
-				Channel channel = channelService.getById(channelId);
+				
 				
 				if(channel.isMember(newuser.getId())) {
 					channel.removeMember(newuser.getId());
@@ -311,11 +352,14 @@ public class ChannelController {
 									@RequestParam (value="deleteName") String deleteName,
 									ModelMap model) {
 		
+		String processedBanName = processName(channelId,deleteName);
+		
+		
 		User current = userService.getById(((User) model.get("login")).getId());
 		Channel channel = channelService.getById(channelId);
 		
 		if(channel.getOwnerId().equals(current.getId())) {	
-			User deleteUser = userRepository.findByUsername(deleteName);
+			User deleteUser = userRepository.findByUsername(processedBanName);
 			if(deleteUser != null) {
 				//username is in database
 				if(channel.isMember(deleteUser.getId())) {
@@ -652,8 +696,9 @@ public class ChannelController {
 	public String unBanUserFromChannel(@RequestParam (value="channelId") String channelId, 
 									@RequestParam (value="banName") String banName,
 									ModelMap model) {
-		
-		User newuser = userRepository.findByUsername(banName);
+		String processedBanName = processName(channelId,banName);
+		System.out.println(processedBanName);
+		User newuser = userRepository.findByUsername(processedBanName);
 		if(newuser != null) {
 			//username is in database
 			
@@ -667,13 +712,13 @@ public class ChannelController {
 				logService.saveOrUpdate(newlog);
 				
 			}else {
-				Log newlog = new Log("Could not unban user with username: " + banName + " from channel with ID: " + channelId + "as it was not banned");
+				Log newlog = new Log("Could not unban user with username: " + processedBanName + " from channel with ID: " + channelId + "as it was not banned");
 				logService.saveOrUpdate(newlog);
 			}
 			
 	        return "redirect:/test/channel/" + channelId;
 		}
-		Log newlog = new Log("Could not unban user with username: " + banName + "as it was not found in the database");
+		Log newlog = new Log("Could not unban user with username: " + processedBanName + "as it was not found in the database");
 		logService.saveOrUpdate(newlog);
 		model.put("notifications", notificationService.getByIdWithNames(((User) model.get("login")).getId()));
         return "redirect:/test/home";

@@ -138,11 +138,22 @@
 								<div class="form-group">
 									<label for="banName"> Ban a user by username
 									<select class="js-example-basic-single" style="width: 100%" id="banName" name="banName">
-										<c:forEach items="${members}" var="member">
-											<c:if test="${channel.getOwnerId() != member.getId()}">
-												<option value="${member.getUsername()}">${member.getUsername()}</option>
-											</c:if>
-										</c:forEach>
+										<c:choose>
+											<c:when test="${channel.isFriendly() }">
+													<c:forEach items="${friendlyUserNames}" var="member">
+														<c:if test="${ownerFriendlyName != member}">
+															<option value="${member}">${member}</option>
+														</c:if>
+													</c:forEach>
+											</c:when>
+											<c:otherwise>
+													<c:forEach items="${members}" var="member">
+														<c:if test="${channel.getOwnerId() != member.getId()}">
+															<option value="${member.getUsername()}">${member.getUsername()}</option>
+														</c:if>
+													</c:forEach>
+											</c:otherwise>
+										</c:choose>
 									</select>
 									</label>
 								</div>
@@ -159,10 +170,19 @@
 							<div class="box-body">
 								<div class="form-group">
 									<label for="unbanName"> Unban a user by username
-									<select class="js-example-basic-single" style="width: 100%" id="unbanName" name="banName">
-										<c:forEach items="${bannedUsers}" var="member">
-											<option value="${member.getUsername()}">${member.getUsername()}</option>
-										</c:forEach>
+									<select class="js-example-basic-single" style="width: 100%" id="unbanName" name="banName">								
+										<c:choose>
+											<c:when test="${channel.isFriendly() }">
+													<c:forEach items="${friendlyBannedUsers}" var="member">
+															<option value="${member}">${member}</option>
+													</c:forEach>
+											</c:when>
+											<c:otherwise>
+													<c:forEach items="${bannedUsers}" var="member">
+															<option value="${member.getUsername()}">${member.getUsername()}</option>
+													</c:forEach>
+											</c:otherwise>
+										</c:choose>
 									</select>
 									</label>
 								</div>
@@ -180,9 +200,22 @@
 								<div class="form-group">
 									<label for="deleteName"> Delete User by username
 									<select class="js-example-basic-single" style="width: 100%" id="deleteName" name="deleteName">
-										<c:forEach items="${members}" var="member">
-											<option value="${member.getUsername()}">${member.getUsername()}</option>
-										</c:forEach>
+										<c:choose>
+											<c:when test="${channel.isFriendly() }">
+													<c:forEach items="${friendlyUserNames}" var="member">
+														<c:if test="${ownerFriendlyName != member}">
+															<option value="${member}">${member}</option>
+														</c:if>
+													</c:forEach>
+											</c:when>
+											<c:otherwise>
+													<c:forEach items="${members}" var="member">
+														<c:if test="${channel.getOwnerId() != member.getId()}">
+															<option value="${member.getUsername()}">${member.getUsername()}</option>
+														</c:if>
+													</c:forEach>
+											</c:otherwise>
+										</c:choose>
 									</select>
 									</label>
 								</div>
