@@ -3,14 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:forEach items="${messages}" var="msg" varStatus="counter">
-	<div
-		class="direct-chat-msg 
+	<div class="direct-chat-msg
 	<c:if test="${msg.getSenderId() == login.getId()}"> right</c:if>
 	">
 		<div class="direct-chat-info clearfix">
 			<span
 				class="direct-chat-name <c:if test="${msg.getSenderId() != login.getId()}">pull-left</c:if><c:if test="${msg.getSenderId() == login.getId()}">pull-right</c:if>">
-				<a href="/test/profile/${senders.get(msg.getSenderId())}">${senders.get(msg.getSenderId())}</a>
+				<c:if test="${msg.getActive() && !channel.getFriendly()}"><a href="/test/profile/${senders.get(msg.getSenderId())}"></c:if>${senders.get(msg.getSenderId())}<c:if test="${!msg.getActive()}"><h6 class="text-red inline">  -this user is not in the channel anymore-</h6></c:if><c:if test="${msg.getActive() && !channel.getFriendly()}"></a></c:if>
 			</span> <span
 				class="direct-chat-timestamp <c:if test="${msg.getSenderId() != login.getId()}">pull-right</c:if><c:if test="${msg.getSenderId() == login.getId()}">pull-left</c:if>">${msg.getTimestamp()}
 			</span>
@@ -44,7 +43,7 @@
 			
 			<img class="direct-chat-img" src="${senderPics.get(msg.getSenderId())}" alt="Message User Image" style="background-color: black;">
 			
-			<div class="direct-chat-text">
+			<div <c:if test="${!msg.getActive()}"> style="background: #ffdbdb; border: 1px solid #ffdbdb;"</c:if> class="direct-chat-text">
 			<c:if test="${msg.getSenderId() == login.getId()}">
 			<c:choose>
 				<c:when test="${salary eq 1}">
@@ -59,8 +58,8 @@
 						<form role="form" method="POST" action="/test/addFavouritesMessages" style="display: inline" >
 							<input type="hidden" name="favMsgId" value="${msg.getId()}">
 							<input type="hidden" name="favChannelId" value="${channel.getId()}">
-							<button id="button" style="background-Color:#3c8dbc;display: inline" type="submit" class="btn btn_red"><span id="${counter.count}" class="fa fa-fw fa-heart"></span><a href="#"></a><span></span></button>
-						</form>
+                            <button id="button" style="background-Color:#3c8dbc;display: inline" type="submit" class="btn btn_red"><span id="${counter.count}" class="fa fa-fw fa-heart"></span><a href="#"></a><span></span></button>
+                        </form>
 				</c:otherwise>
 			</c:choose>
 			</c:if>
@@ -74,16 +73,20 @@
 						<form role="form" method="POST" action="/test/dropFavouritesMessages" style="display: inline" >
 							<input type="hidden" name="favMsgId" value="${msg.getId()}">
 							<input type="hidden" name="favChannelId" value="${channel.getId()}">
-							<button id="button" style="background-Color:rgb(210, 214, 222);display: inline;float:right" type="submit" class="btn btn_red"><span id="${counter.count}+liked" class="fa fa-fw fa-heart" style="color:red"></span><a href="#"></a><span></span></button>
-						</form>
+							 <c:if test="${msg.getActive()}">
+                             <button id="button" style="background-Color:rgb(210, 214, 222);display: inline;float:right" type="submit" class="btn btn_red"><span id="${counter.count}+liked" class="fa fa-fw fa-heart" style="color:red"></span><a href="#"></a><span></span></button>
+                             </c:if>
+					    </form>
 								
 				</c:when>
 				<c:otherwise>
 						<form role="form" method="POST" action="/test/addFavouritesMessages" style="display: inline" >
 							<input type="hidden" name="favMsgId" value="${msg.getId()}">
 							<input type="hidden" name="favChannelId" value="${channel.getId()}">
+							<c:if test="${msg.getActive()}">
 							<button id="button" style="background-Color:rgb(210, 214, 222);display: inline;float:right" type="submit" class="btn btn_red"><span id="${counter.count}" class="fa fa-fw fa-heart"></span><a href="#"></a><span></span></button>
-						</form>
+                            </c:if>
+                        </form>
 				</c:otherwise>
 			</c:choose>
 			

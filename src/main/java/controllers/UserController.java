@@ -118,6 +118,8 @@ public class UserController {
 
 	@Autowired
 	private ChannelController channelController;
+	@Autowired
+	private MessageController messageController;
 	
 	@RequestMapping(value = "/test/createUser", method = RequestMethod.POST)
     public String createUser(@ModelAttribute("user")TempUser user, ModelMap model, HttpServletRequest request) {
@@ -255,6 +257,7 @@ public class UserController {
 				if (channel.getOwnerId().equals(current.getId())) { // if owner then delete all members from channels
 					channelController.channelDeleter(current.getId(), channel.getId());
 				} else {  // else delete only current from channels
+					messageController.changeActivityOfUserMessages(current.getId(),channel.getId(),false);
 					channel.removeMember(current.getId());
 					channelService.saveOrUpdate(channel);
 				}

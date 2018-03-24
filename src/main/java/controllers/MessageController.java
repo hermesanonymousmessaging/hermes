@@ -78,7 +78,14 @@ public class MessageController {
 	private BanService banService;
 	@Autowired
 	private BanRepository banRepository;
-	
+
+	public void changeActivityOfUserMessages(String userid, String channelId, Boolean active){
+		for(Message message : messageService.getByUserIdAndChannelId(userid,channelId)){
+			message.setActive(active);
+			messageService.saveOrUpdate(message);
+		}
+	}
+
 	public Session sendMsg(String senderId, String text, String sessionId, String channelId) {
 		Session session = sessionService.getById(sessionId);
 		Channel channel = channelService.getById(channelId);

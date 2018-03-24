@@ -15,6 +15,7 @@ public class Message {
 	private String senderId;
 	private String channelId;
 	private String sessionId;
+	private Boolean active;
 	
 	//This allows sorting Messages by time stamps
 	public static Comparator<Message> COMPARE_BY_TIMESTAMP = new Comparator<Message>() {
@@ -25,11 +26,13 @@ public class Message {
     
 	public Message() {
 		this.timestamp = new Date();
+		this.active = true;
 	}
 	
 	public Message(String text) {
 		this.timestamp = new Date();
 		this.text = text;
+		this.active = true;
 	}
 	
 	public Message(Integer type, String text, String senderId, String channelId, String sessionId) {
@@ -39,6 +42,15 @@ public class Message {
 		this.senderId = senderId;
 		this.channelId = channelId;
 		this.sessionId = sessionId;
+		this.active = true;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	public String getId() {

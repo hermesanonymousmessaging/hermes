@@ -112,6 +112,8 @@ public class ChannelController {
 
 	@Autowired
 	private HomeController homeController;
+	@Autowired
+	private MessageController messageController;
 	
 	@Autowired
 	private AsyncMail asyncMail;
@@ -273,7 +275,7 @@ public class ChannelController {
 				if(channel.isMember(newuser.getId())) {
 					channel.removeMember(newuser.getId());
 					newuser.removeChannel(channel.getId());
-					
+					messageController.changeActivityOfUserMessages(newuser.getId(),channel.getId(),false);
 					Ban newBan = new Ban(newuser.getId(),channel.getId());
 					banService.saveOrUpdate(newBan);
 				}
@@ -309,10 +311,10 @@ public class ChannelController {
 			User deleteUser = userRepository.findByUsername(deleteName);
 			if(deleteUser != null) {
 				//username is in database
-				
 				if(channel.isMember(deleteUser.getId())) {
 					channel.removeMember(deleteUser.getId());
 					deleteUser.removeChannel(channel.getId());
+					messageController.changeActivityOfUserMessages(deleteUser.getId(),channel.getId(),false);
 				}
 				
 				channelService.saveOrUpdate(channel);
@@ -353,6 +355,7 @@ public class ChannelController {
 				
 				channelService.saveOrUpdate(channel);
 				userService.saveOrUpdate(newuser);
+				messageController.changeActivityOfUserMessages(newuser.getId(),channel.getId(),true);
 				Log newlog = new Log("Added a new user with ID: " + newuser.getId() + " to channel with ID: " + channelId);
 				logService.saveOrUpdate(newlog);
 				
@@ -651,9 +654,8 @@ public class ChannelController {
 			Ban newBan = banRepository.findByUserId(newuser.getId());
 			
 			if(newBan != null) {
-				
+
 				banService.delete(newBan.getId());
-				
 				Log newlog = new Log("Unbanned a user with ID: " + newuser.getId() + " from channel with ID: " + channelId);
 				logService.saveOrUpdate(newlog);
 				

@@ -9,4 +9,5 @@ public interface MessageService {
 	Message getById(String id);
 	Message saveOrUpdate(Message message);
 	void delete(String id);
+	List<Message> getByUserIdAndChannelId(String userId, String channelId);
 }

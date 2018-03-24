@@ -42,5 +42,16 @@ public class MessageServiceImpl implements MessageService{
 	public void delete(String id) {
 		messageRepository.delete(id);
 	}
-		
+
+	@Override
+	public List<Message> getByUserIdAndChannelId(String userId, String channelId) {
+		List<Message> messages = messageRepository.findByChannelId(channelId);
+		List<Message> result = new ArrayList<Message>();
+		for(Message message : messages){
+			if(message.getSenderId().equals(userId)){
+				result.add(message);
+			}
+		}
+		return result;
+	}
 }
