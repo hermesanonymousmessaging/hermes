@@ -14,16 +14,29 @@
 			</ul>
 		</div>
 		<div class="col-md-6">
-			<ul class="contacts-list">
-			<c:forEach items="${members}" var="member">
-				<li>
-					<div class="contacts-list-info">
-						<a href="/test/profile/${member.getUsername()}"><span class="contacts-list-name"> ${member.getUsername()}
-						</span></a>
-					</div>
-				</li>
-			</c:forEach>
-			
+			<ul class="contacts-list">			
+							<c:choose>
+								<c:when test="${channel.isFriendly() }">
+									<c:forEach items="${friendlyUserNames}" var="member">
+										<li>
+											<div class="contacts-list-info">
+												<span class="contacts-list-name"> ${member}
+												</span>
+											</div>
+										</li>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${members}" var="member">
+										<li>
+											<div class="contacts-list-info">
+												<a href="/test/profile/${member.getUsername()}"><span class="contacts-list-name"> ${member.getUsername()}
+												</span></a>
+											</div>
+										</li>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 				<!-- End Contact Item -->
 			</ul>
 		</div>

@@ -222,7 +222,14 @@ public class ChannelController {
 			favMessages.add(messageService.getById(favmsg.getMessageId()));
 			
 		}
-		
+		if(channel.isFriendly()) {
+			List<String> friendlyNamesList = new ArrayList<String>();
+			for(User member : members) {
+				
+				friendlyNamesList.add(senders.get(member.getId()));
+			}
+			model.addAttribute("friendlyUserNames", friendlyNamesList);
+		}
 		
 		model.addAttribute("favMessages",favMessages);
 
